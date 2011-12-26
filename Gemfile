@@ -18,6 +18,7 @@ end
 gem 'jquery-rails'
 gem "juggernaut", "~> 2.1.0"
 gem 'omniauth'
+gem 'httparty'
 
 # Use unicorn as the web server
 # gem 'unicorn'
