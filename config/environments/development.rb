@@ -27,4 +27,12 @@ Chat::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  
+  # Authentication info
+  config.secret = '5593024710920577712'
+  config.key = '3MVG9rFJvQRVOvk4B2Tv6Ul7WcCH81Qi5v1kJOL8XLQtkL1YMP.M0HIYGvLbOdPmSf3YnCoX.ksLfKy1DO4Gk'
+  
+  #endpoints
+  config.localserver = 'https://localhost:3000'
+  
 end
