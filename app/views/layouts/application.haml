@@ -1,0 +1,13 @@
+!!!
+
+%html
+  %head
+    %title Chat
+    = stylesheet_link_tag    "application"
+    = stylesheet_link_tag    "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css"
+    = javascript_include_tag "http://192.168.1.173:8080/application.js"
+    = javascript_include_tag "application" 
+    = javascript_include_tag "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"
+    = csrf_meta_tags
+  %body
+    = yield

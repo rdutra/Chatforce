@@ -19,6 +19,10 @@ gem 'jquery-rails'
 gem "juggernaut", "~> 2.1.0"
 # gem 'omniauth', '>= 0.2.6'
 # gem 'httparty'
+gem 'rails3-generators'
+gem 'haml'
+gem "haml-rails"
+gem 'pg'
 
 # Use unicorn as the web server
 # gem 'unicorn'

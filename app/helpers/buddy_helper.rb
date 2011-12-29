@@ -1,0 +1,2 @@
+module BuddyHelper
+end

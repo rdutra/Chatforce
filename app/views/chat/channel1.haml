@@ -1,0 +1,7 @@
+%div{:id => "mesg"}
+%div{:id => "control"}
+  =form_tag('#', :id => 'chat_window') do
+    %div{ "data-role" => "fieldcontain"}
+      = text_field_tag 'msg_body', '', :size => 50, "data-inline" => true
+      = hidden_field_tag 'sender', 'channel1'
+      = submit_tag 'Send Message', "data-inline" => true, :class => "submitBtn"
