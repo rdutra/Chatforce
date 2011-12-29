@@ -33,6 +33,6 @@ Chat::Application.configure do
   config.key = '3MVG9rFJvQRVOvk4B2Tv6Ul7WcCH81Qi5v1kJOL8XLQtkL1YMP.M0HIYGvLbOdPmSf3YnCoX.ksLfKy1DO4Gk'
   
   #endpoints
-  config.localserver = 'https://localhost:3000'
+  config.localserver = 'http://localhost:3000'
   
 end
