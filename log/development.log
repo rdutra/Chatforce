@@ -6,3 +6,197 @@ Served asset /rails.png - 200 OK (52ms)
 
 Started GET "/assets/rails.png" for 127.0.0.1 at 2011-12-23 10:07:06 -0200
 Served asset /rails.png - 304 Not Modified (67ms)
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2011-12-28 17:15:48 -0200
+Served asset /rails.png - 200 OK (14ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-12-28 17:18:22 -0200
+
+ActionController::RoutingError (No route matches [GET] "/"):
+  
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (60.1ms)
+
+
+Started GET "/auth/:provider/callback" for 127.0.0.1 at 2011-12-28 17:20:11 -0200
+  Processing by AuthorizationController#create as HTML
+  Parameters: {"provider"=>":provider"}
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (You have a nil object when you didn't expect it!
+You might have expected an instance of Array.
+The error occurred while evaluating nil.[]):
+  app/controllers/authorization_controller.rb:4:in `create'
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.3ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (18.6ms)
+
+
+Started GET "/authorization/create" for 127.0.0.1 at 2011-12-28 17:20:29 -0200
+
+ActionController::RoutingError (No route matches [GET] "/authorization/create"):
+  
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-12-28 17:21:17 -0200
+
+ActionController::RoutingError (No route matches [GET] "/"):
+  
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-12-28 17:21:18 -0200
+
+ActionController::RoutingError (No route matches [GET] "/"):
+  
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started GET "/authorization/create" for 127.0.0.1 at 2011-12-28 17:21:48 -0200
+  Processing by AuthorizationController#create as HTML
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (You have a nil object when you didn't expect it!
+You might have expected an instance of Array.
+The error occurred while evaluating nil.[]):
+  app/controllers/authorization_controller.rb:4:in `create'
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.2ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (5.5ms)
+
+
+Started GET "/authorization/create" for 127.0.0.1 at 2011-12-28 17:24:28 -0200
+  Processing by AuthorizationController#create as HTML
+Rendered text template (0.0ms)
+Completed 500 Internal Server Error in 56ms
+
+NoMethodError (You have a nil object when you didn't expect it!
+You might have expected an instance of Array.
+The error occurred while evaluating nil.[]):
+  app/controllers/authorization_controller.rb:5:in `create'
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.1ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (5.0ms)
+
+
+Started GET "/authorization/create" for 127.0.0.1 at 2011-12-28 17:24:42 -0200
+  Processing by AuthorizationController#create as HTML
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (You have a nil object when you didn't expect it!
+You might have expected an instance of Array.
+The error occurred while evaluating nil.[]):
+  app/controllers/authorization_controller.rb:4:in `create'
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.5ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.1ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (5.0ms)
+
+
+Started GET "/authorization/create" for 127.0.0.1 at 2011-12-28 17:25:47 -0200
+  Processing by AuthorizationController#create as HTML
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (You have a nil object when you didn't expect it!
+You might have expected an instance of Array.
+The error occurred while evaluating nil.[]):
+  app/controllers/authorization_controller.rb:4:in `create'
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.4ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.1ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (4.7ms)
+
+
+Started GET "/authorization/create" for 127.0.0.1 at 2011-12-28 17:26:24 -0200
+  Processing by AuthorizationController#create as HTML
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (You have a nil object when you didn't expect it!
+You might have expected an instance of Array.
+The error occurred while evaluating nil.[]):
+  app/controllers/authorization_controller.rb:4:in `create'
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.1ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (63.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-12-29 09:48:55 -0200
+
+ActionController::RoutingError (No route matches [GET] "/"):
+  
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (31.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-12-29 09:49:04 -0200
+
+ActionController::RoutingError (No route matches [GET] "/"):
+  
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/authorization/create" for 127.0.0.1 at 2011-12-29 09:50:08 -0200
+  Processing by AuthorizationController#create as HTML
+Completed 500 Internal Server Error in 1ms
+
+NoMethodError (You have a nil object when you didn't expect it!
+You might have expected an instance of Array.
+The error occurred while evaluating nil.[]):
+  app/controllers/authorization_controller.rb:4:in `create'
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.5ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.1ms)
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (5.3ms)
+
+
+Started GET "/auth/forcedotcom" for 127.0.0.1 at 2011-12-29 10:54:30 -0200
+
+
+Started GET "/auth/forcedotcom" for 127.0.0.1 at 2011-12-29 11:37:22 -0200
+
+
+Started GET "/auth/forcedotcom/callback?code=aPrx4GbVBrSIkg4mQERZglIE3r41pzUBIQWzrUSoO2QIbBR89QQrVbcXAQkH_5ruzG24DdHfGQ%3D%3D" for 127.0.0.1 at 2011-12-29 11:39:07 -0200
+
+
+Started GET "/auth/failure?message=invalid_credentials" for 127.0.0.1 at 2011-12-29 11:39:12 -0200
+  Processing by AuthorizationController#fail as HTML
+  Parameters: {"message"=>"invalid_credentials"}
+Rendered text template (0.0ms)
+Completed 200 OK in 162ms (Views: 161.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/auth/forcedotcom" for 127.0.0.1 at 2011-12-29 12:04:26 -0200
+
+
+Started GET "/auth/forcedotcom/callback?code=aPrx4GbVBrSIkg4mQERZglIE3nIYwlq21VQe1ei9q5RH3zuluk60DKa9GcMdmCSqfB8PNRlNSg%3D%3D" for 127.0.0.1 at 2011-12-29 12:04:41 -0200
+  Processing by AuthorizationController#create as HTML
+  Parameters: {"code"=>"aPrx4GbVBrSIkg4mQERZglIE3nIYwlq21VQe1ei9q5RH3zuluk60DKa9GcMdmCSqfB8PNRlNSg==", "provider"=>"forcedotcom"}
+Completed 500 Internal Server Error in 230ms
+
+ActionView::MissingTemplate (Missing template authorization/create, application/create with {:handlers=>[:erb, :builder, :coffee], :formats=>[:html], :locale=>[:en, :en]}. Searched in:
+  * "/home/rdutra/Dev/Chatforce/app/views"
+):
+  lib/forcedotcom.rb:30:in `callback_phase'
+
+Rendered /usr/local/rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.1.0/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (60.3ms)
+
+
+Started GET "/auth/forcedotcom/" for 127.0.0.1 at 2011-12-29 12:21:50 -0200
+
+
+Started GET "/auth/forcedotcom/callback?code=aPrx4GbVBrSIkg4mQERZglIE3j5zBJ.T.BOKY7Ce28SGSmSrPG3tGYuvwVhdyZu56b8gyqPLFw%3D%3D" for 127.0.0.1 at 2011-12-29 12:21:52 -0200
+  Processing by AuthorizationController#create as HTML
+  Parameters: {"code"=>"aPrx4GbVBrSIkg4mQERZglIE3j5zBJ.T.BOKY7Ce28SGSmSrPG3tGYuvwVhdyZu56b8gyqPLFw==", "provider"=>"forcedotcom"}
+Rendered text template (0.0ms)
+Completed 200 OK in 21ms (Views: 20.4ms | ActiveRecord: 0.0ms)
