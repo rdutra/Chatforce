@@ -1,5 +1,8 @@
 class Buddy < ActiveRecord::Base
+include HTTParty
 
+  format :json
+  
   def get_buddy_by_id buddy_id
     buddy = Buddy.where(:id => buddy_id)[0]
     return buddy
@@ -12,4 +15,5 @@ class Buddy < ActiveRecord::Base
     new_buddy.status = buddy[:status]
     new_buddy.save
   end
+  
 end
