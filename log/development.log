@@ -6026,3 +6026,13 @@ Served asset /chat.css - 304 Not Modified (0ms)
 
 Started GET "/assets/online.png" for 127.0.0.1 at 2012-01-03 10:43:21 -0200
 Served asset /online.png - 304 Not Modified (0ms)
+
+
+Started GET "/auth/forcedotcom" for 127.0.0.1 at 2012-01-03 14:53:35 -0200
+
+
+Started GET "/auth/forcedotcom/callback?code=aPrxgnQrAPPtuzyLZYG8FmS0RW5mQn79DTpMqsgav4Ct4ur5..grpt7PH6I89rDISUv3Y8DuTQ%3D%3D" for 127.0.0.1 at 2012-01-03 14:54:01 -0200
+  Processing by AuthorizationController#create as HTML
+  Parameters: {"code"=>"aPrxgnQrAPPtuzyLZYG8FmS0RW5mQn79DTpMqsgav4Ct4ur5..grpt7PH6I89rDISUv3Y8DuTQ==", "provider"=>"forcedotcom"}
+Rendered text template (0.0ms)
+Completed 200 OK in 4078ms (Views: 139.0ms | ActiveRecord: 0.0ms)
