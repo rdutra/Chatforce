@@ -1,11 +1,12 @@
 Chat::Application.routes.draw do
   resources :buddies
-  root :to => "chat#channel1" 
+  root :to => "buddies#index" 
   match "/chat/send", :controller => "chat", :action => "send_message"
-  match "/chat/channel1", :controller => "chat", :action => "channel1"
+  match "/chat/single", :controller => "chat", :action => "single_chat"
   get "authorization/create"
   match '/auth/:provider/callback', :to => 'authorization#create'
   match '/auth/failure', :to => 'authorization#fail'
+  match "/buddies/list", :controller => "buddies", :action => "index"
   match ':controller(/:action(/:id(.:format)))'
   
 end

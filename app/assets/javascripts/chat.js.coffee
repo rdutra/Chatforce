@@ -2,7 +2,13 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-$(document).ready(() ->
+$('[data-role=page]').live('pagecreate', (event) ->
+  enableChat()
+  
+);
+
+enableChat   = () -> 
+  
   jug = new Juggernaut();
   $("#mesg").append($("<li/>").append("Subscribing to channel1_channel2"));
   jug.subscribe("/chats/channel1_channel2", (data) ->
@@ -10,6 +16,7 @@ $(document).ready(() ->
     li.text(data);
     $("#mesg").append(li);
     $("#chat_window")[0].reset();
+    
   ); 
   
   $("#chat_window").submit(() -> 
@@ -22,6 +29,3 @@ $(document).ready(() ->
     });
     return false;
   )
-);
-
-

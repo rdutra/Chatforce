@@ -2,8 +2,8 @@ require "juggernaut"
 class ChatController < ApplicationController
   def send_message
     @messg = params[:msg_body]
-    @sender = params[:sender]
-    Juggernaut.publish(select_channel("/channel1_channel2"), parse_chat_message(params[:msg_body], params[:sender]))	
+    @sender = "channel1"
+    Juggernaut.publish(select_channel("/channel1_channel2"), parse_chat_message(params[:msg_body], "channel1"))	
     render :nothing => true
 	end
 
@@ -16,5 +16,7 @@ class ChatController < ApplicationController
     return "/chats#{receiver}"
 	end
   
-  def 
+  def single_chat
+    
+  end
 end
