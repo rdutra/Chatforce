@@ -1,7 +1,9 @@
-%div{:id => "mesg"}
-%div{:id => "control"}
+= javascript_include_tag "chat"
+%div{:id => "mesg", :style => "min-height: 190px"}
+%div{:id => "control", :style => "margin-top: 18px;"}
   =form_tag('#', :id => 'chat_window') do
-    %div{ "data-role" => "fieldcontain"}
-      = text_field_tag 'msg_body', '', :size => 50, "data-inline" => true
-      = hidden_field_tag 'sender', 'channel1'
-      = submit_tag 'Send Message', "data-inline" => true, :class => "submitBtn"
+    %div
+      = text_field_tag 'msg_body', '', :style => "margin-top:10px;"
+      = hidden_field_tag 'sender', 'user'
+    %div
+      = submit_tag 'Send',  :class => "submitBtn"

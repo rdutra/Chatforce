@@ -4,6 +4,7 @@ class BuddiesController < ApplicationController
   def index
     @buddies = Users.getAll
     @buddies = @buddies["records"]
+    
   end
 
 end

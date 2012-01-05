@@ -3,21 +3,22 @@
 %html
   %head
     %title Chat
-    = stylesheet_link_tag    "application"
-    = stylesheet_link_tag    "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css"
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    = stylesheet_link_tag    "custom"
+    = stylesheet_link_tag    "single"
     = stylesheet_link_tag    "http://code.jquery.com/mobile/1.0/jquery.mobile.structure-1.0.min.css"
-    = javascript_include_tag "http://192.168.1.89:8080/application.js"
-    = javascript_include_tag "application" 
+    = javascript_include_tag "jquery-1.7.1.min.js"
+    = javascript_include_tag "http://192.168.1.59:8080/application.js"
     = javascript_include_tag "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"
     = csrf_meta_tags
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
   %body
     %div{ "data-role" => "page"}
-      %div{ "data-role" => "header"}
+      %div{ :id => "header-main", "data-role" => "header", :role => "banner", "data-position" => "fixed", :style => "top:0px"}
         %h1
           Chatter GO!
-      %div{ "data-role" => "content"}
+      %div{ :id => "content-main", "data-role" => "content", :role => "main", "data-scroll" => "y", :style => "overflow-x: hidden; overflow-y:hidden; height: auto;"}
         = yield
-      %div{ "data-role" => "footer"}
+      %div{ "data-role" => "footer", :role => "contentinfo", "data-position" => "fixed", :style => "top:0px"}
         %h4
                

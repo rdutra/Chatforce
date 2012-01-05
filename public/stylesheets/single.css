@@ -1,0 +1,8 @@
+div.scroll {
+  height: 190px;
+  width: auto;
+  overflow: auto;
+  border: 1px solid #666;
+  background-color: #ccc;
+  padding: 8px;
+}
