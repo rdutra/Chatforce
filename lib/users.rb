@@ -19,6 +19,15 @@ class Users
     get(Users.root_url+"/query/?q=#{CGI::escape(soql)}")
   end
   
+  def self.get_user_info(id)
+    Users.set_headers
+    get(Users.root_url+"/chatter/users/"+id)
+  end
+  
+  def self.getMe
+    Users.get_user_info("me")
+  end
+  
   def self.syncronize
   
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111229124452) do
+ActiveRecord::Schema.define(:version => 20120104134335) do
 
   create_table "buddies", :force => true do |t|
     t.string   "name"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 20111229124452) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "salesforce_id"
+    t.string   "small_photo_url"
   end
 
 end
