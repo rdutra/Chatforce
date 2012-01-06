@@ -1,7 +1,13 @@
 require 'test_helper'
 
 class BuddyTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  
+  # Use fixtures data vendors and clients
+  fixtures :buddies
+  
+  test "change status" do
+    status = "Available"
+    buddy = Buddy.set_status 1, status
+    assert_equal(status, buddy[:status]) 
+  end
 end

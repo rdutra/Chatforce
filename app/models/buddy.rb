@@ -14,12 +14,14 @@ include HTTParty
     
   end
   
-  def set_status id , status
+  def self.set_status buddy_id , status
     buddy = Buddy.where(:id => buddy_id)[0]  
-    if STATUSES.include? status
-      buddy.status = status
-      buddy.save
-    end
+    unless buddy.nil?
+      if STATUSES.include? status
+        buddy[:status] = status
+        buddy.save
+      end
+    end  
     return buddy
   end
   

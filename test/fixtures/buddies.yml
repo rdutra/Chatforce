@@ -1,11 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
 
-one:
-  name: MyString
-  nickname: MyString
-  status: MyText
+buddy1:
+  id: 1
+  name: Jhon Falcon
+  nickname: My day is good!!
+  status: Available
 
-two:
-  name: MyString
-  nickname: MyString
-  status: MyText
+buddy2:
+  id: 2
+  name: Mary Lemos
+  nickname: Never...
+  status: Away
+  
+buddy3:
+  id: 3
+  name: Tony Lincoln
+  nickname: lol
+  status: Busy
+
+buddy4:
+  id: 4
+  name: Vallery Nickolson
+  nickname: good song (Santeria -> Sublime)...
+  status: Offline

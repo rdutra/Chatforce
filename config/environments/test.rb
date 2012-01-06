@@ -39,4 +39,11 @@ Chat::Application.configure do
 
   # Allow pass debug_assets=true as a query parameter to load pages with unpackaged assets
   config.assets.allow_debugging = true
+  
+  # Authentication info
+  config.secret = '5593024710920577712'
+  config.key = '3MVG9rFJvQRVOvk4B2Tv6Ul7WcCH81Qi5v1kJOL8XLQtkL1YMP.M0HIYGvLbOdPmSf3YnCoX.ksLfKy1DO4Gk'
+  
+  #endpoints
+  config.localserver = 'http://localhost:3000'
 end

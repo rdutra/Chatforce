@@ -63,6 +63,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.17.2)
+    minitest (2.10.0)
     multi_json (1.0.4)
     multi_xml (0.2.2)
     multipart-post (1.1.4)
@@ -151,6 +152,11 @@ GEM
     rspec-expectations (2.7.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.7.0)
+    rspec-rails (2.7.0)
+      actionpack (~> 3.0)
+      activesupport (~> 3.0)
+      railties (~> 3.0)
+      rspec (~> 2.7.0)
     ruby-openid (2.1.8)
     ruby-openid-apps-discovery (1.2.0)
       ruby-openid (>= 2.1.7)
@@ -177,9 +183,11 @@ DEPENDENCIES
   httparty
   jquery-rails
   juggernaut (~> 2.1.0)
+  minitest
   omniauth (>= 0.2.6)
   pg
   rails (= 3.1.0)
   rails3-generators
   rspec (~> 2.7.0)
+  rspec-rails
   turn

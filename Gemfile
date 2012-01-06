@@ -36,4 +36,11 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
   gem "rspec", "~> 2.7.0"
+  gem 'minitest'
+end
+
+group :development do
+  # Pretty printed test output
+  gem 'rspec-rails'
+  gem "rspec", "~> 2.7.0"
 end
