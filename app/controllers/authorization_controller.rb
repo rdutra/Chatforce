@@ -5,18 +5,27 @@ class AuthorizationController < ApplicationController
     ENV['sfdc_token'] = request.env['omniauth.auth']['credentials']['token']
     ENV['sfdc_instance_url'] = request.env['omniauth.auth']['instance_url']
     sfuser = Users.getMe
+    orgid = ENV['sfdc_token'].split('!')[0]
+    if not Org.exists_org orgid
+      currentOrg = Org.new({:org_id => orgid})
+      currentOrg.save
+    else
+      currentOrg = Org.getOrgBySfId orgid    
+    end
+    puts 'data'
+    puts currentOrg.inspect
     if not Buddy.exists_buddy sfuser["id"]
       new_user = Buddy.new({
         :name             => sfuser["name"],
         :nickname         => '',
         :status           => "Available",
         :salesforce_id    => sfuser["id"],
-        :small_photo_url  => sfuser["smallPhotoUrl"]
+        :small_photo_url  => sfuser["smallPhotoUrl"],
+        :org_id           => currentOrg["id"]
       })
       new_user.save
     else
       new_user = Buddy.get_buddy_by_Sfid sfuser["id"]
-      Users.syncronize
     end
     if new_user
       Buddy.set_status sfuser["id"], "Available"
