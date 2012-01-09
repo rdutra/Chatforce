@@ -1,10 +1,17 @@
 require 'users'
+require 'security'
 class AuthorizationController < ApplicationController
 
   def create
     ENV['sfdc_token'] = request.env['omniauth.auth']['credentials']['token']
     ENV['sfdc_instance_url'] = request.env['omniauth.auth']['instance_url']
-    sfuser = Users.getMe
+    
+    sfuser = session[:uid]
+    if sfuser.nil?
+      sfuser = Users.getMe
+      session[:uid] = Security.encrypt sfuser["id"]
+    end
+      
     if not Buddy.exists_buddy sfuser["id"]
       new_user = Buddy.new({
         :name             => sfuser["name"],

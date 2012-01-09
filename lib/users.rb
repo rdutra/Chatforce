@@ -25,7 +25,8 @@ class Users
   end
   
   def self.getMe
-    Users.get_user_info("me")
+    user = Users.get_user_info("me")
+    return user
   end
   
   def self.syncronize

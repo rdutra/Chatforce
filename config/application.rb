@@ -45,6 +45,9 @@ module Chat
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
     
+    # Provide a secure connection over SSL - Session Hijacking
+    config.force_ssl = false
+    
     
   end
 end

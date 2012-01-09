@@ -10,8 +10,9 @@ include HTTParty
     return buddy
   end
   
-  def self.add_buddy buddy
-    
+  def self.get_all
+    buddies = Buddy.all
+    return buddies
   end
   
   def self.set_status buddy_id , status

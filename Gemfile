@@ -21,6 +21,7 @@ gem 'rails3-generators'
 gem 'haml'
 gem "haml-rails"
 gem 'pg'
+gem "encryptor", "~> 1.1.3"
 
 
 # Use unicorn as the web server
