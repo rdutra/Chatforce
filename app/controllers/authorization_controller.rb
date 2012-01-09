@@ -16,6 +16,7 @@ class AuthorizationController < ApplicationController
       new_user.save
     else
       new_user = Buddy.get_buddy_by_Sfid sfuser["id"]
+      Users.syncronize
     end
     if new_user
       Buddy.set_status sfuser["id"], "Available"

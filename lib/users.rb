@@ -28,8 +28,13 @@ class Users
     Users.get_user_info("me")
   end
   
-  def self.syncronize
+  def self.getOrgId
+    
+  end
   
+  def self.syncronize
+    Users.set_headers
+    sfusers = Users.getAll
   end
  
 end
