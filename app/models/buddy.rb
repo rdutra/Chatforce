@@ -1,6 +1,7 @@
 class Buddy < ActiveRecord::Base
 include HTTParty
 
+  belongs_to :org ,:foreign_key => 'org_id'
   format :json
   
   STATUSES = %w{ Available Away Busy Offline } 
