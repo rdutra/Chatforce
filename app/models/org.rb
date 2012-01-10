@@ -2,15 +2,15 @@ class Org < ActiveRecord::Base
   has_many :Buddies, :dependent => :destroy
 
 def self.add_org options
-  new_org = Org.new({:org_id => options["org_id"]})
+  new_org = Org.new({:org_id => options[:org_id]})
   new_org.save
   return new_org
 end
 
 
 def self.exists_org sfid
-    org = Org.where(:org_id => sfid)
-    unless org.empty?
+    org = Org.where(:org_id => sfid)[0]
+    unless org.nil?
       return true
     else
       return false
@@ -32,6 +32,10 @@ def self.synchronize orgId
   unless org.nil?
     users = Buddy.where(:org_id => org["id"])
     sfusers = Users.getAll
+    puts 'response'
+    puts sfusers.inspect
+    puts sfusers.size
+    puts users.size
     unless sfusers.size == users.size
       if sfusers.size > users.size
         sfusers["records"].each do |sfuser|

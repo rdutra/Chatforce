@@ -1,19 +1,19 @@
 require 'users'
 require 'security'
-require 'ruby-debug' ; Debugger.start
+#require 'ruby-debug' ; Debugger.start
 class AuthorizationController < ApplicationController
 
   def create
-    #debugger
     ENV['sfdc_token'] = request.env['omniauth.auth']['credentials']['token']
     ENV['sfdc_instance_url'] = request.env['omniauth.auth']['instance_url']
-   
+
     
-    if ENV[:uid].nil?
-      sfuser = Users.getMe
-      ENV[:uid] = Security.encrypt sfuser["id"]
+    sfuser = Users.getMe
+    
+    if session[:uid].nil?
+      session[:uid] = Security.encrypt sfuser["id"]
     end
-      
+
     orgid = ENV['sfdc_token'].split('!')[0]
     if not Org.exists_org orgid
       options = {
@@ -35,6 +35,8 @@ class AuthorizationController < ApplicationController
       }
       Buddy.add_buddy options
     else
+      puts 'round 2'
+      puts sfuser["id"]
       new_user = Buddy.get_buddy_by_Sfid sfuser["id"]
       Org.synchronize orgid
     end
