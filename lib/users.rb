@@ -29,12 +29,7 @@ class Users
   end
   
   def self.getOrg
-  Users.set_headers
-  end
-  
-  def self.syncronize
     Users.set_headers
-    sfusers = Users.getAll
   end
  
 end

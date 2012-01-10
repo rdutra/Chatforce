@@ -12,8 +12,6 @@ class AuthorizationController < ApplicationController
     else
       currentOrg = Org.getOrgBySfId orgid    
     end
-    puts 'data'
-    puts currentOrg.inspect
     if not Buddy.exists_buddy sfuser["id"]
       new_user = Buddy.new({
         :name             => sfuser["name"],
@@ -26,6 +24,7 @@ class AuthorizationController < ApplicationController
       new_user.save
     else
       new_user = Buddy.get_buddy_by_Sfid sfuser["id"]
+      Org.synchronize orgid
     end
     if new_user
       Buddy.set_status sfuser["id"], "Available"
