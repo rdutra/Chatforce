@@ -6,7 +6,7 @@ include HTTParty
   
   STATUSES = %w{ Available Away Busy Offline } 
   
-  def get_buddy_by_id buddy_id
+  def self.get_buddy_by_id buddy_id
     buddy = Buddy.where(:id => buddy_id)[0]
     return buddy
   end
@@ -43,6 +43,12 @@ include HTTParty
     else
       return false
     end
+  end
+  
+  def self.add_buddy options
+    new_user = Buddy.new(options)
+    new_user.save
+    return new_user
   end
   
 end

@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20120109164102) do
   end
 
   create_table "channels", :force => true do |t|
-    t.string   "channel_id"
+    t.string   "key"
     t.integer  "sender_id"
     t.integer  "receiver_id"
     t.datetime "created_at"

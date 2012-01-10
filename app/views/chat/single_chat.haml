@@ -4,6 +4,6 @@
   =form_tag('#', :id => 'chat_window') do
     %div
       = text_field_tag 'msg_body', '', :style => "margin-top:10px;"
-      = hidden_field_tag 'sender', 'user'
+      = hidden_field_tag 'channel', @channel
     %div
       = submit_tag 'Send',  :class => "submitBtn"

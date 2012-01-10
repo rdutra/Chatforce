@@ -9,10 +9,10 @@ $(document).live('pagehide', function(event){
       
 });
 
-function enableChat() { 
+function enableChat(channel) { 
   if (!(typeof jug !== undefined && jug)) {
     jug = new Juggernaut();
-    jug.subscribe("user", function(data){
+    jug.subscribe(channel, function(data){
       var ul = '<ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow"><li class="ui-li ui-li-static ui-body-c ui-corner-top ui-corner-bottom">'+data+'</li></ul>'
       $("#mesg").append(ul)
       $("#chat_window")[0].reset();
@@ -30,7 +30,7 @@ function enableChat() {
       $.ajax({
         url: '/chat/send',
         type: 'POST',
-        data: "msg_body="+this.msg_body.value+"&sender="+this.sender.value,
+        data: "msg_body="+this.msg_body.value+"&channel="+this.sender.value,
       });
     }
     return false;
@@ -38,11 +38,11 @@ function enableChat() {
   
 }  
 
-function disableChat()
+function disableChat(channel)
 {
     if (typeof jug !== undefined && jug)
     {
-      jug.unsubscribe("user")
+      jug.unsubscribe(channel)
       jug.unbind()
     }
 }
