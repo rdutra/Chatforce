@@ -28,8 +28,8 @@ include HTTParty
   end
   
   def self.get_buddy_by_Sfid sfid
-    buddy = Buddy.where(:salesforce_id => sfid)
-    unless buddy.empty?
+    buddy = Buddy.where(:salesforce_id => sfid)[0]
+    unless buddy.nil?
       return buddy
     else
       return false
@@ -37,8 +37,8 @@ include HTTParty
   end
   
   def self.exists_buddy sfid
-    buddy = Buddy.where(:salesforce_id => sfid)
-    unless buddy.empty?
+    buddy = Buddy.where(:salesforce_id => sfid)[0]
+    unless buddy.nil?
       return true
     else
       return false
