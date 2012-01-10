@@ -4,7 +4,7 @@ class BuddiesController < ApplicationController
   # GET /buddies.json
   def index
     
-    @user_id = Security.decrypt session[:uid]
+    @user_id = Security.decrypt ENV[:uid]
     @buddies = Buddy.get_all
     org_id = ENV['sfdc_token'].split('!')[0]
     @org_channel = Channel.get_ring_communication @user_id, org_id

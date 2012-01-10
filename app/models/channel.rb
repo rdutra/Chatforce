@@ -25,7 +25,7 @@ class Channel < ActiveRecord::Base
     req_org = Channel.where(:sender_id => user_id, :receiver_id => 0)[0]
     if req_org.nil?
       options = {:sender_id => user_id, :receiver_id => 0}
-      req_org = Channel.create_channel options
+      req_org = Channel.new(options)
       req_org.key = org_id
       req_org.save
     end

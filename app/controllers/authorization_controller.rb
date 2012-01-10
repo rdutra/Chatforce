@@ -8,10 +8,10 @@ class AuthorizationController < ApplicationController
     ENV['sfdc_token'] = request.env['omniauth.auth']['credentials']['token']
     ENV['sfdc_instance_url'] = request.env['omniauth.auth']['instance_url']
    
-    sfuser = session[:uid]
-    if sfuser.nil?
+    
+    if ENV[:uid].nil?
       sfuser = Users.getMe
-      session[:uid] = Security.encrypt sfuser["id"]
+      ENV[:uid] = Security.encrypt sfuser["id"]
     end
       
     orgid = ENV['sfdc_token'].split('!')[0]
