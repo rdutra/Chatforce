@@ -32,10 +32,6 @@ def self.synchronize orgId
   unless org.nil?
     users = Buddy.where(:org_id => org["id"])
     sfusers = Users.getAll
-    puts 'response'
-    puts sfusers.inspect
-    puts sfusers.size
-    puts users.size
     unless sfusers.size == users.size
       if sfusers.size > users.size
         sfusers["records"].each do |sfuser|

@@ -34,9 +34,8 @@ class AuthorizationController < ApplicationController
       }
       Buddy.add_buddy options
     else
-      puts 'round 2'
-      puts sfuser["id"]
       new_user = Buddy.get_buddy_by_Sfid sfuser["id"]
+      # this synchronize should be run some other place
       Org.synchronize orgid
     end
     if new_user
