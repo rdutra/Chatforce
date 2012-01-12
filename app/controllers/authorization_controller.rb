@@ -50,7 +50,6 @@ class AuthorizationController < ApplicationController
       #refresh session
       buddy_session = Session.refresh buddy_session["id"]
     end
-   
     Buddy.set_status buddy_data["id"], "Available"
     redirect_to :controller => 'buddies', :action => 'index'
   end
