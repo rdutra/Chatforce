@@ -11,10 +11,16 @@ $(document).live('pagehide', function(event){
 });
 
 function enableChat(channel) {
+  init()
   if (!(typeof jug !== undefined && jug)) {
     jug = new Juggernaut();
     jug.subscribe(channel, function(data){
-      runEffect();
+      console.log(data.receiver)
+      if(data.receiver == $.cookie("chgo_user_id"))
+      {
+          runEffect(data.sender);
+      }
+      
     }); 
    } 
 }  
@@ -31,7 +37,7 @@ function disableChat(channel)
 var timer = 0
 
 // run the currently selected effect
-function runEffect() {
+function runEffect(buddy_id) {
   // get effect type
   var selectedEffect = "highlight"
   
@@ -39,16 +45,16 @@ function runEffect() {
   var options = {color: "#0DAE1D"};
   
   // run the effect
-  $( ".buddy_content" ).effect( selectedEffect, options, 500, callback );
+  $( "#"+buddy_id ).effect( selectedEffect, options, 500, callback(buddy_id) );
 };
 
 // callback function to bring a hidden box back
-function callback() {
+function callback(buddy_id) {
   setTimeout(function() {
     timer++
     if(timer < 5)
     {
-      runEffect()
+      runEffect(buddy_id)
     }
     else
     {
@@ -56,3 +62,16 @@ function callback() {
     }
   }, 550 );
 };
+
+function init()
+{
+  $(".buddy_content" ).click(function(event){
+      $.ajax({
+          url: '/chat/send',
+          type: 'POST',
+          data: "channel="+$.cookie("chgo_org_key")+"&sender="+$.cookie("chgo_user_id")+"&receiver="+$(this).attr("id")+"&message=keep alive",
+        });
+     return false;   
+  });
+}
+

@@ -30,7 +30,7 @@ function enableChat(channel) {
       $.ajax({
         url: '/chat/send',
         type: 'POST',
-        data: "msg_body="+this.msg_body.value+"&channel="+this.sender.value,
+        data: "message="+this.msg_body.value+"&channel="+this.sender.value,
       });
     }
     return false;

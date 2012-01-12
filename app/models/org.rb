@@ -1,3 +1,4 @@
+require 'ruby-debug' ; Debugger.start
 class Org < ActiveRecord::Base
   has_many :Buddies, :dependent => :destroy
 
@@ -17,21 +18,18 @@ def self.exists_org sfid
     end
   end
 
-def self.getOrgBySfId sfid
+def self.get_org_by_sfid sfid
   org = Org.where(:org_id => sfid)[0]
-  unless org.nil?
-    return org
-  else
-    return false
-  end
+  return org
 end    
 
-def self.synchronize orgId
-  time_range = (Time.now - 24.hour)..Time.now
+def self.synchronize orgId, instance, token
+  
+  time_range = (Time.now - 24.hours)..Time.now
   org = Org.where(:org_id => orgId , :updated_at => time_range)[0]
   unless org.nil?
     users = Buddy.where(:org_id => org["id"])
-    sfusers = Users.getAll
+    sfusers = Users.getAll instance, token
     puts 'response'
     puts sfusers.inspect
     puts sfusers.size

@@ -2,9 +2,12 @@ require "juggernaut"
 require "communicator"
 class ChatController < ApplicationController
   def send_message
-    messg = params[:msg_body]
-    sender = params[:channel]
-    Communicator.send_message messg, sender
+    message = params[:message]
+    channel = params[:channel]
+    sender  = params[:sender]
+    receiver = params[:receiver]
+    
+    Communicator.send_message channel, sender, receiver, message
     render :nothing => true
 	end
  

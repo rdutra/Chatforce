@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120109164102) do
+ActiveRecord::Schema.define(:version => 20120110184646) do
 
   create_table "buddies", :force => true do |t|
     t.string   "name"
@@ -34,6 +34,15 @@ ActiveRecord::Schema.define(:version => 20120109164102) do
 
   create_table "orgs", :force => true do |t|
     t.string   "org_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sessions", :force => true do |t|
+    t.integer  "buddy_id"
+    t.date     "expires_at"
+    t.string   "token"
+    t.string   "instance_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

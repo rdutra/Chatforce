@@ -5,27 +5,27 @@ class Users
   include HTTParty
   format :json
 
-  def self.set_headers
-    headers 'Authorization' => "OAuth #{ENV['sfdc_token']}"
+  def self.set_headers token
+    headers 'Authorization' => "OAuth #{token}"
   end
 
-  def self.root_url
-    @root_url = ENV['sfdc_instance_url']+"/services/data/v"+ENV['sfdc_api_version']
+  def self.root_url instance
+    @root_url = instance+"/services/data/v"+ENV['sfdc_api_version']
   end
   
-  def self.getAll
-    Users.set_headers
+  def self.getAll instance, token
+    Users.set_headers token
     soql = "SELECT Id, Name, SmallPhotoUrl, CompanyName from User LIMIT 9999"
-    get(Users.root_url+"/query/?q=#{CGI::escape(soql)}")
+    get(Users.root_url(instance)+"/query/?q=#{CGI::escape(soql)}")
   end
   
-  def self.get_user_info(id)
-    Users.set_headers
-    get(Users.root_url+"/chatter/users/"+id)
+  def self.get_user_info(id, instance, token)
+    Users.set_headers token
+    get(Users.root_url(instance)+"/chatter/users/"+id)
   end
   
-  def self.getMe
-    user = Users.get_user_info("me")
+  def self.getMe instance, token
+    user = Users.get_user_info("me", instance, token)
     return user
   end
   
