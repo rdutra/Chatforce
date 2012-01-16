@@ -9,9 +9,12 @@ class Channel < ActiveRecord::Base
   end
   
   def self.create_channel options
-    new_channel = Channel.new(options)
-    new_channel.key = ActiveSupport::SecureRandom.hex(15)
-    new_channel.save
+    new_channel = Channel.where(:sender_id => options[:sender_id], :receiver_id => options[:receiver_id])[0]
+    if new_channel.nil?
+      new_channel = Channel.new(options)
+      new_channel.key = ActiveSupport::SecureRandom.hex(15)
+      new_channel.save
+    end  
     return new_channel
   end
   

@@ -13,8 +13,8 @@ class Session < ActiveRecord::Base
     return new_session
   end
   
-  def self.refresh session_id
-    refreshed_session = Session.update(session_id, :expires_at => Time.now + 5.hours)
+  def self.refresh session_id, salt
+    refreshed_session = Session.update(session_id, :expires_at => Time.now + 30.minutes, :salt => salt)
     return refreshed_session
   end
   

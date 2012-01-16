@@ -1,36 +1,40 @@
-var jug = undefined
+var jugger_comm = undefined
 var org_channel = undefined
+
 $(document).live('pageshow', function(event){
     org_channel = $.cookie("chgo_org_key")
-    enableChat(org_channel)
+    enableCommChat(org_channel)
+    createChat()
 });
 
 $(document).live('pagehide', function(event){
     org_channel = $.cookie("chgo_org_key")
-    disableChat(org_channel)
+    disableCommChat(org_channel)
+    //destroyChat()
 });
 
-function enableChat(channel) {
-  init()
-  if (!(typeof jug !== undefined && jug)) {
-    jug = new Juggernaut();
-    jug.subscribe(channel, function(data){
-      console.log(data.receiver)
+function enableCommChat(channel) {
+  //init()
+  if (!(typeof jugger_comm !== undefined && jugger_comm)) {
+    jugger_comm = new Juggernaut();
+    jugger_comm.subscribe(channel, function(data){
+      console.log(data)
       if(data.receiver == $.cookie("chgo_user_id"))
       {
           runEffect(data.sender);
+          
       }
       
     }); 
    } 
 }  
 
-function disableChat(channel)
+function disableCommChat(channel)
 {
-    if (typeof jug !== undefined && jug)
+    if (typeof jugger_comm !== undefined && jugger_comm)
     {
-      jug.unsubscribe(channel)
-      jug.unbind()
+      jugger_comm.unsubscribe(channel)
+      jugger_comm.unbind()
     }
 }
 
@@ -63,15 +67,26 @@ function callback(buddy_id) {
   }, 550 );
 };
 
-function init()
+function createChat()
 {
   $(".buddy_content" ).click(function(event){
+    if($.cookie('chgo_ch_key') == null)
+    {
+      $.cookie('chgo_re_id',$(this).attr("id"));
       $.ajax({
-          url: '/chat/send',
+          url: '/chat/create_channel',
           type: 'POST',
-          data: "channel="+$.cookie("chgo_org_key")+"&sender="+$.cookie("chgo_user_id")+"&receiver="+$(this).attr("id")+"&message=keep alive",
-        });
-     return false;   
+          data: "channel="+$.cookie("chgo_org_key")+"sender="+$.cookie("chgo_user_id")+"&receiver="+$.cookie('chgo_re_id'),
+          success: function(data){
+            $.cookie('chgo_ch_key',data);
+          }
+        });     
+    }
+    document.location = "/chat/single"
+      
+     //return false;
   });
 }
+
+
 

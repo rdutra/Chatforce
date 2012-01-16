@@ -1,11 +1,11 @@
 var jug = undefined
 $(document).live('pageshow', function(event){
-      enableChat()
+      //enableChat($.cookie('chgo_ch_key'))
       $("#mesg").empty();
 });
 
 $(document).live('pagehide', function(event){
-      disableChat()
+      disableChat($.cookie('chgo_ch_key'))
       
 });
 
@@ -13,7 +13,7 @@ function enableChat(channel) {
   if (!(typeof jug !== undefined && jug)) {
     jug = new Juggernaut();
     jug.subscribe(channel, function(data){
-      var ul = '<ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow"><li class="ui-li ui-li-static ui-body-c ui-corner-top ui-corner-bottom">'+data+'</li></ul>'
+      var ul = '<ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow"><li class="ui-li ui-li-static ui-body-c ui-corner-top ui-corner-bottom">'+data.sender+": "+data.message+'</li></ul>'
       $("#mesg").append(ul)
       $("#chat_window")[0].reset();
       setTimeout(function(){window.scroll(0,$(document).height()+200)},300);
@@ -30,7 +30,7 @@ function enableChat(channel) {
       $.ajax({
         url: '/chat/send',
         type: 'POST',
-        data: "message="+this.msg_body.value+"&channel="+this.sender.value,
+        data: "channel="+channel+"&sender="+$.cookie("chgo_user_id")+"&receiver="+$.cookie('chgo_re_id')+"&message="+this.msg_body.value
       });
     }
     return false;
@@ -46,6 +46,5 @@ function disableChat(channel)
       jug.unbind()
     }
 }
-
 
 

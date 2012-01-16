@@ -1,10 +1,9 @@
-= javascript_include_tag "comm"
 %div{:style => "margin: 15px 5px 0px 5px"}
   %ul{ "data-role" => "listview", "data-inset" => "true", "data-filter" => "true", :style => "margin-top: 15px"}
     - @buddies.each do |buddy|
       -unless buddy["salesforce_id"] == @user_id
         %li{ :class => "buddy_content", :id => buddy["id"]}
-          %a{ :href => "chat/single/"}
+          %a{ :href => "#"}
             = image_tag "online.png" , :class => "ui-li-icon"
             = buddy["name"]
     
