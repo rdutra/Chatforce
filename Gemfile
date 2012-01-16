@@ -20,7 +20,7 @@ gem 'httparty'
 gem 'rails3-generators'
 gem 'haml'
 gem "haml-rails"
-gem 'pg'
+gem 'pg', ">=0.12.0"
 gem "encryptor", "~> 1.1.3"
 
 
