@@ -1,6 +1,7 @@
 class Buddy < ActiveRecord::Base
 include HTTParty
-  has_many :channel
+  has_many :connection
+  has_many :channel, :through => :connection
   belongs_to :org
   has_one :session, :dependent => :destroy
   format :json
@@ -8,17 +9,17 @@ include HTTParty
   STATUSES = %w{ Available Away Busy Offline } 
   
   def self.get_buddy_by_id buddy_id
-    buddy = Buddy.where(:id => buddy_id)[0]
+    buddy = Buddy.find(buddy_id)
     return buddy
   end
   
-  def self.get_all
-    buddies = Buddy.all
+  def self.get_all_by_org org_id
+    buddies = Buddy.
     return buddies
   end
   
   def self.set_status buddy_id , status
-    buddy = Buddy.where(:id => buddy_id)[0]
+    buddy = Buddy.find(buddy_id)
     unless buddy.nil?
       if STATUSES.include? status
         buddy[:status] = status
@@ -28,13 +29,13 @@ include HTTParty
     return buddy
   end
   
-  def self.get_buddy_by_Sfid buddy_id
-    buddy = Buddy.where(:salesforce_id => buddy_id)[0]
+  def self.get_buddy_by_Sfid sf_id
+    buddy = Buddy.where(:salesforce_id => sf_id)[0]
     return buddy
   end
   
-  def self.exists_buddy buddy_id
-    buddy = Buddy.where(:salesforce_id => buddy_id)[0]
+  def self.exists_buddy sf_id
+    buddy = Buddy.where(:salesforce_id => sf_id)[0]
     return !buddy.nil?
   end
   

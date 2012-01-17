@@ -43,7 +43,8 @@ class AuthorizationController < ApplicationController
           :buddy_id => buddy["id"],
           :expires_at => Time.now + 30.minutes,
           :token => salesforce_token,
-          :instance_url => salesforce_instance
+          :instance_url => salesforce_instance,
+          :name => buddy[:name]
         }
         buddy_session = Session.create_session options
         hash = create_session_cookie buddy_session["id"]
@@ -61,10 +62,7 @@ class AuthorizationController < ApplicationController
       end
     end
     
-    cookies['chgo_user_id'] = buddy["id"]
-    cookies['chgo_user_name'] = buddy["name"]
-    
-    Buddy.set_status cookies['chgo_user_id'], "Available"
+    Buddy.set_status buddy[:id], "Available"
     redirect_to :controller => 'buddies', :action => 'index'
   end
   

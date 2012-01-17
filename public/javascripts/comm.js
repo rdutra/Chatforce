@@ -1,28 +1,42 @@
-var jugger_comm = undefined
-var org_channel = undefined
+var jugger_comm = undefined;
+var data_session = undefined;
+var timer = 0;
+var invite = false;
+
+function getData()
+{
+  $.ajax({
+    url: '/chat/get_data',
+    type: 'POST',
+    data: "",
+    success: function(data){
+      data_session = data
+      enableCommChat(data_session.org_channel)
+      createChat()
+    }
+  });  
+
+}
 
 $(document).live('pageshow', function(event){
-    org_channel = $.cookie("chgo_org_key")
-    enableCommChat(org_channel)
-    createChat()
+    getData()
 });
 
 $(document).live('pagehide', function(event){
-    org_channel = $.cookie("chgo_org_key")
-    disableCommChat(org_channel)
-    //destroyChat()
+  if (typeof data_session !== undefined && data_session) {
+    disableCommChat(data_session.org_channel)
+  }  
 });
 
 function enableCommChat(channel) {
-  //init()
   if (!(typeof jugger_comm !== undefined && jugger_comm)) {
     jugger_comm = new Juggernaut();
     jugger_comm.subscribe(channel, function(data){
-      console.log(data)
-      if(data.receiver == $.cookie("chgo_user_id"))
+      if(data.receiver == data_session.buddy_id)
       {
           runEffect(data.sender);
-          
+          data_session.chat_channel = data.message;
+          invite = true;
       }
       
     }); 
@@ -38,21 +52,12 @@ function disableCommChat(channel)
     }
 }
 
-var timer = 0
-
-// run the currently selected effect
 function runEffect(buddy_id) {
-  // get effect type
   var selectedEffect = "highlight"
-  
-  // most effect types need no options passed by default
   var options = {color: "#0DAE1D"};
-  
-  // run the effect
   $( "#"+buddy_id ).effect( selectedEffect, options, 500, callback(buddy_id) );
 };
 
-// callback function to bring a hidden box back
 function callback(buddy_id) {
   setTimeout(function() {
     timer++
@@ -63,6 +68,9 @@ function callback(buddy_id) {
     else
     {
       timer = 0
+      $("#"+buddy_id).css("background-color", "#0DAE1D")
+      $("#"+buddy_id).css("background-image", "none");
+      
     }
   }, 550 );
 };
@@ -70,21 +78,23 @@ function callback(buddy_id) {
 function createChat()
 {
   $(".buddy_content" ).click(function(event){
-    if($.cookie('chgo_ch_key') == null)
+    var url_chat = "/chat/create_channel"
+    var channel_chat = data_session.org_channel
+    if(invite)
     {
-      $.cookie('chgo_re_id',$(this).attr("id"));
-      $.ajax({
-          url: '/chat/create_channel',
-          type: 'POST',
-          data: "channel="+$.cookie("chgo_org_key")+"sender="+$.cookie("chgo_user_id")+"&receiver="+$.cookie('chgo_re_id'),
-          success: function(data){
-            $.cookie('chgo_ch_key',data);
-          }
-        });     
+        url_chat = "/chat/connect_channel"
+        channel_chat = data_session.chat_channel
     }
-    document.location = "/chat/single"
-      
-     //return false;
+        
+    $.ajax({
+      url: url_chat,
+      type: 'POST',
+      data: "channel="+channel_chat+"&sender="+data_session.buddy_id+"&receiver="+$(this).attr("id"),
+      success: function(data){
+        jugger_comm.subscribe(data, function(data){}); 
+        document.location = "/chat/single"
+      }
+    }); 
   });
 }
 

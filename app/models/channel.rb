@@ -1,35 +1,36 @@
 require 'ruby-debug' ; Debugger.start
 class Channel < ActiveRecord::Base
-  belongs_to :sender,   :class_name => 'Buddy', :foreign_key => 'sender_id'
-  belongs_to :receiver, :class_name => 'Buddy', :foreign_key => 'receiver_id'
+  has_many :connection
+  has_many :buddy, :through => :connection
   
-  def self.get_channel sender_id, receiver_id
-    req_channel = Channel.where(:sender_id => sender_id, :receiver_id => receiver_id)[0]
+  def self.get_channel_by_id channel_id
+    req_channel = Channel.find(channel_id)
     return req_channel
   end
   
-  def self.create_channel options
-    new_channel = Channel.where(:sender_id => options[:sender_id], :receiver_id => options[:receiver_id])[0]
-    if new_channel.nil?
-      new_channel = Channel.new(options)
-      new_channel.key = ActiveSupport::SecureRandom.hex(15)
-      new_channel.save
-    end  
+  def self.create_channel mod
+    new_channel = Channel.new
+    new_channel.key = ActiveSupport::SecureRandom.hex(15)
+    new_channel.mod = mod
+    new_channel.save
     return new_channel
   end
   
-  def self.delete_channel key
-    Channel.delete(key)
+  def self.delete_channel_by_id channel_id
+    Channel.delete(channel_id)
   end
   
-  def self.get_ring_communication user_id, org_id
-    req_org = Channel.where(:key => org_id)[0]
-    if req_org.nil?
-      options = {:sender_id => user_id, :receiver_id => user_id}
-      req_org = Channel.new(options)
-      req_org.key = org_id
-      req_org.save
-    end
-    return req_org  
+  def self.get_ring_communication buddy_id, org_id
+    buddy = Buddy.find(buddy_id)
+    org = nil
+    unless buddy.nil?
+      org = Channel.where(:key => org_id)[0]
+      if org.nil?
+        org = Channel.create_channel "org"
+        org.key = org_id
+        org.save
+      end
+    end  
+    return org  
   end
 end

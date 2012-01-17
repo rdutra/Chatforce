@@ -2,6 +2,7 @@ class CreateSessions < ActiveRecord::Migration
   def change
     create_table :sessions do |t|
       t.integer :buddy_id
+      t.string :name
       t.date :expires_at
       t.string :salt
       t.string :token
