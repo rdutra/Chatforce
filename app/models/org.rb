@@ -1,6 +1,6 @@
 require 'ruby-debug' ; Debugger.start
 class Org < ActiveRecord::Base
-  has_many :Buddies, :dependent => :destroy
+  has_many :buddy, :dependent => :destroy
 
 def self.add_org options
   new_org = Org.new({:org_id => options[:org_id]})

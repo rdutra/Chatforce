@@ -4,6 +4,7 @@ include HTTParty
   has_many :channel, :through => :connection
   belongs_to :org
   has_one :session, :dependent => :destroy
+  has_one :setting
   format :json
   
   STATUSES = %w{ Available Away Busy Offline } 

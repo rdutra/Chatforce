@@ -1,4 +1,4 @@
 class Setting < ActiveRecord::Base
-  belongs_to  :Buddies, :dependent => :destroy
+  belongs_to  :buddy, :dependent => :destroy
   
 end
