@@ -14,4 +14,6 @@ class Security
     decrypted_value = Encryptor.decrypt(:value => enc_value, :key => secret_key)
     return decrypted_value
   end
+   
+  
 end

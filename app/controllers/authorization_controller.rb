@@ -1,47 +1,81 @@
 require 'users'
 require 'security'
-#require 'ruby-debug' ; Debugger.start
+require 'ruby-debug' ; Debugger.start
 class AuthorizationController < ApplicationController
 
   def create
-    ENV['sfdc_token'] = request.env['omniauth.auth']['credentials']['token']
-    ENV['sfdc_instance_url'] = request.env['omniauth.auth']['instance_url']
-    
-    sfuser = Users.getMe
-    
-    if session[:uid].nil?
-      session[:uid] = Security.encrypt sfuser["id"]
-    end
-
-    orgid = ENV['sfdc_token'].split('!')[0]
-    if not Org.exists_org orgid
-      options = {
-        :org_id => orgid
-      }
-      currentOrg = Org.add_org options
+    user_session = cookies.signed[:chgo_user_session]
+    if user_session.nil?
+      salesforce_token = request.env['omniauth.auth']['credentials']['token']
+      salesforce_instance = request.env['omniauth.auth']['instance_url']
+      
+      buddy_data = Users.getMe salesforce_instance, salesforce_token
+      buddy = Buddy.get_buddy_by_Sfid buddy_data["id"]
+      
+      #exist user?
+      if buddy.nil?
+        org_id = salesforce_token.split('!')[0]
+        #exist org?
+        current_org = Org.get_org_by_sfid org_id
+        if current_org.nil?
+          options = {
+            :org_id => org_id
+          }
+          current_org = Org.add_org options
+        end
+        options = {
+          :name             => buddy_data["name"],
+          :nickname         => '',
+          :status           => "Available",
+          :salesforce_id    => buddy_data["id"],
+          :small_photo_url  => buddy_data["smallPhotoUrl"],
+          :org_id           => current_org["id"]
+        }
+        buddy = Buddy.add_buddy options
+        Org.synchronize org_id, salesforce_instance, salesforce_token
+      end
+        
+      
+      #exist session?
+      buddy_session = Session.get_session_by_buddy_id buddy["id"]
+      if buddy_session.nil?
+        options = {
+          :buddy_id => buddy["id"],
+          :expires_at => Time.now + 30.minutes,
+          :token => salesforce_token,
+          :instance_url => salesforce_instance,
+          :name => buddy[:name]
+        }
+        buddy_session = Session.create_session options
+        hash = create_session_cookie buddy_session["id"]
+      end  
+      hash = create_session_cookie buddy_session["id"]
+      Session.refresh buddy_session["id"], hash
+     
     else
-      currentOrg = Org.getOrgBySfId orgid    
+      buddy = authenticate_with_salt(cookies.signed[:chgo_user_session][0],cookies.signed[:chgo_user_session][1] )
+      unless buddy.nil?
+        hash = create_session_cookie cookies.signed[:chgo_user_session][0]
+        Session.refresh cookies.signed[:chgo_user_session][0], hash
+      else
+        cookies.delete(:chgo_user_session)
+      end
     end
-
-    unless Buddy.exists_buddy sfuser["id"]
-      options = {
-        :name             => sfuser["name"],
-        :nickname         => '',
-        :status           => "Available",
-        :salesforce_id    => sfuser["id"],
-        :small_photo_url  => sfuser["smallPhotoUrl"],
-        :org_id           => currentOrg["id"]
-      }
-      Buddy.add_buddy options
-    else
-      new_user = Buddy.get_buddy_by_Sfid sfuser["id"]
-      # this synchronize should be run some other place
-      Org.synchronize orgid
-    end
-    if new_user
-      Buddy.set_status sfuser["id"], "Available"
-    end
+    
+    Buddy.set_status buddy[:id], "Available"
     redirect_to :controller => 'buddies', :action => 'index'
+  end
+  
+  def create_session_cookie session_id
+    new_hash = ActiveSupport::SecureRandom.base64(32)
+    cookies.permanent.signed[:chgo_user_session] = [session_id, new_hash]
+    return new_hash
+  end
+  
+  def authenticate_with_salt(id, cookie_salt)
+    session = Session.get_session_by_id(id)
+    return nil if session.nil?
+    return session if session.salt == cookie_salt
   end
   
   def fail

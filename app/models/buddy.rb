@@ -1,23 +1,25 @@
 class Buddy < ActiveRecord::Base
 include HTTParty
-
-  belongs_to :org ,:foreign_key => 'org_id'
+  has_many :connection
+  has_many :channel, :through => :connection
+  belongs_to :org
+  has_one :session, :dependent => :destroy
   format :json
   
   STATUSES = %w{ Available Away Busy Offline } 
   
   def self.get_buddy_by_id buddy_id
-    buddy = Buddy.where(:id => buddy_id)[0]
+    buddy = Buddy.find(buddy_id)
     return buddy
   end
   
-  def self.get_all
-    buddies = Buddy.all
+  def self.get_all_by_org org_id
+    buddies = Buddy.
     return buddies
   end
   
   def self.set_status buddy_id , status
-    buddy = Buddy.where(:id => buddy_id)[0]  
+    buddy = Buddy.find(buddy_id)
     unless buddy.nil?
       if STATUSES.include? status
         buddy[:status] = status
@@ -27,22 +29,14 @@ include HTTParty
     return buddy
   end
   
-  def self.get_buddy_by_Sfid sfid
-    buddy = Buddy.where(:salesforce_id => sfid)[0]
-    unless buddy.nil?
-      return buddy
-    else
-      return false
-    end
+  def self.get_buddy_by_Sfid sf_id
+    buddy = Buddy.where(:salesforce_id => sf_id)[0]
+    return buddy
   end
   
-  def self.exists_buddy sfid
-    buddy = Buddy.where(:salesforce_id => sfid)[0]
-    unless buddy.nil?
-      return true
-    else
-      return false
-    end
+  def self.exists_buddy sf_id
+    buddy = Buddy.where(:salesforce_id => sf_id)[0]
+    return !buddy.nil?
   end
   
   def self.add_buddy options
@@ -51,4 +45,8 @@ include HTTParty
     return new_user
   end
   
+  def self.get_buddies_by_org org_id
+    buddies = Buddy.where(:org_id => org_id)
+    return buddies
+  end
 end
