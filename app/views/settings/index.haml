@@ -1,0 +1,15 @@
+%div{:style => "margin: 15px 5px 0px 5px"}
+  %ul{ "data-role" => "listview", "data-inset" => "true", "data-filter" => "true", :style => "margin-top: 15px"}
+    %li{ :class => "buddy_content", :id => "history"}
+      %div{:style =>'float:left'}
+        %p Save History
+      %div{:style =>'float:right'}
+        %input{:type => "checkbox", :id =>"check_id", :style => "float:left", :title =>'Save History'}
+    %li{ :class => "buddy_content", :id => "skins"}
+      %div{:style =>'float:left'}
+        %p Select Skin
+      %div{:style =>'float:right'}
+        %select{}
+          %option hola
+          %option chau
+  #input{:type =>'submit'} Done

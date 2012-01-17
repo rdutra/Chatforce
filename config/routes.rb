@@ -8,5 +8,6 @@ Chat::Application.routes.draw do
   match '/auth/failure', :to => 'authorization#fail'
   match "/buddies/list", :controller => "buddies", :action => "index"
   match ':controller(/:action(/:id(.:format)))'
+  match '/settings', :controller => "settings", :action => "index"
   
 end
