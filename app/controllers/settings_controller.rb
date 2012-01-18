@@ -3,7 +3,34 @@ class SettingsController < ApplicationController
   
   def index
     @session = Session.get_session_by_id cookies.signed[:chgo_user_session][0]
-    org_id = @session["token"].split('!')[0]
-    org = Org.get_org_by_sfid(org_id)
+    @skins = Skin.get_skins
+    @settings = Setting.get_settings @session["buddy_id"]
+    unless @settings.nil?
+      history = @settings['history']
+      @checkvalue = ''
+      if history == 1 
+        @checkvalue = 'on'
+      end
+      puts 'data'
+      puts @checkvalue
+      @skin = @settings['skin']
+    end
   end
+  
+  def save_setting
+    @session = Session.get_session_by_id cookies.signed[:chgo_user_session][0]
+    if params["check_id"] == 'on'
+      ahistory = 1
+    else  
+      ahistory = 0
+    end
+    options = {
+      :history      => ahistory,
+      :skin         => params["select_skin"],
+      :buddy_id     => @session["buddy_id"]
+    }
+    Setting.save_settings(options)
+    redirect_to :controller => 'buddies', :action => 'index'
+  end
+  
 end

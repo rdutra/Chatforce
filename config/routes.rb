@@ -9,5 +9,6 @@ Chat::Application.routes.draw do
   match "/buddies/list", :controller => "buddies", :action => "index"
   match ':controller(/:action(/:id(.:format)))'
   match '/settings', :controller => "settings", :action => "index"
+  match '/save_settings', :controller => "settings", :action => "save_setting"
   
 end
