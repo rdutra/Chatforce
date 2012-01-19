@@ -1,0 +1,13 @@
+
+
+setting1:
+  id: 1
+  skin: 1
+  history: 1
+  buddy_id: 1
+  
+setting2:
+  id: 2
+  skin: 1
+  history: 0
+  buddy_id: 2
