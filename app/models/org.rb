@@ -3,9 +3,16 @@ class Org < ActiveRecord::Base
   has_many :buddy, :dependent => :destroy
 
 def self.add_org options
-  new_org = Org.new({:org_id => options[:org_id]})
-  new_org.save
-  return new_org
+  unless options.empty?
+    if Org.exists_org options[:org_id]
+      new_org = Org.get_org_by_sfid options[:org_id]
+      #no need to update anything since there is only the one field
+    else
+      new_org = Org.new({:org_id => options[:org_id]})
+    end
+    new_org.save
+    return new_org
+  end
 end
 
 
