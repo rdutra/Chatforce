@@ -1,0 +1,11 @@
+
+
+skin1:
+  id: 1
+  name: "Test Skin 1"
+  css: "great.css"
+  
+skin2:
+  id: 2
+  name: "Test Skin 2"
+  css: "greatest.css"
