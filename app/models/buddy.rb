@@ -15,7 +15,7 @@ include HTTParty
   end
   
   def self.get_all_by_org org_id
-    buddies = Buddy.
+    buddies = Buddy.where(:org_id => org_id)
     return buddies
   end
   
