@@ -34,7 +34,7 @@ class ChatController < ApplicationController
     
     Connection.connect_buddy receiver, channel_conn
     
-    message = {:code => "accept", :message => "accept"}
+    message = {:code => "accept", :message => "accept", :channel_conn => channel_conn}
     Communicator.send_message channel, sender, receiver, message
     render :nothing => true
   end
@@ -90,11 +90,17 @@ class ChatController < ApplicationController
     
     buddy = Buddy.get_buddy_by_id sender
     
-    message = {:code => "write", :message => "#{buddy[:name]} : #{message}", :sender => sender}
+    com_message = {:code => "write", :message => "#{buddy[:name]} : #{message}", :sender => sender}
     data = {:buddy_id => buddy[:id], :channel => channel, :message => "#{buddy[:name]} : #{message}"}
     Buffer.add_to_buffer data
-    Communicator.send_message channel, sender, nil, message
+    Communicator.send_message channel, sender, nil, com_message
     render :text => "#{sender} : #{message}"
+  end
+  
+  def get_buffer
+    channel = params[:channel]
+    buffers = Buffer.get_from_buffer_by_channel channel
+    render :json => buffers.to_json
   end
   
 end

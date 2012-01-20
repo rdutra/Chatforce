@@ -1,3 +1,4 @@
+require 'ruby-debug' ; Debugger.start
 class Buffer < ActiveRecord::Base
   belongs_to :buddy
   
@@ -12,8 +13,20 @@ class Buffer < ActiveRecord::Base
     return buffers
   end
   
+  def self.get_from_buffer_by_channel channel
+    buffers = Buffer.where(:channel => channel).order("created_at DESC")
+    return buffers
+  end
+  
   def self.clean_buffer buddy_id
     buffers = Buffer.where(:buddy_id => buddy_id).order("created_at DESC")
+    buffers.each do |buffer|
+      Buffer.delete(buffer[:id])
+    end
+  end
+  
+  def self.clean_buffer_by_channel channel
+    buffers = Buffer.where(:channel => channel).order("created_at DESC")
     buffers.each do |buffer|
       Buffer.delete(buffer[:id])
     end
