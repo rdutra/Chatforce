@@ -5,21 +5,25 @@ buddy1:
   name: Jhon Falcon
   nickname: My day is good!!
   status: Available
+  org_id: 12345
 
 buddy2:
   id: 2
   name: Mary Lemos
   nickname: Never...
   status: Away
+  org_id: 12345
   
 buddy3:
   id: 3
   name: Tony Lincoln
   nickname: lol
   status: Busy
+  org_id: 12346
 
 buddy4:
   id: 4
   name: Vallery Nickolson
   nickname: good song (Santeria -> Sublime)...
   status: Offline
+  org_id: 123456
