@@ -5,6 +5,7 @@ include HTTParty
   has_many :buffer
   belongs_to :org
   has_one :session, :dependent => :destroy
+  has_one :setting
   format :json
   
   STATUSES = %w{ Available Away Busy Offline } 
@@ -15,7 +16,7 @@ include HTTParty
   end
   
   def self.get_all_by_org org_id
-    buddies = Buddy.
+    buddies = Buddy.where(:org_id => org_id)
     return buddies
   end
   

@@ -13,6 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20120119165259) do
 
+
   create_table "buddies", :force => true do |t|
     t.string   "name"
     t.string   "nickname"
@@ -59,6 +60,21 @@ ActiveRecord::Schema.define(:version => 20120119165259) do
     t.string   "salt"
     t.string   "token"
     t.string   "instance_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "settings", :force => true do |t|
+    t.integer  "skin"
+    t.integer  "history"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "buddy_id"
+  end
+
+  create_table "skins", :force => true do |t|
+    t.string   "name"
+    t.string   "css"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

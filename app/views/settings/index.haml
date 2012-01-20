@@ -1,0 +1,12 @@
+=form_tag('save_settings', :id => 'Settings_form') do
+  %div{:style => "margin: 15px 5px 0px 5px"}
+    %ul{ "data-role" => "listview", "data-inset" => "true", "data-filter" => "true", :style => "margin-top: 15px"}
+      %li{ :class => "buddy_content", :id => "history"}
+        %p Save History
+        %input{:type => "checkbox", :id =>"check_id", :style => "float:left", :title =>'Save History', :name =>"check_id", :checked => @checkvalue == 'on'}
+      %li{ :class => "buddy_content", :id => "skins"}
+        %p Select Skin
+        %select{:name => 'select_skin'}
+          =@skins.each do |item|
+            %option{:value => item['id'], :selected => @skin == item['id']}= item['name']
+    = submit_tag 'Done',  :class => "submitBtn"
