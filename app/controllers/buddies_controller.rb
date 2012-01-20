@@ -11,9 +11,7 @@ class BuddiesController < ApplicationController
     @org_channel = Channel.get_ring_communication @session["buddy_id"], org_id
     Connection.connect_buddy @session["buddy_id"], @org_channel[:id]
     @user_name = @session[:name]
-    
-    
-    
+      
   end
 
 end

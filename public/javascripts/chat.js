@@ -1,6 +1,13 @@
-var jug = undefined
+/*var jug = undefined
 $(document).live('pageshow', function(event){
-      //enableChat($.cookie('chgo_ch_key'))
+      $.ajax({
+        url: "chat/get_connections",
+        type: 'POST',
+        data: "",
+        success: function(data){
+          enableChat(data)
+        }
+      }); 
       $("#mesg").empty();
 });
 
@@ -47,4 +54,4 @@ function disableChat(channel)
     }
 }
 
-
+*/

@@ -2,6 +2,7 @@ class Buddy < ActiveRecord::Base
 include HTTParty
   has_many :connection
   has_many :channel, :through => :connection
+  has_many :buffer
   belongs_to :org
   has_one :session, :dependent => :destroy
   format :json

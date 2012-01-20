@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120116171447) do
+ActiveRecord::Schema.define(:version => 20120119165259) do
 
   create_table "buddies", :force => true do |t|
     t.string   "name"
@@ -22,6 +22,14 @@ ActiveRecord::Schema.define(:version => 20120116171447) do
     t.string   "salesforce_id"
     t.string   "small_photo_url"
     t.integer  "org_id"
+  end
+
+  create_table "buffers", :force => true do |t|
+    t.integer  "buddy_id"
+    t.string   "channel"
+    t.string   "message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "channels", :force => true do |t|

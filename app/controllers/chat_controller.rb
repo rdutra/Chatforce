@@ -13,10 +13,43 @@ class ChatController < ApplicationController
     render :nothing => true
 	end
  
-  def single_chat
-    @channel = params[:channel]
-    session = Session.get_session_by_id cookies.signed[:chgo_user_session][0]
-    @user_name = session[:name]
+  def invite
+    channel = params[:channel]
+    sender  = params[:sender]
+    receiver = params[:receiver]
+       
+    new_channel = Channel.create_channel "chat"
+    Connection.connect_buddy sender, new_channel[:id]   
+    message = {:code => "invite", :message => new_channel[:key]}
+    
+    Communicator.send_message channel, sender, receiver, message
+    render :nothing => true
+  end
+  
+  def accept
+    channel = params[:channel]
+    sender  = params[:sender]
+    receiver = params[:receiver]
+    channel_conn = params[:channel_conn]
+    
+    Connection.connect_buddy receiver, channel_conn
+    
+    message = {:code => "accept", :message => "accept"}
+    Communicator.send_message channel, sender, receiver, message
+    render :nothing => true
+  end
+  
+  def write
+    message = params[:message]
+    channel = params[:channel]
+    sender = params[:sender]
+    
+    buddy = Buddy.get_buddy_by_id sender
+    
+    message = {:code => "write", :message => "#{buddy[:name]} : #{message}", :sender => sender}
+    Communicator.send_message channel, sender, nil, message
+    render :nothing => true
+    
   end
 
   def create_channel
@@ -48,6 +81,20 @@ class ChatController < ApplicationController
     }
     render :json => data.to_json
     
+  end
+  
+  def buffer
+    message = params[:message]
+    channel = params[:channel]
+    sender = params[:sender]
+    
+    buddy = Buddy.get_buddy_by_id sender
+    
+    message = {:code => "write", :message => "#{buddy[:name]} : #{message}", :sender => sender}
+    data = {:buddy_id => buddy[:id], :channel => channel, :message => "#{buddy[:name]} : #{message}"}
+    Buffer.add_to_buffer data
+    Communicator.send_message channel, sender, nil, message
+    render :text => "#{sender} : #{message}"
   end
   
 end
