@@ -32,6 +32,7 @@ class AuthorizationController < ApplicationController
           :org_id           => current_org["id"]
         }
         buddy = Buddy.add_buddy options
+        
         Org.synchronize org_id, salesforce_instance, salesforce_token
       end
         
@@ -61,7 +62,15 @@ class AuthorizationController < ApplicationController
         cookies.delete(:chgo_user_session)
       end
     end
+    # ----------- This was added to prevent an error with authentication
+    salesforce_token = request.env['omniauth.auth']['credentials']['token']
+    salesforce_instance = request.env['omniauth.auth']['instance_url']
+    buddy_data = Users.getMe salesforce_instance, salesforce_token
+    buddy = Buddy.get_buddy_by_Sfid buddy_data["id"]
+    org_id = salesforce_token.split('!')[0]
+    # ------------------------
     
+    Org.synchronize_simple org_id, salesforce_instance, salesforce_token
     Buddy.set_status buddy[:id], "Available"
     redirect_to :controller => 'buddies', :action => 'index'
   end

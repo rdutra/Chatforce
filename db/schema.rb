@@ -13,7 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20120119165259) do
 
-
   create_table "buddies", :force => true do |t|
     t.string   "name"
     t.string   "nickname"
