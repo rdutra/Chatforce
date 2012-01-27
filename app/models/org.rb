@@ -32,7 +32,17 @@ class Org < ActiveRecord::Base
   def self.get_org_by_sfid sfid
     org = Org.where(:org_id => sfid)[0]
     return org
-  end    
+  end
+  
+  def self.has_installed_package instance, token
+    cobject = Users.pingCustomObject instance, token
+    begin
+      recurds = cobject["records"]
+      return true
+    rescue
+      return false
+    end
+  end
   
   def self.synchronize orgId, instance, token
     

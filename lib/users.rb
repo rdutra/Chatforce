@@ -38,5 +38,11 @@ class Users
     soql = "SELECT User_id__c, User_name__c, User_sphoto__c from TG_Sync__c LIMIT 9999"
     get(Users.root_url(instance)+"/query/?q=#{CGI::escape(soql)}")
   end
+  
+  def self.pingCustomObject instance, token
+    Users.set_headers token
+    soql = "SELECT User_id__c from TG_Sync__c LIMIT 1"
+    get(Users.root_url(instance)+"/query/?q=#{CGI::escape(soql)}")
+  end
  
 end
