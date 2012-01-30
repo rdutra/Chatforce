@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(:version => 20120130114832) do
   create_table "sessions", :force => true do |t|
     t.integer  "buddy_id"
     t.string   "name"
-    t.date     "expires_at"
+    t.datetime "expires_at"
     t.string   "salt"
     t.string   "token"
     t.string   "instance_url"

@@ -22,4 +22,17 @@ class Session < ActiveRecord::Base
     buddy_session = Session.where(:buddy_id => buddy_id)[0]
     return buddy_session
   end
+  
+  def self.updatewhole session_id, options
+    updated_session = Session.update(
+          session_id,
+          :buddy_id => options[":buddy_id"],
+          :expires_at => options[":expires_at"],
+          :token => options[":token"],
+          :instance_url => options[":instance_url"],
+          :name => options[:name]
+        )
+    return updated_session
+  end
+  
 end

@@ -34,10 +34,10 @@ class AuthorizationController < ApplicationController
           buddy = Buddy.add_buddy options
           #this syncronize needs to either load on the first user that starts the app only
           Org.synchronize org_id, salesforce_instance, salesforce_token
-        else
-          render :text => 'Ask your admin to install Timba go to start chatting'
-          return
         end
+      else
+        render :text => 'Ask your admin to install Timba go to start chatting'
+        return
       end
         
       
@@ -52,7 +52,19 @@ class AuthorizationController < ApplicationController
           :name => buddy[:name]
         }
         buddy_session = Session.create_session options
-        hash = create_session_cookie buddy_session["id"]
+        #hash = create_session_cookie buddy_session["id"]
+      else
+        #refresh session
+        if buddy_session['expires_at'] >= buddy_session["created_at"]
+          options = {
+            :buddy_id => buddy["id"],
+            :expires_at => Time.now + 30.minutes,
+            :token => salesforce_token,
+            :instance_url => salesforce_instance,
+            :name => buddy[:name]
+          }
+        buddy_session = Session.updatewhole buddy_session, options
+        end
       end  
       hash = create_session_cookie buddy_session["id"]
       Session.refresh buddy_session["id"], hash
