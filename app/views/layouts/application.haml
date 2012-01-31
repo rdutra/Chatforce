@@ -8,7 +8,7 @@
     = stylesheet_link_tag    "single"
     = stylesheet_link_tag    "http://code.jquery.com/mobile/1.0/jquery.mobile.structure-1.0.min.css"
     = javascript_include_tag "jquery-1.7.1.min.js"
-    = javascript_include_tag "http://192.168.1.148:8080/application.js"
+    = javascript_include_tag "http://192.168.1.164:8080/application.js"
     = javascript_include_tag "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"
     = javascript_include_tag "jquery.cookie.js"
     = javascript_include_tag "jquery-ui-1.8.16.custom.min.js"
@@ -27,6 +27,8 @@
         = yield
       %div{ "data-role" => "footer", :role => "contentinfo", :style => "top:0px"}
         %h4
+          %span
+            %a{:href => "#settings", :style => "float:left"} Settings
           =@user_name
           
     %div{:id => "chat", "data-url" => "chat", "data-role" => "page"}
@@ -43,5 +45,20 @@
             = submit_tag 'Send.',  :class => "submitBtn"
       %div{ "data-role" => "footer", :role => "contentinfo", :style => "top:0px"}
         %h4
+          %span
+            %a{:href => "#buddies", :style => "float:left"} User List
           =@user_name
+          
+    %div{:id => "settings", "data-role" => "page"}
+      %div{ :id => "header-main", "data-role" => "header", :style => "top:0px"}
+        %h1
+          Settings
+      %div{ :id => "content-main", "data-role" => "content", :role => "main", "data-scroll" => "y", :style => "overflow-x: hidden; overflow-y:hidden; height: auto;"}
+        =render( :partial => "settings/settings" )
+      %div{ "data-role" => "footer", :role => "contentinfo", :style => "top:0px"}
+        %h4
+          =@user_name
+          %span
+            %a{:href => "#buddies", :style => "float:right"} User List
+      
                

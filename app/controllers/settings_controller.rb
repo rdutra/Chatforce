@@ -1,6 +1,6 @@
 require 'security'
 class SettingsController < ApplicationController
-  
+  #this controller has been deprecated, methods here are split between application controller (save) and buddy controller (index)
   def index
     @session = Session.get_session_by_id cookies.signed[:chgo_user_session][0]
     @skins = Skin.get_skins
