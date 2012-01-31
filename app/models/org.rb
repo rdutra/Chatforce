@@ -78,8 +78,6 @@ class Org < ActiveRecord::Base
   
   def self.synchronize_simple org_id, instance, token
     buddy_data = Users.getMe instance, token
-    puts "data"
-    puts buddy_data.inspect
     current_org = Org.get_org_by_sfid org_id
     unless Buddy.exists_buddy buddy_data['id']
       options = {
