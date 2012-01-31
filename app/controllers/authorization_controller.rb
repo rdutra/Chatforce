@@ -8,31 +8,36 @@ class AuthorizationController < ApplicationController
     if user_session.nil?
       salesforce_token = request.env['omniauth.auth']['credentials']['token']
       salesforce_instance = request.env['omniauth.auth']['instance_url']
-      
-      buddy_data = Users.getMe salesforce_instance, salesforce_token
-      buddy = Buddy.get_buddy_by_Sfid buddy_data["id"]
-      
-      #exist user?
-      if buddy.nil?
-        org_id = salesforce_token.split('!')[0]
-        #exist org?
-        current_org = Org.get_org_by_sfid org_id
-        if current_org.nil?
+      if Org.has_installed_package salesforce_instance, salesforce_token
+        buddy_data = Users.getMe salesforce_instance, salesforce_token
+        buddy = Buddy.get_buddy_by_Sfid buddy_data["id"]
+        
+        #exist user?
+        if buddy.nil?
+          org_id = salesforce_token.split('!')[0]
+          #exist org?
+          current_org = Org.get_org_by_sfid org_id
+          if current_org.nil?
+            options = {
+              :org_id => org_id
+            }
+            current_org = Org.add_org options
+          end
           options = {
-            :org_id => org_id
+            :name             => buddy_data["name"],
+            :nickname         => '',
+            :status           => "Available",
+            :salesforce_id    => buddy_data["id"],
+            :small_photo_url  => buddy_data["smallPhotoUrl"],
+            :org_id           => current_org["id"]
           }
-          current_org = Org.add_org options
+          buddy = Buddy.add_buddy options
+          #this syncronize needs to either load on the first user that starts the app only
+          Org.synchronize org_id, salesforce_instance, salesforce_token
+        else
+          render :text => 'Ask your admin to install Timba go to start chatting'
+          return
         end
-        options = {
-          :name             => buddy_data["name"],
-          :nickname         => '',
-          :status           => "Available",
-          :salesforce_id    => buddy_data["id"],
-          :small_photo_url  => buddy_data["smallPhotoUrl"],
-          :org_id           => current_org["id"]
-        }
-        buddy = Buddy.add_buddy options
-        Org.synchronize org_id, salesforce_instance, salesforce_token
       end
         
       

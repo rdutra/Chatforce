@@ -7,6 +7,10 @@ class Setting < ActiveRecord::Base
         setting = Setting.get_settings(options[:buddy_id])
         setting.history = options[:history]
         setting.skin = options[:skin]
+        #these have not yet been implemented
+        setting.idle_time = 10
+        setting.msg_style = "Bubble"
+        setting.use_picture = 1
       else
         setting = Setting.new(options)
       end

@@ -2,7 +2,7 @@ class Session < ActiveRecord::Base
   belongs_to :buddy
   
   def self.get_session_by_id session_id
-    buddy_session = Session.find(session_id)
+    buddy_session = Session.where(:id => session_id)[0]
     return buddy_session
   end
   
