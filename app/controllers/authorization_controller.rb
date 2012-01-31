@@ -5,13 +5,13 @@ class AuthorizationController < ApplicationController
 
   def create
     user_session = cookies.signed[:chgo_user_session]
+    salesforce_token = request.env['omniauth.auth']['credentials']['token']
+    salesforce_instance = request.env['omniauth.auth']['instance_url']
     if user_session.nil?
-      salesforce_token = request.env['omniauth.auth']['credentials']['token']
-      salesforce_instance = request.env['omniauth.auth']['instance_url']
+      
       if Org.has_installed_package salesforce_instance, salesforce_token
         buddy_data = Users.getMe salesforce_instance, salesforce_token
         buddy = Buddy.get_buddy_by_Sfid buddy_data["id"]
-        
         #exist user?
         if buddy.nil?
           org_id = salesforce_token.split('!')[0]
@@ -70,6 +70,7 @@ class AuthorizationController < ApplicationController
       Session.refresh buddy_session["id"], hash
      
     else
+      #there is a problem here when the cookie is there and the session that it points to has an expired token
       buddy = authenticate_with_salt(cookies.signed[:chgo_user_session][0],cookies.signed[:chgo_user_session][1] )
       unless buddy.nil?
         hash = create_session_cookie cookies.signed[:chgo_user_session][0]

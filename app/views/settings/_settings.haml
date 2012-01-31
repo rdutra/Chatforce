@@ -1,6 +1,6 @@
 =form_tag('save_settings', :id => 'Settings_form') do
   %div{:style => "margin: 15px 5px 0px 5px"}
-    %ul{ "data-role" => "listview", "data-insert" => "true", "data-filter" => "true", :style => "margin-top: 15px"}
+    %ul{ "data-role" => "listview", "data-insert" => "true", "data-filter" => "false", :style => "margin-top: 15px"}
       %li{ :class => "buddy_content", :id => "history"}
         %p Save History
         %input{:type => "checkbox", :id =>"check_id", :style => "float:left", :title =>'Save History', :name =>"check_id", :checked => @checkvalue == 'on'}
