@@ -37,10 +37,11 @@ class Org < ActiveRecord::Base
   def self.has_installed_package instance, token
     cobject = Users.pingCustomObject instance, token
     begin
-      recurds = cobject["records"]
-      return true
+      if cobject[0]["errorCode"] == "INVALID_TYPE"
+        return false
+      end
     rescue
-      return false
+      return true
     end
   end
   
