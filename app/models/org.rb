@@ -36,12 +36,13 @@ class Org < ActiveRecord::Base
   
   def self.has_installed_package instance, token
     cobject = Users.pingCustomObject instance, token
-    begin
-      recurds = cobject["records"]
-      return true
-    rescue
-      return false
-    end
+    return true
+    #begin
+      #recurds = cobject["records"]
+      #return true
+    #rescue
+      #return false
+    #end
   end
   
   def self.synchronize orgId, instance, token

@@ -26,7 +26,7 @@ class AuthorizationController < ApplicationController
           options = {
             :name             => buddy_data["name"],
             :nickname         => '',
-            :status           => "Available",
+            :status           => "Online",
             :salesforce_id    => buddy_data["id"],
             :small_photo_url  => buddy_data["smallPhotoUrl"],
             :org_id           => current_org["id"]

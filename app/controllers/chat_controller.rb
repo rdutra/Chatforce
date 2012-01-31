@@ -65,7 +65,6 @@ class ChatController < ApplicationController
   def connect_channel
     channel = params[:channel]
     sender = params[:sender]
-    receiver = params[:receiver]
     channel_chat = Channel.get_channel_by_id channel
     Connection.connect_buddy sender, channel
     render :text => channel_chat[:key]

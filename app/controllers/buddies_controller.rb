@@ -1,4 +1,5 @@
 require 'security'
+require 'communicator'
 require 'ruby-debug' ; Debugger.start
 class BuddiesController < ApplicationController
   
@@ -12,6 +13,11 @@ class BuddiesController < ApplicationController
     @org_channel = Channel.get_ring_communication @session["buddy_id"], org_id
     Connection.connect_buddy @session["buddy_id"], @org_channel[:id]
     @user_name = @session[:name]
+    # change status
+    message = {:code => "status", :message => "Online"}
+    Communicator.send_message org_id, @session["buddy_id"], 0, message
+    Communicator.subscribe
+    
   end
 
 end
