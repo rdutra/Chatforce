@@ -41,8 +41,8 @@ class Org < ActiveRecord::Base
         return false
       end
     rescue
-      return true
     end
+    return true
   end
   
   def self.synchronize orgId, instance, token
