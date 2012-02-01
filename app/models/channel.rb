@@ -4,7 +4,7 @@ class Channel < ActiveRecord::Base
   has_many :buddy, :through => :connection
   
   def self.get_channel_by_id channel_id
-    req_channel = Channel.find(channel_id)
+    req_channel = Channel.where(:id => channel_id)[0]
     return req_channel
   end
   

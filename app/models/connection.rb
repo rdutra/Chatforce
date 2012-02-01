@@ -6,7 +6,8 @@ class Connection < ActiveRecord::Base
     conn = Connection.where(:buddy_id => buddy_id, :channel_id => channel_id)[0]
     if conn.nil?
       bud = Buddy.get_buddy_by_id buddy_id
-      unless bud.nil?
+      chan = Channel.get_channel_by_id channel_id
+      unless bud.nil? || chan.nil?
         conn = Connection.new({
           :buddy_id => buddy_id,
           :channel_id => channel_id

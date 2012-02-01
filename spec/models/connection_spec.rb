@@ -34,7 +34,28 @@ describe Connection do
     end
   end
   
-  describe "connectBuddyNonExistantChannel"
-  fixtures :connections, :buddies, :channels
+  describe "connectBuddyNonExistantChannel" do
+    fixtures :connections, :buddies, :channels
+    it "tries to connect an existing buddy to a non existant channel" do
+      new_conn = Connection.connect_buddy 1,5
+      new_conn.should eql nil
+    end
+  end
+  
+  describe "connect buddy with existing channel" do
+    fixtures :connections, :buddies, :channels
+    it "tries to connect an existing buddy to an existent channel" do
+      new_conn = Connection.connect_buddy 1,1
+      new_conn.should be_an_instance_of Connection
+    end
+  end
+  
+  describe "disconnect buddy from existing channel" do
+    fixtures :connections, :buddies, :channels
+    it "tries to disconnect a buddy from an existing channel" do
+      new_conn = Connection.disconnect_buddy 1,1
+      new_conn.should eql nil
+    end
+  end
   
 end
