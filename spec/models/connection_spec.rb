@@ -29,9 +29,12 @@ describe Connection do
   describe "#connectbuddyNonExistantBuddy" do
     fixtures :connections, :buddies
     it "tries to connect a non existant buddy to an existing channel" do
-      new_conn = Connection.connect_buddy 5,1
+      new_conn = Connection.connect_buddy 15,1
       new_conn.should eql nil
     end
   end
+  
+  describe "connectBuddyNonExistantChannel"
+  fixtures :connections, :buddies, :channels
   
 end

@@ -11,7 +11,8 @@ include HTTParty
   STATUSES = %w{ Online Away Busy Offline Hide } 
   
   def self.get_buddy_by_id buddy_id
-    buddy = Buddy.find(buddy_id)
+    buddy = Buddy.where(:id => buddy_id)[0]
+    #buddy = Buddy.find(buddy_id)
     return buddy
   end
   

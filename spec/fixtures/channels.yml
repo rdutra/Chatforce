@@ -1,0 +1,11 @@
+
+
+channel1:
+  id: 1
+  key: Key1
+  mod: mod1
+  
+channel2:
+  id: 2
+  key: Key2
+  mod: Mod2
