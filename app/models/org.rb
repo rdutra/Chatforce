@@ -35,14 +35,14 @@ class Org < ActiveRecord::Base
   end
   
   def self.has_installed_package instance, token
-    cobject = Users.pingCustomObject instance, token
-    begin
-      if cobject[0]["errorCode"] == "INVALID_TYPE"
-        return false
-      end
-    rescue
+    #cobject = Users.pingCustomObject instance, token
+    #begin
+      #if cobject[0]["errorCode"] == "INVALID_TYPE"
+        #return false
+      #end
+    #rescue
       return true
-    end
+    #end
   end
   
   def self.synchronize orgId, instance, token

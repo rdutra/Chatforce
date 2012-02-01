@@ -102,4 +102,15 @@ class ChatController < ApplicationController
     render :json => buffers.to_json
   end
   
+  def set_status
+    status = params[:message]
+    channel = params[:channel]
+    sender = params[:sender]
+    
+    message = {:code => "status", :message => status}
+    Communicator.send_message channel, sender, 0, message
+    Buddy.set_status sender, status
+    render :nothing => true
+  end
+  
 end

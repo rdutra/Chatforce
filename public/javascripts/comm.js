@@ -19,10 +19,21 @@ function init()
     success: function(data){
       data_session = data
       inviteChat()
-      
       channel_subscribe(data_session.org_channel)
+      $("#buddy-status").change(function(){
+          $.ajax({
+            url: '/chat/set_status',
+            type: 'POST',
+            data: "channel="+data_session.org_channel+"&sender="+data_session.buddy_id+"&message="+$(this).val(),
+            success: function(data){
+              //setStatus(data_session.buddy_id, $(this).val())
+            }
+          });  
+      })
     }
   });  
+  
+  
 
 }
 
@@ -237,6 +248,5 @@ function init_buffer(channel)
 
 function setStatus(sender, message)
 {
-  
-    $("#"+sender+" #status").attr("src", "/images/"+message+".png")
+    $("#"+sender+" img").attr("src", "/images/"+message+".png")
 }
