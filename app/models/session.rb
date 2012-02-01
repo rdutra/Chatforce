@@ -1,3 +1,4 @@
+require 'ruby-debug' ; Debugger.start
 class Session < ActiveRecord::Base
   belongs_to :buddy
   
@@ -13,25 +14,28 @@ class Session < ActiveRecord::Base
     return new_session
   end
   
-  def self.refresh session_id, salt
-    refreshed_session = Session.update(session_id, :expires_at => Time.now + 30.minutes, :salt => salt)
-    return refreshed_session
-  end
-  
   def self.get_session_by_buddy_id buddy_id
     buddy_session = Session.where(:buddy_id => buddy_id)[0]
     return buddy_session
   end
   
-  def self.updatewhole session_id, options
+  def self.refresh session_id, options
     updated_session = Session.update(
           session_id,
-          :buddy_id => options[":buddy_id"],
-          :expires_at => options[":expires_at"],
-          :token => options[":token"],
-          :instance_url => options[":instance_url"],
-          :name => options[:name]
+          :buddy_id => options[:buddy_id],
+          :expires_at => options[:expires_at],
+          :token => options[:token],
+          :instance_url => options[:instance_url],
+          :name => options[:name],
+          :salt => options[:salt]
         )
+    return updated_session
+  end
+  
+  def self.refresh_salt session_id, hash
+    updated_session = Session.find(session_id)
+    updated_session['salt'] = hash
+    updated_session.save
     return updated_session
   end
   

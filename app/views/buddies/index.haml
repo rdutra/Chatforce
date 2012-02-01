@@ -4,6 +4,6 @@
       -unless buddy["id"] == @session["buddy_id"]
         %li{ :class => "buddy_content", :id => buddy["id"]}
           %a{ :href => "#chat"}
-            = image_tag "online.png" , :class => "ui-li-icon"
+            = image_tag buddy["status"]+".png" , :class => "ui-li-icon", :id => "status", :style => "width : 30px;"
             = buddy["name"]
     

@@ -8,7 +8,7 @@ include HTTParty
   has_one :setting
   format :json
   
-  STATUSES = %w{ Available Away Busy Offline } 
+  STATUSES = %w{ Online Away Busy Offline Hide } 
   
   def self.get_buddy_by_id buddy_id
     buddy = Buddy.where(:id => buddy_id)[0]

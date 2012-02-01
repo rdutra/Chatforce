@@ -35,7 +35,7 @@ function channel_subscribe(channel)
     
     jugger_comm.subscribe(channel, function(data)
     {
-     
+          
       if((data.message["code"] == "invite") || (data.message["code"] == "accept"))
       {
           enableOrgChat(data)
@@ -44,6 +44,11 @@ function channel_subscribe(channel)
       if(data.message["code"] == "write")
       {
           enableChat(data, false)
+      }
+      
+      if(data.message["code"] == "status")
+      {
+          setStatus(data.sender, data.message["message"])
       }
     });
 }
@@ -228,4 +233,10 @@ function init_buffer(channel)
     }
     return false;
   });
+}
+
+function setStatus(sender, message)
+{
+  
+    $("#"+sender+" #status").attr("src", "/images/"+message+".png")
 }
