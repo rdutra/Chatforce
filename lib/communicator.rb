@@ -18,9 +18,9 @@ class Communicator
       Juggernaut.subscribe do |event, data|
         case event
           when :subscribe
-            Juggernaut.publish("subscribe", data)	
+            puts data.inspect
           when :unsubscribe
-            Juggernaut.publish("unsubscribe", data)	
+            puts data.inspect
         end
       end
     end

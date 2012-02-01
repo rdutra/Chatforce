@@ -4,6 +4,7 @@ require 'ruby-debug' ; Debugger.start
 class BuddiesController < ApplicationController
   
   def index
+    
     @session = Session.get_session_by_id cookies.signed[:chgo_user_session][0]
     org_id = @session["token"].split('!')[0]
     Org.synchronize_simple org_id, @session["instance_url"], @session["token"]  
@@ -16,7 +17,7 @@ class BuddiesController < ApplicationController
     # change status
     message = {:code => "status", :message => "Online"}
     Communicator.send_message org_id, @session["buddy_id"], 0, message
-    Communicator.subscribe
+    #Communicator.subscribe
        
     #settings
     @skins = Skin.get_skins
