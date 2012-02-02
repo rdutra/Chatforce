@@ -1,5 +1,6 @@
 require 'security'
 require 'communicator'
+require "juggernaut"
 require 'ruby-debug' ; Debugger.start
 class BuddiesController < ApplicationController
   
@@ -17,8 +18,7 @@ class BuddiesController < ApplicationController
     # change status
     message = {:code => "status", :message => "Online"}
     Communicator.send_message org_id, @session["buddy_id"], 0, message
-    #Communicator.subscribe
-       
+    
     #settings
     @skins = Skin.get_skins
     @settings = Setting.get_settings @session["buddy_id"]
