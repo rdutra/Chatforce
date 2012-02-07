@@ -15,6 +15,7 @@
   pool: 5
   username: postgres
   password: salesforce1
+  host: localhost
   
  test:
   adapter: postgresql
@@ -22,4 +23,5 @@
   database: cg_test
   pool: 5
   username: postgres
-  password: salesforce1  
+  password: salesforce1
+  host: localhost
