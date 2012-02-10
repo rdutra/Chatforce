@@ -6,3 +6,19 @@ div.scroll {
   background-color: #ccc;
   padding: 8px;
 }
+
+#inside-notification{
+  position:absolute;
+  top:60px;
+  right: -134px;
+  padding: 6px;
+  height: 20px;
+  width: 120px;
+  float:right;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  border-radius: 10px 0 0 10px;
+
+}
+  
