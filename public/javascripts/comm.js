@@ -55,7 +55,6 @@ function channel_subscribe(channel)
     
     jugger_comm.subscribe(channel, function(data)
     {
-      console.info("Data de  jugger: " , data);
       if((data.message["code"] == "invite") || (data.message["code"] == "accept"))
       {
           enableOrgChat(data)
@@ -77,7 +76,6 @@ function enableOrgChat(data)
 {
   if(data.receiver == data_session.buddy_id)
   {
-      console.info("enableOrgChat" , data);
       if(data.message["code"] == "invite")
       {
        
@@ -104,7 +102,6 @@ function enableOrgChat(data)
       
       if(data.message["code"] == "accept")
       {
-        console.info("uno");
         data_channel = data.message["message"];
         init_chat(data.message["channel_conn"], false, undefined);
         channel_subscribe(data.message["message"]);
@@ -124,7 +121,6 @@ function enableOrgChat(data)
       
       if(data.message["code"] == "accept")
       {
-        console.info("dos");
         var is_indirect = $("#" + data.receiver).attr("indirect");
         if(is_indirect == "true")
         {
@@ -141,52 +137,32 @@ function enableOrgChat(data)
 
 function enableChat(data, buffer)
 {
-  console.info("Buferazo: " , buffer);
-  
   // Is chatting from another room
   if(data.channel == channel_selected)
   {
-    if(!buffer)
-    {
-      var ul = '<ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow"><li class=" write_'+data.message["sender"]+' ui-li ui-li-static ui-body-c ui-corner-top ui-corner-bottom">'+data.message["message"]+'</li></ul>'
-      $("#mesg").append(ul)
-      var text = $("#mesg").children().last().first().text()
-      $("#mesg").children().last().css("width", text.length*10)
-      var margin = (document.width - (text.length*10))
-      if(data.message["sender"] == data_session.buddy_id)
-      {
-        $(".write_"+data.message["sender"]).css("background-color", "#BADE86")
-        $(".write_"+data.message["sender"]).css("background-image", "none");
-        //$(".write_"+data.message["sender"]).parent().css("text-align", "left");
-        $("#msg_body").val("")
-      }
-      else
-      {
-        $(".write_"+data.message["sender"]).css("background-color", "#ACD5E7")
-        $(".write_"+data.message["sender"]).css("background-image", "none");
-        //$(".write_"+data.message["sender"]).parent().css("margin-left", margin+"px");
-      }
+    var who =  (data.message['sender'] == data_session.buddy_id)? 'left': 'right';
+    var ul = '<div class="conversationContainer">';
+    ul += '  <div class="triangle ' + who + '"></div>';
+    ul += '  <div class="conversation">';
+    ul += '    <div class="sender">';
+    ul +=        data.message["senderName"];
+    ul += '    </div>';
+    ul += '    <div class="timestamp">';
+    ul +=        data.message["date"];
+    ul += '     </div>';
+    ul += '     <div class="message">';
+    ul +=         data.message["message"];
+    ul += '     </div>';
+    ul += '   </div>';
+    ul += '</div>';
+    $("#mesg").append(ul);
+    $(ul).css('float',who);
+    if(data.message["sender"] == data_session.buddy_id){
+      $("#msg_body").val("");
     }
-    else
-    {   
-        var ul = '<ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow"><li class=" write_'+data.buddy_id+' ui-li ui-li-static ui-body-c ui-corner-top ui-corner-bottom">'+data.message+'</li></ul>'
-        $("#mesg").append(ul)
-        var text = $("#mesg").children().last().first().text()
-        $("#mesg").children().last().css("width", text.length*10)
-        var margin = (document.width - (text.length*10))
-        $(".write_"+data.buddy_id).css("background-color", "#ACD5E7")
-        $(".write_"+data.buddy_id).css("background-image", "none");
-        //$(".write_"+data.message["sender"]).parent().css("margin-left", margin+"px");
-        
-    }
+  } else {
+  
   }
-  else{
-    console.info("deberia esperar");
-
-  }
-  
-  
-  
   setTimeout(function(){window.scroll(0,$(document).height()+200)},300);
 }
 
