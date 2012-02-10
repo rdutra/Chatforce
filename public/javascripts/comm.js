@@ -42,8 +42,16 @@ function channel_subscribe(channel)
 {
     if (!(typeof jugger_comm !== undefined && jugger_comm))
     {
-        jugger_comm = new Juggernaut();
+        jugger_comm = new Juggernaut(data_session);
+        jugger_comm.meta = {buddy_id: data_session.buddy_id};
     }
+    
+    jugger_comm.on("disconnect", function(){ 
+      
+    });
+    jugger_comm.on("connect", function(){ 
+      
+    });
     
     jugger_comm.subscribe(channel, function(data)
     {

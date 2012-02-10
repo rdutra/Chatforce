@@ -12,7 +12,3 @@ Rails.application.config.session_store = {
 }
 
 ENV['sfdc_api_version'] = '23.0'
-
-puts "Starting Roster"
-
-
