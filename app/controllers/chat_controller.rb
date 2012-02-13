@@ -172,4 +172,15 @@ class ChatController < ApplicationController
     render :nothing => true
   end
   
+  def prediction
+    pred = params[:message]
+    channel = params[:channel]
+    sender = params[:sender]
+    
+    buddy = Buddy.get_buddy_by_id sender
+    
+    message = {:code => "prediction", :prediction => pred, :senderName => buddy[:name]}
+    Communicator.send_message channel, sender, nil, message
+    render :nothing => true
+  end
 end
