@@ -86,7 +86,7 @@ class ChatController < ApplicationController
     sender = params[:sender]
     
     buddy = Buddy.get_buddy_by_id sender
-    message = {:code => "write", :message => "#{buddy[:name]} : #{message}", :sender => sender}
+    message = {:code => "write", :message => message, :sender => sender, :senderName => buddy[:name], :date => DateTime.now().to_s(:toShort)}
     Communicator.send_message channel, sender, nil, message
     render :nothing => true
     
@@ -137,8 +137,8 @@ class ChatController < ApplicationController
     
     buddy = Buddy.get_buddy_by_id sender
     
-    com_message = {:code => "write", :message => "#{buddy[:name]} : #{message}", :sender => sender}
-    data = {:buddy_id => buddy[:id], :channel => channel, :message => "#{buddy[:name]} : #{message}"}
+    com_message = {:code => "write", :message => message, :sender => sender, :senderName => buddy[:name], :date => DateTime.now().to_s(:toShort)}
+    data = {:buddy_id => buddy[:id], :channel => channel, :message => message}
     Buffer.add_to_buffer data
     Communicator.send_message channel, sender, nil, com_message
     render :text => "#{sender} : #{message}"
@@ -147,7 +147,16 @@ class ChatController < ApplicationController
   def get_buffer
     channel = params[:channel]
     buffers = Buffer.get_from_buffer_by_channel channel
-    render :json => buffers.to_json
+    ret = []
+    buffers.each do |buff|
+      ret.push({ :message => { 
+        :message => buff.message,
+        :sender => buff.buddy_id,
+        :senderName => buff.buddy[:name],
+        :date => buff.created_at.to_s(:toShort)
+      }})
+    end
+    render :json => ret.to_json
   end
   
   def set_status
