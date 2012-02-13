@@ -8,6 +8,11 @@ class Channel < ActiveRecord::Base
     return req_channel
   end
   
+  def self.get_channel_by_key key_id
+    req_channel = Channel.where(:key => key_id)[0]
+    return req_channel
+  end
+  
   def self.create_channel mod
     new_channel = Channel.new
     new_channel.key = ActiveSupport::SecureRandom.hex(15)

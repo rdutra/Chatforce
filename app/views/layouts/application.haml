@@ -8,7 +8,7 @@
     = stylesheet_link_tag    "single"
     = stylesheet_link_tag    "http://code.jquery.com/mobile/1.0/jquery.mobile.structure-1.0.min.css"
     = javascript_include_tag "jquery-1.7.1.min.js"
-    = javascript_include_tag "http://192.168.1.62:8080/application.js"
+    = javascript_include_tag request.protocol + request.host + ":8080/application.js"
     = javascript_include_tag "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"
     = javascript_include_tag "jquery.cookie.js"
     = javascript_include_tag "jquery-ui-1.8.16.custom.min.js"
@@ -43,6 +43,7 @@
       %div{ :id => "header-main", "data-role" => "header", :style => "top:0px"}
         %h1
           Chatter GO!
+      %div{:id => "inside-notification", :style => "text-shadow:none;"} You have chat!!!          
       %div{:id => "mesg", :style => "min-height: 190px"}
       %div{:id => "control", :style => "margin-top: 18px;"}
         =form_tag('tanga', :id => 'chat_window') do
@@ -54,8 +55,8 @@
       %div{ "data-role" => "footer", :role => "contentinfo", :style => "top:0px"}
         %h4
           %span
-            %a{:href => "#buddies", :style => "float:left"} U
-          =@user_name
+            %a{:href => "#buddies", :style => "float:left", :onclick => "hide_notification()"} U
+          =@user_name    
           
     %div{:id => "settings", "data-role" => "page"}
       %div{ :id => "header-main", "data-role" => "header", :style => "top:0px"}

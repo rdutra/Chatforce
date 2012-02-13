@@ -6,3 +6,104 @@ div.scroll {
   background-color: #ccc;
   padding: 8px;
 }
+
+#inside-notification{
+  position:absolute;
+  top:60px;
+  right: -134px;
+  padding: 6px;
+  height: 20px;
+  width: 120px;
+  float:right;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  border-radius: 10px 0 0 10px;
+
+}
+  
+.conversation {
+  border-radius: 6px;
+  padding: 6px 8px;
+  position:relative;
+  margin: 8px 20px;
+  color: #666666;
+  background: white;
+  
+}
+
+.conversation::after {
+  background: #CCC;
+  position: absolute;
+  content: '';
+  z-index: -2;
+  border-radius: 7px;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+  box-shadow: 2px 2px 2px 0px #999;
+}
+
+.conversation .sender, .conversation .timestamp {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 10pt;
+  margin-bottom: 3px;
+}
+
+.conversation div {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.conversation .timestamp {
+  position:absolute;
+  top: 6px;
+  right: 8px;
+}
+
+.conversation .message {
+  border-top: 1px solid #999;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-family: Helvetica;
+  font-size: 10pt;
+}
+
+.conversationContainer {
+  position:relative;
+  margin-top: 20px;
+  z-index: 1;
+}
+
+.conversationContainer .triangle {
+  position: absolute;
+  width: 20px;
+  height: 12.5px;
+  bottom: 10px;
+  z-index: -1;
+  box-shadow: 2px 2px 2px 0px #999;
+  border: 1px solid #CCC;
+}
+
+.conversationContainer .triangle.left {
+  -webkit-transform: skewX(40deg);
+  -moz-transform: skewX(40deg);
+  left: 16px;
+  background: #EFFBD0;
+}
+
+.conversationContainer .triangle.right {
+  -webkit-transform: skewX(-40deg);
+  -moz-transform: skewX(-40deg);
+  right: 16px;
+  background: #afdaf8;
+}
+.triangle.left ~ .conversation {
+  box-shadow: inset 0px 0px 8px 5px #effbd0;
+}
+
+.triangle.right ~ .conversation {
+  box-shadow: inset 0px 0px 8px 5px #afdaf8;
+}

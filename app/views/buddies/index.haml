@@ -2,7 +2,7 @@
   %ul{ "data-role" => "listview", "data-inset" => "true", "data-filter" => "true", :style => "margin-top: 15px"}
     - @buddies.each do |buddy|
       -unless buddy["id"] == @session["buddy_id"]
-        %li{ :class => "buddy_content", :id => buddy["id"]}
+        %li{ :class => "buddy_content change_channel", :id => buddy["id"]}
           %a{ :href => "#chat"}
             = image_tag buddy["status"]+".png" , :class => "ui-li-icon", :id => "status", :style => "width : 30px;"
             = buddy["name"]

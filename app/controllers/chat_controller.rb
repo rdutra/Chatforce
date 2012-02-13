@@ -26,6 +26,47 @@ class ChatController < ApplicationController
     render :nothing => true
   end
   
+  def invite_return_channel
+	channel = params[:channel]
+    sender  = params[:sender]
+    receiver = params[:receiver]
+       
+    new_channel = Channel.create_channel "chat"
+    Connection.connect_buddy sender, new_channel[:id]   
+    message = {:code => "invite", :message => new_channel[:key]}
+    
+    Communicator.send_message channel, sender, receiver, message
+    render :text => new_channel[:key]
+  end
+  
+  def re_invite
+	channel = params[:channel]
+    receiver = params[:sender]
+    sender = params[:receiver]
+       
+    new_channel = Channel.create_channel "chat"
+    Connection.connect_buddy sender, new_channel[:id]   
+    message = {:code => "invite", :message => new_channel[:key]}
+    
+    Communicator.send_message channel, sender, receiver, message
+    render :text => new_channel[:key]
+  end
+  
+  def connect_buddy
+	
+	channel = params[:channel]
+    sender  = params[:sender]  
+    channel_conn = Channel.where(:key => params[:channel_conn])[0]
+    receiver = params[:receiver]
+    
+    Connection.connect_buddy sender, channel_conn[:id]
+    message = {:code => "invite", :message => channel_conn[:key]}
+    
+    Communicator.send_message channel, sender, receiver, message
+    render :nothing => true
+  
+  end
+  
   def accept
     channel = params[:channel]
     sender  = params[:sender]
@@ -36,17 +77,16 @@ class ChatController < ApplicationController
     
     message = {:code => "accept", :message => "accept", :channel_conn => channel_conn}
     Communicator.send_message channel, sender, receiver, message
-    render :nothing => true
+    render :text => channel_conn
   end
-  
+
   def write
     message = params[:message]
     channel = params[:channel]
     sender = params[:sender]
     
     buddy = Buddy.get_buddy_by_id sender
-    
-    message = {:code => "write", :message => "#{buddy[:name]} : #{message}", :sender => sender}
+    message = {:code => "write", :message => message, :sender => sender, :senderName => buddy[:name], :date => DateTime.now().to_s(:toShort)}
     Communicator.send_message channel, sender, nil, message
     render :nothing => true
     
@@ -70,6 +110,14 @@ class ChatController < ApplicationController
     render :text => channel_chat[:key]
   end
   
+  def connect_channel_by_key
+    channel_key = params[:channel]
+    sender = params[:sender]
+    channel_chat = Channel.get_channel_by_key channel_key
+    Connection.connect_buddy sender, channel_chat[:id]
+    render :nothing => true
+  end
+  
   def get_data 
     session = Session.get_session_by_id cookies.signed[:chgo_user_session][0]
     org_id = session["token"].split('!')[0]
@@ -89,8 +137,8 @@ class ChatController < ApplicationController
     
     buddy = Buddy.get_buddy_by_id sender
     
-    com_message = {:code => "write", :message => "#{buddy[:name]} : #{message}", :sender => sender}
-    data = {:buddy_id => buddy[:id], :channel => channel, :message => "#{buddy[:name]} : #{message}"}
+    com_message = {:code => "write", :message => message, :sender => sender, :senderName => buddy[:name], :date => DateTime.now().to_s(:toShort)}
+    data = {:buddy_id => buddy[:id], :channel => channel, :message => message}
     Buffer.add_to_buffer data
     Communicator.send_message channel, sender, nil, com_message
     render :text => "#{sender} : #{message}"
@@ -99,7 +147,16 @@ class ChatController < ApplicationController
   def get_buffer
     channel = params[:channel]
     buffers = Buffer.get_from_buffer_by_channel channel
-    render :json => buffers.to_json
+    ret = []
+    buffers.each do |buff|
+      ret.push({ :message => { 
+        :message => buff.message,
+        :sender => buff.buddy_id,
+        :senderName => buff.buddy[:name],
+        :date => buff.created_at.to_s(:toShort)
+      }})
+    end
+    render :json => ret.to_json
   end
   
   def set_status
