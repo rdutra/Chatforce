@@ -150,11 +150,13 @@ class ChatController < ApplicationController
     ret = []
     buffers.each do |buff|
       ret.push({ :message => { 
-        :message => buff.message,
-        :sender => buff.buddy_id,
-        :senderName => buff.buddy[:name],
-        :date => buff.created_at.to_s(:toShort)
-      }})
+                  :message => buff.message,
+                  :sender => buff.buddy_id,
+                  :senderName => buff.buddy[:name],
+                  :date => buff.created_at.to_s(:toShort)
+                },
+                :channel => channel
+      })
     end
     render :json => ret.to_json
   end
