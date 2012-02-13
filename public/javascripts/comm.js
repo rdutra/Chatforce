@@ -55,7 +55,6 @@ function channel_subscribe(channel)
     
     jugger_comm.subscribe(channel, function(data)
     {
-      console.info("Data de  jugger: " , data);
       if((data.message["code"] == "invite") || (data.message["code"] == "accept"))
       {
           enableOrgChat(data)
@@ -77,7 +76,6 @@ function enableOrgChat(data)
 {
   if(data.receiver == data_session.buddy_id)
   {
-      console.info("enableOrgChat" , data);
       if(data.message["code"] == "invite")
       {
        
@@ -104,7 +102,7 @@ function enableOrgChat(data)
       
       if(data.message["code"] == "accept")
       {
-        console.info("uno");
+
         data_channel = data.message["message"];
         init_chat(data.message["channel_conn"], false, undefined);
         channel_subscribe(data.message["message"]);
@@ -124,7 +122,7 @@ function enableOrgChat(data)
       
       if(data.message["code"] == "accept")
       {
-        console.info("dos");
+
         var is_indirect = $("#" + data.receiver).attr("indirect");
         if(is_indirect == "true")
         {
@@ -141,9 +139,8 @@ function enableOrgChat(data)
 
 function enableChat(data, buffer)
 {
-  console.info("Buferazo: " , buffer);
-  
-  // Is chatting from another room
+
+  // If chatting from another room
   if(data.channel == channel_selected)
   {
     if(!buffer)
@@ -181,8 +178,17 @@ function enableChat(data, buffer)
     }
   }
   else{
-    console.info("deberia esperar");
-
+    
+    //Lunes 13 feb seguir aca con el envio de un ya conectado previamente
+    if(data.message["message"] != '')
+    {
+      $.ajax({
+        url: "/chat/buffer",
+        type: 'POST',
+        data: "channel="+data.channel+"&message="+data.message.message+"&sender="+data.message["sender"],
+        success: function(data_buffer){}
+      });
+    }
   }
   
   
@@ -195,7 +201,6 @@ function inviteChat()
   $(".buddy_content" ).unbind('click');
   $(".buddy_content" ).click(function(event){
     
-     //aca preguntar si es el channel y levantar el buffer si ya estaban conectados
       $(this).removeAttr('style');
       var objLi = $(this);
 
@@ -211,7 +216,19 @@ function inviteChat()
         });
       }
       else{
-          channel_selected = objLi.attr('name');
+        channel_selected = objLi.attr('name');
+        
+        $.ajax({
+          url: "/chat/get_buffer",
+          type: 'POST',
+          data: "channel="+channel_selected,
+          success: function(data_buf){
+            for (i=data_buf.length-1;i>=0;i--)
+            {
+                enableChat(data_buf[i], true)
+            }  
+          }
+        });
       }
   });
 }
@@ -253,11 +270,17 @@ function init_chat(channel, buffer, id_sender)
     
     if (message != '')
     {
-      $.ajax({
+      /*$.ajax({
         url: "/chat/write",
         type: 'POST',
         data: "channel="+channel_selected+"&message="+message+"&sender="+real_sender,
         success: function(data){}
+      });*/
+      $.ajax({
+        url: "/chat/buffer",
+        type: 'POST',
+        data: "channel="+channel_selected+"&message="+message+"&sender="+real_sender,
+        success: function(data_buffer){}
       });
     }
     return false;
@@ -325,5 +348,6 @@ function go_buddies_notification()
 
 function hide_notification(){
   // aca borrar el buffer
+   $("#mesg").html("");
    $('#inside-notification').css("right", "-134px");
 }
