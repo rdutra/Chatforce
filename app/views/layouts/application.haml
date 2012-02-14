@@ -40,11 +40,16 @@
           %option{ :value => "Offline"}
             Offline
     %div{:id => "chat", "data-url" => "chat", "data-role" => "page"}
-      %div{ :id => "header-main", "data-role" => "header", :style => "top:0px"}
-        %h1
-          Chatter GO!
+      #header
+        .picContainer
+          %img/
+        #status_circle
+        #name Stephen Marley
+        #status_mssg Is typing a message...
+        %a{:href => "#"}
+          %img#Go_logo{:src => "images/go_logo.png"}/
       .newMessaje
-        %span.newMsjSender        
+        %span.newMsjSender
       %div{:id => "mesg", :style => "min-height: 190px"}
       %div{:id => "control", :style => "margin-top: 18px;"}
         =form_tag('tanga', :id => 'chat_window') do

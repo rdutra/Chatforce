@@ -55,23 +55,19 @@ function channel_subscribe(channel)
     jugger_comm.subscribe(channel, function(data)
     {
 
-      if((data.message["code"] == "invite") || (data.message["code"] == "accept"))
-      {    
-          enableOrgChat(data)
-      }
-      
-      if(data.message["code"] == "write")
-      {
-            enableChat(data, false)
-      }
-      
-      if(data.message["code"] == "status")
-      {
-          setStatus(data.sender, data.message["message"])
-      }
-      
-      if(data.message["code"] == "notify" && data.message.receiver_id == data_session.buddy_id )
-      {
+      if((data.message["code"] == "invite") || (data.message["code"] == "accept")) {
+        enableOrgChat(data);
+        
+      } else if(data.message["code"] == "write") {
+        enableChat(data, false);
+        
+      } else if(data.message["code"] == "status") {
+        setStatus(data.sender, data.message["message"]);
+        
+      } else if (data.message["code"] == "prediction") {
+        setChatPrediction(data);
+
+      } else if(data.message["code"] == "notify" && data.message.receiver_id == data_session.buddy_id ) {
         show_notification_message(data);
         runEffect(data.message.sender_id);
         runEffect('inside-notification');
@@ -283,6 +279,38 @@ function init_chat(channel, buffer, id_sender)
     }
     return false;
   });
+  
+  var msgBody = jQuery('#msg_body');
+  msgBody.unbind('keyup');
+  msgBody.keyup(function(){
+    var element = jQuery(this);
+    if (element.val() != '' && element.attr('prediction') != "writing") {
+      var message = 'writing';
+      $.ajax({
+        url: "/chat/prediction",
+        type: 'POST',
+        data: {
+          channel: channel_selected,
+          message: message,
+          sender: data_session.buddy_id
+        }
+      });
+      element.attr('prediction', 'writing');
+    } else if ( element.val() == '' && element.attr('prediction') != "discard"){
+      var message = 'discard';
+      $.ajax({
+        url: "/chat/prediction",
+        type: 'POST',
+        data: {
+          channel: channel_selected,
+          message: message,
+          sender: data_session.buddy_id
+        }
+      });
+      element.attr('prediction', 'discard');
+    }
+  });
+  
   if(buffer && id_sender == undefined)
   {
       
@@ -368,4 +396,11 @@ function add_ellipsis(str)
   return str;
 }
 
+
+function setChatPrediction ( data ){
+  if (data.sender != data_session.buddy_id){
+    // add marckup to the prediction
+    console.debug('setChatPrediction:', data.message.senderName , 'is', data.message.prediction );
+  }
+}
 

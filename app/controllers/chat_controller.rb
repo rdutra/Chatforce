@@ -191,6 +191,7 @@ class ChatController < ApplicationController
     render :json => returned.to_json
   end
   
+
   def send_notification
 	
 	org_channel = params[:org_channel]
@@ -200,9 +201,22 @@ class ChatController < ApplicationController
     
     buddy = Buddy.get_buddy_by_id sender
      
-    message = {:code => "notify", :message => message, :sender_id => sender, :receiver_id => receiver, :senderName => buddy[:name]}
-    
+    message = {:code => "notify", :message => message, :sender_id => sender, :receiver_id => receiver, :senderName => buddy[:name]}   
     Communicator.send_message org_channel, sender, receiver, message
+    
     render :nothing => true
   end
+
+  def prediction
+    pred = params[:message]
+    channel = params[:channel]
+    sender = params[:sender]
+    
+    buddy = Buddy.get_buddy_by_id sender
+    
+    message = {:code => "prediction", :prediction => pred, :senderName => buddy[:name]}
+    Communicator.send_message channel, sender, nil, message
+    render :nothing => true
+  end
+  
 end
