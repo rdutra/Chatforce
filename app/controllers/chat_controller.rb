@@ -11,7 +11,7 @@ class ChatController < ApplicationController
     
     Communicator.send_message channel, buddy[:name], receiver, message
     render :nothing => true
-	end
+  end
  
   def invite
     channel = params[:channel]
@@ -27,7 +27,7 @@ class ChatController < ApplicationController
   end
   
   def invite_return_channel
-	channel = params[:channel]
+    channel = params[:channel]
     sender  = params[:sender]
     receiver = params[:receiver]
        
@@ -92,13 +92,13 @@ class ChatController < ApplicationController
   end
 
   def create_channel
-      org_channel = params[:channel]
-      sender = params[:sender]
-      receiver = params[:receiver]
-      new_channel = Channel.create_channel "chat"
-      Connection.connect_buddy sender, new_channel[:id]
-      Communicator.send_message org_channel, sender, receiver, new_channel[:id]
-      render :text => new_channel["key"]
+    org_channel = params[:channel]
+    sender = params[:sender]
+    receiver = params[:receiver]
+    new_channel = Channel.create_channel "chat"
+    Connection.connect_buddy sender, new_channel[:id]
+    Communicator.send_message org_channel, sender, receiver, new_channel[:id]
+    render :text => new_channel["key"]
   end
   
   def connect_channel
@@ -170,7 +170,42 @@ class ChatController < ApplicationController
     Buddy.set_status sender, status
     render :nothing => true
   end
+
+  def get_channel_and_buffer
+	
+    channel = params[:channel]
+    sender = params[:sender]
+    
+    buddy = Buddy.get_buddy_by_id sender
+    
+    buffer_to_show = Buffer.get_buffer_by_channel_and_buddy sender channel
+    
+    returned = Array.new(2)
+    
+    puts buffer_to_show.inspect
+    
+    returned[0] =  buddy
+    returned[1] =  buffer_to_show
+    
+    render :json => returned.to_json
+  end
   
+
+  def send_notification
+    
+    org_channel = params[:org_channel]
+    sender  = params[:sender]
+    receiver = params[:receiver]
+    message = params[:message]
+    
+    buddy = Buddy.get_buddy_by_id sender
+     
+    message = {:code => "notify", :message => message, :sender_id => sender, :receiver_id => receiver, :senderName => buddy[:name]}   
+    Communicator.send_message org_channel, sender, receiver, message
+    
+    render :nothing => true
+  end
+
   def prediction
     pred = params[:message]
     channel = params[:channel]

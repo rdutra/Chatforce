@@ -80,6 +80,11 @@ div.scroll {
   padding-bottom: 3px;
   font-family: Helvetica;
   font-size: 10pt;
+  word-break: break-all;
+}
+
+.conversation .sender {
+  word-break: break-all;
 }
 
 .conversationContainer {
@@ -132,6 +137,7 @@ div.scroll {
   -webkit-box-shadow: inset 0px 0px 8px 5px #afdaf8;
   box-shadow: inset 0px 0px 8px 5px #afdaf8;
 }
+
 
 #newMessajeCont, .newMessaje {
   width: 100%;
