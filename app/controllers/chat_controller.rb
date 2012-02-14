@@ -40,7 +40,7 @@ class ChatController < ApplicationController
   end
   
   def re_invite
-	channel = params[:channel]
+    channel = params[:channel]
     receiver = params[:sender]
     sender = params[:receiver]
        
@@ -53,8 +53,7 @@ class ChatController < ApplicationController
   end
   
   def connect_buddy
-	
-	channel = params[:channel]
+    channel = params[:channel]
     sender  = params[:sender]  
     channel_conn = Channel.where(:key => params[:channel_conn])[0]
     receiver = params[:receiver]
@@ -182,5 +181,23 @@ class ChatController < ApplicationController
     message = {:code => "prediction", :prediction => pred, :senderName => buddy[:name]}
     Communicator.send_message channel, sender, nil, message
     render :nothing => true
+  end
+  
+  def get_buddy_info
+  
+    buddyReciver = Buddy.get_buddy_by_id params[:buddy]
+    
+    token = Session.get_session_by_id(cookies.signed[:chgo_user_session][0]).token
+    unless buddyReciver[:small_photo_url].nil?
+      pic = buddyReciver[:small_photo_url] + '?oauth_token=' + token
+    else
+      pic = ''
+    end
+    response =  {
+      :name => buddyReciver[:name],
+      :pic => pic,
+      :status => buddyReciver[:status]
+    }
+    render :json => response.to_json
   end
 end

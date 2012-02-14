@@ -91,6 +91,18 @@ function enableOrgChat(data)
               $("#"+data.sender).attr( "indirect", true );
             }
           });
+          jQuery('#header').attr('name',$(this).attr("id"));
+          $.ajax({
+              url: "/chat/get_buddy_info",
+              type: 'POST',
+              data: { buddy: $(this).attr("id")},
+              success: function(buddy){
+                jQuery('#status_circle').removeClass('Online Offline Busy Away');
+                jQuery('#status_circle').addClass(buddy.status);
+                jQuery('#name').text(buddy.name);
+                jQuery('.picContainer > img')[0].src = buddy.pic;
+              }
+          });
         });
         runEffect(data.sender);
         display_message_notification();
@@ -184,9 +196,20 @@ function inviteChat()
 {
   $(".buddy_content" ).unbind('click');
   $(".buddy_content" ).click(function(event){
-    
       $(this).removeAttr('style');
       var objLi = $(this);
+      jQuery('#header').attr('name',$(this).attr("id"));
+      $.ajax({
+          url: "/chat/get_buddy_info",
+          type: 'POST',
+          data: { buddy: $(this).attr("id")},
+          success: function(buddy){
+            jQuery('#status_circle').removeClass('Online Offline Busy Away');
+            jQuery('#status_circle').addClass(buddy.status);
+            jQuery('#name').text(buddy.name);
+            jQuery('.picContainer > img')[0].src = buddy.pic;
+          }
+      });
 
       if(objLi.attr('name') == undefined){
         $.ajax({
@@ -198,8 +221,7 @@ function inviteChat()
             objLi.attr('name', data_ch);
           }
         });
-      }
-      else{
+      } else {
         channel_selected = objLi.attr('name');
         
         $.ajax({
@@ -209,7 +231,7 @@ function inviteChat()
           success: function(data_buf){
             for (i=data_buf.length-1;i>=0;i--)
             {
-                enableChat(data_buf[i], true)
+                enableChat(data_buf[i], true);
             }  
           }
         });
@@ -264,8 +286,11 @@ function init_chat(channel, buffer, id_sender)
         url: "/chat/buffer",
         type: 'POST',
         data: "channel="+channel_selected+"&message="+message+"&sender="+real_sender,
-        success: function(data_buffer){}
+        success: function(data_buffer){
+          jQuery('#msg_body').keyup();
+        }
       });
+      
     }
     return false;
   });
@@ -342,6 +367,10 @@ function init_buffer(channel)
 function setStatus(sender, message)
 {
     $("#"+sender+" img").attr("src", "/images/"+message+".png")
+    if (sender == jQuery('#header').attr('name')){
+      jQuery('#status_circle').removeClass('Online Offline Busy Away');
+      jQuery('#status_circle').addClass(message);
+    }
 }
 
 function display_message_notification(){
@@ -369,8 +398,11 @@ function hide_notification(){
 }
 
 function setChatPrediction ( data ){
-  if (data.sender != data_session.buddy_id){
-    // add marckup to the prediction
-    console.debug('setChatPrediction:', data.message.senderName , 'is', data.message.prediction );
+  if(data.channel == channel_selected && data.sender != data_session.buddy_id){
+    if (data.message.prediction == 'writing'){
+      jQuery('#status_mssg').text('Is typing a message..');
+    } else {
+      jQuery('#status_mssg').text('');
+    }
   }
 }
