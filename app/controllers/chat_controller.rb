@@ -171,5 +171,38 @@ class ChatController < ApplicationController
     Buddy.set_status sender, status
     render :nothing => true
   end
+
+  def get_channel_and_buffer
+	
+    channel = params[:channel]
+    sender = params[:sender]
+    
+    buddy = Buddy.get_buddy_by_id sender
+    
+    buffer_to_show = Buffer.get_buffer_by_channel_and_buddy sender channel
+    
+    returned = Array.new(2)
+    
+    puts buffer_to_show.inspect
+    
+    returned[0] =  buddy
+    returned[1] =  buffer_to_show
+    
+    render :json => returned.to_json
+  end
   
+  def send_notification
+	
+	org_channel = params[:org_channel]
+    sender  = params[:sender]
+    receiver = params[:receiver]
+    message = params[:message]
+    
+    buddy = Buddy.get_buddy_by_id sender
+     
+    message = {:code => "notify", :message => message, :sender_id => sender, :receiver_id => receiver, :senderName => buddy[:name]}
+    
+    Communicator.send_message org_channel, sender, receiver, message
+    render :nothing => true
+  end
 end

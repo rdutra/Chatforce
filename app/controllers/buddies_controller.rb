@@ -32,5 +32,11 @@ class BuddiesController < ApplicationController
     end
 
   end
+  
+  def get_buddy_by_id
+    id_buddy = params[:buddy_id]
+    buddy = Buddy.get_buddy_by_id id_buddy
+    render :json => buddy.to_json
+  end
 
 end

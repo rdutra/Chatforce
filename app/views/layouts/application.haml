@@ -43,7 +43,8 @@
       %div{ :id => "header-main", "data-role" => "header", :style => "top:0px"}
         %h1
           Chatter GO!
-      %div{:id => "inside-notification", :style => "text-shadow:none;"} You have chat!!!          
+      .newMessaje
+        %span.newMsjSender        
       %div{:id => "mesg", :style => "min-height: 190px"}
       %div{:id => "control", :style => "margin-top: 18px;"}
         =form_tag('tanga', :id => 'chat_window') do
