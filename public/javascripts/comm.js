@@ -78,7 +78,6 @@ function channel_subscribe(channel)
 
 function enableOrgChat(data)
 {
-  console.info("data de enableOrgChat: " , data);
   if(data.receiver == data_session.buddy_id)
   {
       

@@ -46,24 +46,17 @@
         #status_circle
         #name Stephen Marley
         #status_mssg
-        %a{:href => "#"}
+        %a{:href => "#buddies", :onclick => 'hide_notification()'}
           %img#Go_logo{:src => "images/go_logo.png"}/
       .newMessaje
         %span.newMsjSender
       %div{:id => "mesg", :style => "min-height: 190px"}
-      %div{:id => "control", :style => "margin-top: 18px;"}
+      %div{:id => "control"}
         =form_tag('tanga', :id => 'chat_window') do
-          %div
-            = text_field_tag 'msg_body', '', :style => "margin-top:10px;"
+          #input_wrapper
+            %input#msg_body{:type => "text"}
             = hidden_field_tag 'channel', @channel
-          %div
-            = submit_tag 'Send.',  :class => "submitBtn"
-      %div{ "data-role" => "footer", :role => "contentinfo", :style => "top:0px"}
-        %h4
-          %span
-            %a{:href => "#buddies", :style => "float:left", :onclick => "hide_notification()"} U
-          =@user_name    
-          
+            #Go{:onclick => '$("#chat_window").submit()'} Go!
     %div{:id => "settings", "data-role" => "page"}
       %div{ :id => "header-main", "data-role" => "header", :style => "top:0px"}
         %h1
