@@ -219,4 +219,22 @@ class ChatController < ApplicationController
     render :nothing => true
   end
   
+  def get_buddy_info
+ 
+   buddyReciver = Buddy.get_buddy_by_id params[:buddy]
+   
+   token = Session.get_session_by_id(cookies.signed[:chgo_user_session][0]).token
+   unless buddyReciver[:small_photo_url].nil?
+     pic = buddyReciver[:small_photo_url] + '?oauth_token=' + token
+   else
+     pic = ''
+   end
+   response =  {
+     :name => buddyReciver[:name],
+     :pic => pic,
+     :status => buddyReciver[:status]
+   }
+   render :json => response.to_json
+ end
+  
 end
