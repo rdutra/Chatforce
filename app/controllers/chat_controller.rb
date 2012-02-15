@@ -235,4 +235,5 @@ class ChatController < ApplicationController
     }
     render :json => response.to_json
   end
+
 end

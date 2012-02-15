@@ -10,6 +10,10 @@ $("#buddies").live('pageinit', function(event){
     init()
 });
 
+$(document).bind( "pagechange", function( e, data ) {
+  hide_notification_div();
+});
+
 
 function init()
 {
@@ -60,6 +64,7 @@ function channel_subscribe(channel)
         
       } else if(data.message["code"] == "write") {
         enableChat(data, false);
+        //runEffect(data.sender);
         
       } else if(data.message["code"] == "status") {
         setStatus(data.sender, data.message["message"]);
@@ -69,8 +74,7 @@ function channel_subscribe(channel)
 
       } else if(data.message["code"] == "notify" && data.message.receiver_id == data_session.buddy_id ) {
         show_notification_message(data);
-        runEffect(data.message.sender_id);
-        runEffect('inside-notification');
+        runEffect(data.sender);
       }
 
     });
@@ -78,9 +82,9 @@ function channel_subscribe(channel)
 
 function enableOrgChat(data)
 {
+
   if(data.receiver == data_session.buddy_id)
   {
-      
       if(data.message["code"] == "invite")
       {
         $( "#"+data.sender).unbind("click");
@@ -110,10 +114,7 @@ function enableOrgChat(data)
               }
           });
         });
-        
-        /*runEffect(data.sender);
-        runEffect('inside-notification'); */
-        //show_notification_buddy(data.sender, channel_selected );
+
       }
       
       if(data.message["code"] == "accept")
@@ -129,7 +130,7 @@ function enableOrgChat(data)
   
   if(data.sender == data_session.buddy_id)
   {
-    
+
       if(data.message["code"] == "invite")
       {
           init_buffer(data.message["message"], data.receiver)
@@ -149,15 +150,20 @@ function enableOrgChat(data)
           init_chat(data.message["channel_conn"], true, undefined);
         }
       }
+      if(data.message["code"] == "notify") 
+      {
+        console.info('notificacion 1');
+      }
   }
 }
 
 function enableChat(data, buffer)
 {
-
+  console.info(data);
   if(data.channel == channel_selected)
   {
-
+    if(data.sender != data_session.buddy_id) runEffect(data.message['sender']);
+    
     var who =  (data.message['sender'] == data_session.buddy_id)? 'left': 'right';
     var ul = '<div class="conversationContainer">';
     ul += '  <div class="triangle ' + who + '"></div>';
@@ -182,9 +188,12 @@ function enableChat(data, buffer)
   }
   else
   {
+
     if(data.sender != data_session.buddy_id)
       {
+        console.info('dos');
         show_notification_message(data);
+        //if(data.channel != channel_selected) runEffect(data.message['sender']);
       }
   }
   
@@ -198,6 +207,8 @@ function inviteChat()
 {
   $(".buddy_content" ).unbind('click');
   $(".buddy_content" ).click(function(event){
+      
+      $(".newMessaje").removeClass("newMessajeMod");
       $(this).removeAttr('style');
       var objLi = $(this);
       jQuery('#header').attr('name',$(this).attr("id"));
@@ -280,15 +291,15 @@ function init_chat(channel, buffer, id_sender)
     if (message != '')
     {
 
-      if(id_sender != undefined){
-        
+      /*if(id_sender != undefined)
+      {
         $.ajax({
           url: "/chat/write",
           type: 'POST',
           data: "channel="+channel_selected+"&message="+message+"&sender="+real_sender,
           success: function(data){}
         });
-      }
+      }*/
       
       $.ajax({
         url: "/chat/buffer",
@@ -298,7 +309,7 @@ function init_chat(channel, buffer, id_sender)
           jQuery('#msg_body').keyup();
         }
       });
-      
+
     }
     return false;
   });
@@ -391,13 +402,15 @@ function setStatus(sender, message)
     }
 }
 
-
-
-
 function hide_notification()
 {
    $(".newMessaje").removeClass("newMessajeMod");
    $("#mesg").html("");
+}
+
+function hide_notification_div()
+{
+   $(".newMessaje").removeClass("newMessajeMod");
 }
 
 function show_notification_message(data)

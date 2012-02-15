@@ -157,7 +157,7 @@ div.scroll {
   box-sizing: border-box;
   font-family: 'helvetica';
   font-size: 8pt;
-  height: 32px;
+  height: 0px;
   padding: 0 42px;
   vertical-align: middle;
   border-top: 1px solid #c0c9cd;
@@ -172,13 +172,23 @@ div.scroll {
   background: -ms-linear-gradient(top, rgba(153,167,175,1) 0%,rgba(181,191,200,1) 100%); /* IE10+ */
   background: linear-gradient(top, rgba(153,167,175,1) 0%,rgba(181,191,200,1) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99a7af', endColorstr='#b5bfc8',GradientType=0 ); /* IE6-8 */
+  transition: height 1s;
+-moz-transition: height 1s; /* Firefox 4 */
+-webkit-transition: height 1s; /* Safari and Chrome */
+-o-transition: height 1s; /* Opera */
 }
 .newMsjSender {
   color: white;
   font-weight: bold;
   text-shadow: -1px 1px 2px #000000;
   filter: dropshadow(color=#000000, offx=-1, offy=1);
+  margin-right: 7px;
 }
+
+.newMessajeMod{
+  height: 32px;
+}
+
 .newMessajeCount {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
