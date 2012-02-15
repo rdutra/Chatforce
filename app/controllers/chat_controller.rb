@@ -11,7 +11,7 @@ class ChatController < ApplicationController
     
     Communicator.send_message channel, buddy[:name], receiver, message
     render :nothing => true
-	end
+  end
  
   def invite
     channel = params[:channel]
@@ -27,7 +27,7 @@ class ChatController < ApplicationController
   end
   
   def invite_return_channel
-	channel = params[:channel]
+    channel = params[:channel]
     sender  = params[:sender]
     receiver = params[:receiver]
        
@@ -40,7 +40,7 @@ class ChatController < ApplicationController
   end
   
   def re_invite
-	channel = params[:channel]
+    channel = params[:channel]
     receiver = params[:sender]
     sender = params[:receiver]
        
@@ -53,8 +53,7 @@ class ChatController < ApplicationController
   end
   
   def connect_buddy
-	
-	channel = params[:channel]
+    channel = params[:channel]
     sender  = params[:sender]  
     channel_conn = Channel.where(:key => params[:channel_conn])[0]
     receiver = params[:receiver]
@@ -93,13 +92,13 @@ class ChatController < ApplicationController
   end
 
   def create_channel
-      org_channel = params[:channel]
-      sender = params[:sender]
-      receiver = params[:receiver]
-      new_channel = Channel.create_channel "chat"
-      Connection.connect_buddy sender, new_channel[:id]
-      Communicator.send_message org_channel, sender, receiver, new_channel[:id]
-      render :text => new_channel["key"]
+    org_channel = params[:channel]
+    sender = params[:sender]
+    receiver = params[:receiver]
+    new_channel = Channel.create_channel "chat"
+    Connection.connect_buddy sender, new_channel[:id]
+    Communicator.send_message org_channel, sender, receiver, new_channel[:id]
+    render :text => new_channel["key"]
   end
   
   def connect_channel
@@ -193,8 +192,8 @@ class ChatController < ApplicationController
   
 
   def send_notification
-	
-	org_channel = params[:org_channel]
+    
+    org_channel = params[:org_channel]
     sender  = params[:sender]
     receiver = params[:receiver]
     message = params[:message]
@@ -220,21 +219,21 @@ class ChatController < ApplicationController
   end
   
   def get_buddy_info
- 
-   buddyReciver = Buddy.get_buddy_by_id params[:buddy]
-   
-   token = Session.get_session_by_id(cookies.signed[:chgo_user_session][0]).token
-   unless buddyReciver[:small_photo_url].nil?
-     pic = buddyReciver[:small_photo_url] + '?oauth_token=' + token
-   else
-     pic = ''
-   end
-   response =  {
-     :name => buddyReciver[:name],
-     :pic => pic,
-     :status => buddyReciver[:status]
-   }
-   render :json => response.to_json
- end
   
+    buddyReciver = Buddy.get_buddy_by_id params[:buddy]
+    
+    token = Session.get_session_by_id(cookies.signed[:chgo_user_session][0]).token
+    unless buddyReciver[:small_photo_url].nil?
+      pic = buddyReciver[:small_photo_url] + '?oauth_token=' + token
+    else
+      pic = ''
+    end
+    response =  {
+      :name => buddyReciver[:name],
+      :pic => pic,
+      :status => buddyReciver[:status]
+    }
+    render :json => response.to_json
+  end
+
 end
