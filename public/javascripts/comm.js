@@ -2,6 +2,7 @@ var jugger_comm = undefined;
 var data_session = undefined;
 var data_channel = undefined;
 var channel_selected = undefined;
+var hidden_messages_size = 0;
 var timer = 0;
 var invite = false;
 
@@ -12,6 +13,11 @@ $("#buddies").live('pageinit', function(event){
 
 $(document).bind( "pagechange", function( e, data ) {
   hide_notification_div();
+});
+
+$(".newMessaje").live('click', function(){
+      hide_notification();
+      $.mobile.changePage('buddies');
 });
 
 
@@ -31,7 +37,7 @@ function init()
             type: 'POST',
             data: "channel="+data_session.org_channel+"&sender="+data_session.buddy_id+"&message="+$(this).val(),
             success: function(data){
-              //setStatus(data_session.buddy_id, $(this).val())
+              if(data.signed == "false") window.location.replace("/index.html");
             }
           });  
       })
@@ -42,7 +48,7 @@ function init()
 
 function channel_subscribe(channel)
 {
-
+    
     if (!(typeof jugger_comm !== undefined && jugger_comm))
     {
         jugger_comm = new Juggernaut(data_session);
@@ -58,7 +64,7 @@ function channel_subscribe(channel)
     
     jugger_comm.subscribe(channel, function(data)
     {
-
+      console.info("Data channel_suscribe", data)
       if((data.message["code"] == "invite") || (data.message["code"] == "accept")) {
         enableOrgChat(data);
         
@@ -73,7 +79,7 @@ function channel_subscribe(channel)
         setChatPrediction(data);
 
       } else if(data.message["code"] == "notify" && data.message.receiver_id == data_session.buddy_id ) {
-        show_notification_message(data);
+        if($('.ui-page-active').attr('id') == "chat") show_notification_message(data);
         runEffect(data.sender);
       }
 
@@ -96,6 +102,7 @@ function enableOrgChat(data)
             type: 'POST',
             data: "channel="+data_session.org_channel+"&sender="+data_session.buddy_id+"&receiver="+$(this).attr("id")+"&channel_conn="+data.message["message"],
             success: function(conn_channel_data){
+              if(conn_channel_data.signed == "false") window.location.replace("/index.html");
               channel_selected = conn_channel_data;
               $("#"+data.sender).attr( "name", channel_selected );
               $("#"+data.sender).attr( "indirect", true );
@@ -107,6 +114,7 @@ function enableOrgChat(data)
               type: 'POST',
               data: { buddy: $(this).attr("id")},
               success: function(buddy){
+                if(buddy.signed == "false") window.location.replace("/index.html");
                 jQuery('#status_circle').removeClass('Online Offline Busy Away');
                 jQuery('#status_circle').addClass(buddy.status);
                 jQuery('#name').text(buddy.name);
@@ -150,19 +158,15 @@ function enableOrgChat(data)
           init_chat(data.message["channel_conn"], true, undefined);
         }
       }
-      if(data.message["code"] == "notify") 
-      {
-        console.info('notificacion 1');
-      }
   }
 }
 
 function enableChat(data, buffer)
 {
-  console.info(data);
+  console.info("Data enable chat", data)
   if(data.channel == channel_selected)
   {
-    if(data.sender != data_session.buddy_id) runEffect(data.message['sender']);
+    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "buddies") runEffect(data.message['sender']);
     
     var who =  (data.message['sender'] == data_session.buddy_id)? 'left': 'right';
     var ul = '<div class="conversationContainer">';
@@ -188,12 +192,10 @@ function enableChat(data, buffer)
   }
   else
   {
-
-    if(data.sender != data_session.buddy_id)
+    
+    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "chat")
       {
-        console.info('dos');
         show_notification_message(data);
-        //if(data.channel != channel_selected) runEffect(data.message['sender']);
       }
   }
   
@@ -208,8 +210,8 @@ function inviteChat()
   $(".buddy_content" ).unbind('click');
   $(".buddy_content" ).click(function(event){
       
-      $(".newMessaje").removeClass("newMessajeMod");
-      $(this).removeAttr('style');
+      $("#newMessajeCont").css("height", "0px")
+      
       var objLi = $(this);
       jQuery('#header').attr('name',$(this).attr("id"));
       $.ajax({
@@ -217,6 +219,7 @@ function inviteChat()
           type: 'POST',
           data: { buddy: $(this).attr("id")},
           success: function(buddy){
+            if(buddy.signed == "false") window.location.replace("/index.html");
             jQuery('#status_circle').removeClass('Online Offline Busy Away');
             jQuery('#status_circle').addClass(buddy.status);
             jQuery('#name').text(buddy.name);
@@ -230,6 +233,7 @@ function inviteChat()
           type: 'POST',
           data: "channel="+data_session.org_channel+"&sender="+data_session.buddy_id+"&receiver="+$(this).attr("id"),
           success: function(data_ch){
+            if(data_ch.signed == "false") window.location.replace("/index.html");
             channel_selected = data_ch;
             objLi.attr('name', data_ch);
           }
@@ -242,6 +246,7 @@ function inviteChat()
           type: 'POST',
           data: "channel="+channel_selected,
           success: function(data_buf){
+            if(data_buf.signed == "false") window.location.replace("/index.html");
             for (i=data_buf.length-1;i>=0;i--)
             {
                 enableChat(data_buf[i], true);
@@ -249,6 +254,7 @@ function inviteChat()
           }
         });
       }
+      $(this).removeAttr('style');
   });
 }
 
@@ -306,6 +312,7 @@ function init_chat(channel, buffer, id_sender)
         type: 'POST',
         data: "channel="+channel_selected+"&message="+message+"&sender="+real_sender,
         success: function(data_buffer){
+          if(data_buffer.signed == "false") window.location.replace("/index.html");
           jQuery('#msg_body').keyup();
         }
       });
@@ -327,6 +334,9 @@ function init_chat(channel, buffer, id_sender)
           channel: channel_selected,
           message: message,
           sender: data_session.buddy_id
+        },
+        success: function(data){
+          if(data.signed == "false") window.location.replace("/index.html");
         }
       });
       element.attr('prediction', 'writing');
@@ -339,6 +349,9 @@ function init_chat(channel, buffer, id_sender)
           channel: channel_selected,
           message: message,
           sender: data_session.buddy_id
+        },
+        success: function(data){
+           if(data.signed == "false") window.location.replace("/index.html");
         }
       });
       element.attr('prediction', 'discard');
@@ -353,6 +366,7 @@ function init_chat(channel, buffer, id_sender)
         type: 'POST',
         data: "channel="+channel,
         success: function(data){
+          if(data.signed == "false") window.location.replace("/index.html");
           for (i=data.length-1;i>=0;i--)
           {
               enableChat(data[i], true)
@@ -377,14 +391,18 @@ function init_buffer(channel, receiver)
         url: "/chat/buffer",
         type: 'POST',
         data: "channel="+channel+"&message="+message+"&sender="+data_session.buddy_id,
-        success: function(data){}
+        success: function(data){
+           if(data.signed == "false") window.location.replace("/index.html");
+          }
       });
       
       $.ajax({
         url: "/chat/send_notification",
         type: 'POST',
         data: "org_channel="+data_session.org_channel+"&message="+message+"&sender="+data_session.buddy_id+"&receiver="+receiver,
-        success: function(data){}
+        success: function(data){
+           if(data.signed == "false") window.location.replace("/index.html");
+          }
       });
       
     }
@@ -404,24 +422,38 @@ function setStatus(sender, message)
 
 function hide_notification()
 {
-   $(".newMessaje").removeClass("newMessajeMod");
+   $("#newMessajeCont").css("height", "0px");
    $("#mesg").html("");
+   hidden_messages_size = 0;
 }
 
 function hide_notification_div()
 {
-   $(".newMessaje").removeClass("newMessajeMod");
+   $("#newMessajeCont").css("height", "0px");
+   hidden_messages_size = 0;
 }
 
 function show_notification_message(data)
 {  
+  
+    if( $(".newMsjSender").attr("last-id") != undefined && $(".newMsjSender").attr("last-id") != data.message.sender_id ) 
+    {
+      hidden_messages_size = 0;
+    }
+    
+    hidden_messages_size ++;
+    $(".newMsjSender").attr( "last-id", data.message.sender_id );
     $(".newMsjSender").html(data.message.senderName);
     var sendMsj = $(".newMsjSender")[0];
 
     $(".newMessaje").html("");
     $(".newMessaje").append(sendMsj);
     $(".newMessaje").append(data.message.message);
-    $(".newMessaje").addClass("newMessajeMod");
+    $(".picContainerTh img")[0].src = data.message.pic;
+    $(".newMessajeCount").html(hidden_messages_size);
+    $("#newMessajeCont").css("height", "32px");
+    //$("#newMessajeCont").addClass("newMessajeMod");
+    
 }
 
 function add_ellipsis(str)
@@ -446,4 +478,5 @@ function setChatPrediction ( data ){
     }
   }
 }
+
 
