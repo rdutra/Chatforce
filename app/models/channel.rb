@@ -1,4 +1,4 @@
-require 'ruby-debug' ; Debugger.start
+#require 'ruby-debug' ; Debugger.start
 class Channel < ActiveRecord::Base
   has_many :connection
   has_many :buddy, :through => :connection

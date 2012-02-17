@@ -1,4 +1,4 @@
-require 'ruby-debug' ; Debugger.start
+#require 'ruby-debug' ; Debugger.start
 class Session < ActiveRecord::Base
   belongs_to :buddy
   

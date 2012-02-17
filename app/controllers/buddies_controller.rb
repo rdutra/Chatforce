@@ -1,7 +1,7 @@
 require 'security'
 require 'communicator'
 require "juggernaut"
-require 'ruby-debug' ; Debugger.start
+#require 'ruby-debug' ; Debugger.start
 class BuddiesController < ApplicationController
   
   def index
