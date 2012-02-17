@@ -447,7 +447,7 @@ function show_notification_message(data)
     {
       hidden_messages_size = 0;
     }
-    
+    console.info(hidden_messages_size)
     hidden_messages_size ++;
     $(".newMsjSender").attr( "last-id", data.message.sender_id );
     $(".newMsjSender").html(data.message.senderName);
