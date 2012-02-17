@@ -58,7 +58,13 @@
         #status_mssg
         %a{:href => "#buddies", :onclick => 'hide_notification()', :class => "buddiesLogoLink"}
           %img#Go_logo{:src => "images/go_logo.png"}/
-      .newMessaje
+      #newMessajeCont
+        .picContainerTh
+          %img
+            .newMessajeCount 2
+        .newMessaje
+          %span.newMsjSender Dani Costa
+          Lorem ipsum dolor sit amet, consectetur.
         %span.newMsjSender
       %div{:id => "mesg", :style => "min-height: 190px"}
       %div{:id => "control"}

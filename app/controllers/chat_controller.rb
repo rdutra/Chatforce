@@ -136,7 +136,21 @@ class ChatController < ApplicationController
     
     buddy = Buddy.get_buddy_by_id sender
     
-    com_message = {:code => "write", :message => message, :sender => sender, :senderName => buddy[:name], :date => DateTime.now().to_s(:toShort)}
+    token = Session.get_session_by_id(cookies.signed[:chgo_user_session][0]).token
+    unless buddy[:small_photo_url].nil?
+      pic = buddy[:small_photo_url] + '?oauth_token=' + token
+    else
+      pic = ''
+    end
+    
+    com_message = {:code => "write",
+					:message => message,
+					:sender => sender, 
+					:senderName => buddy[:name], 
+					:date => DateTime.now().to_s(:toShort),
+					:pic => pic,
+					:status => buddy[:status]
+					}
     data = {:buddy_id => buddy[:id], :channel => channel, :message => message}
     Buffer.add_to_buffer data
     Communicator.send_message channel, sender, nil, com_message
@@ -199,8 +213,21 @@ class ChatController < ApplicationController
     message = params[:message]
     
     buddy = Buddy.get_buddy_by_id sender
+    puts buddy.inspect
+    token = Session.get_session_by_id(cookies.signed[:chgo_user_session][0]).token
+    unless buddy[:small_photo_url].nil?
+      pic = buddy[:small_photo_url] + '?oauth_token=' + token
+    else
+      pic = ''
+    end
      
-    message = {:code => "notify", :message => message, :sender_id => sender, :receiver_id => receiver, :senderName => buddy[:name]}   
+    message = {:code => "notify",
+				:message => message,
+				:sender_id => sender,
+				:receiver_id => receiver, 
+				:senderName => buddy[:name],
+				:pic => pic,
+				:status => buddy[:status]}   
     Communicator.send_message org_channel, sender, receiver, message
     
     render :nothing => true
@@ -235,5 +262,5 @@ class ChatController < ApplicationController
     }
     render :json => response.to_json
   end
-
+  
 end

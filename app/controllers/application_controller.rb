@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
+
+  before_filter :require_auth, :except => '/index.html'
   protect_from_forgery
+
   def send_message
     render_text "<li>" + params[:msg_body] + "</li>"
     Juggernaut.publish("/chats", parse_chat_message(params[:msg_body], "Prabhat"))
@@ -24,4 +27,31 @@ class ApplicationController < ActionController::Base
     Setting.save_settings(options)
     #redirect_to :controller => 'buddies', :action => 'index'
   end
+  
+  private
+    def require_auth
+    
+      is_ajax = request.headers['X-Requested-With'] == 'XMLHttpRequest'
+      if defined? (cookies.signed[:chgo_user_session][0])
+        this_session = Session.get_session_by_id(cookies.signed[:chgo_user_session][0])
+        if this_session.nil?
+          decide_response is_ajax
+        end
+      else
+          decide_response is_ajax
+      end
+    end
+    
+   private 
+    def decide_response is_ajax
+      if is_ajax
+        data = {
+          :signed => "false"
+        }
+        render :json => data.to_json
+      else
+        redirect_to "/index.html"
+      end
+  
+    end
 end

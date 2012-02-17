@@ -1,7 +1,9 @@
 require 'users'
 require 'security'
-require 'ruby-debug' ; Debugger.start
+#require 'ruby-debug' ; Debugger.start
 class AuthorizationController < ApplicationController
+
+  skip_before_filter :require_auth, :only => [:connect, :create]
 
   def connect
     user_session = cookies.signed[:chgo_user_session]

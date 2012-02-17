@@ -161,6 +161,21 @@ div.scroll {
   width: 100%;
   background: gray;
   position:relative;
+  
+}
+
+#newMessajeCont {
+  height: 0;
+  overflow: hidden;
+  transition: height 1s;
+  -moz-transition: height 1s; /* Firefox 4 */
+  -webkit-transition: height 1s; /* Safari and Chrome */
+  -o-transition: height 1s; /* Opera */
+}
+
+#newMessajeCont .picContainer{
+  height: 21px;
+  width: 21px;
 }
 
 .newMessaje {
@@ -174,7 +189,7 @@ div.scroll {
   box-sizing: border-box;
   font-family: 'helvetica';
   font-size: 8pt;
-  height: 0px;
+  height:100%;
   padding: 0 42px;
   vertical-align: middle;
   border-top: 1px solid #c0c9cd;
@@ -404,6 +419,7 @@ div.scroll {
   box-sizing: border-box;
 
   position: relative;
+  -moz-box-sizing: border-box;
 }
 
 #msg_body{
