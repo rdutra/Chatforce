@@ -1,6 +1,5 @@
 require "juggernaut"
 require "communicator"
-require 'ruby-debug' ; Debugger.start
 class ChatController < ApplicationController
   def send_message
     message = params[:message]
@@ -72,7 +71,7 @@ class ChatController < ApplicationController
     receiver = params[:receiver]
     channel_conn = params[:channel_conn]
     
-    Connection.connect_buddy receiver, channel_conn
+    Connection.connect_buddy sender, channel_conn
     
     message = {:code => "accept", :message => "accept", :channel_conn => channel_conn}
     Communicator.send_message channel, sender, receiver, message
