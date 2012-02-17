@@ -1,6 +1,5 @@
 require 'users'
 require 'security'
-#require 'ruby-debug' ; Debugger.start
 class AuthorizationController < ApplicationController
 
   skip_before_filter :require_auth, :only => [:connect, :create]

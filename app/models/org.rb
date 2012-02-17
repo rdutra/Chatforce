@@ -1,4 +1,3 @@
-#require 'ruby-debug' ; Debugger.start
 class Org < ActiveRecord::Base
   has_many :buddy, :dependent => :destroy
 

@@ -1,6 +1,6 @@
 require "juggernaut"
 require "communicator"
-#require 'ruby-debug' ; Debugger.start
+
 class ChatController < ApplicationController
   def send_message
     message = params[:message]

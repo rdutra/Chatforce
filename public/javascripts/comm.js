@@ -416,7 +416,8 @@ function init_buffer(channel, receiver)
 
 function setStatus(sender, message)
 {
-    $("#"+sender+" img").attr("src", "/images/"+message+".png")
+    $("#"+sender+" .buddyStatus").removeClass('Online Offline Busy Away');
+    $("#"+sender+" .buddyStatus").addClass(message);
     if (sender == jQuery('#header').attr('name')){
       jQuery('#header #status_circle').removeClass('Online Offline Busy Away');
       jQuery('#header #status_circle').addClass(message);

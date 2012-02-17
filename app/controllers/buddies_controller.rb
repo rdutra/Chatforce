@@ -1,7 +1,6 @@
 require 'security'
 require 'communicator'
 require "juggernaut"
-#require 'ruby-debug' ; Debugger.start
 class BuddiesController < ApplicationController
   
   def index
@@ -13,7 +12,7 @@ class BuddiesController < ApplicationController
     @buddies = Buddy.get_buddies_by_org org["id"]
     @org_channel = Channel.get_ring_communication @session["buddy_id"], org_id
     Connection.connect_buddy @session["buddy_id"], @org_channel[:id]
-    @user_name = @session[:name]
+
     @buddy = Buddy.find @session["buddy_id"]
     @buddy.small_photo_url = (! @buddy.small_photo_url.nil?)? @buddy.small_photo_url + '?oauth_token=' + @session.token : ''
     @buddies.each do |buddy|
