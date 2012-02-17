@@ -14,7 +14,11 @@ class BuddiesController < ApplicationController
     @org_channel = Channel.get_ring_communication @session["buddy_id"], org_id
     Connection.connect_buddy @session["buddy_id"], @org_channel[:id]
     @user_name = @session[:name]
-
+    @buddy = Buddy.find @session["buddy_id"]
+    @buddy.small_photo_url = (! @buddy.small_photo_url.nil?)? @buddy.small_photo_url + '?oauth_token=' + @session.token : ''
+    @buddies.each do |buddy|
+      buddy.small_photo_url = (! buddy.small_photo_url.nil?)? buddy.small_photo_url + '?oauth_token=' + @session.token : ''
+    end
     # change status
     message = {:code => "status", :message => "Online"}
     Communicator.send_message org_id, @session["buddy_id"], 0, message
