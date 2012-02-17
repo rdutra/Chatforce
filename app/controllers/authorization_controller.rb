@@ -90,6 +90,7 @@ class AuthorizationController < ApplicationController
     end
     
     unless buddy.nil?
+      
       Buddy.set_status buddy[:id], "Online"
       redirect_to :controller => 'buddies', :action => 'index'
     else

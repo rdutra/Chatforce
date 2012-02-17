@@ -88,9 +88,10 @@ function channel_subscribe(channel)
 
 function enableOrgChat(data)
 {
-
+  console.info("Data de enableOrgChat", data);
   if(data.receiver == data_session.buddy_id)
   {
+      
       if(data.message["code"] == "invite")
       {
         $( "#"+data.sender).unbind("click");
@@ -138,7 +139,7 @@ function enableOrgChat(data)
   
   if(data.sender == data_session.buddy_id)
   {
-
+      
       if(data.message["code"] == "invite")
       {
           init_buffer(data.message["message"], data.receiver)
@@ -163,9 +164,11 @@ function enableOrgChat(data)
 
 function enableChat(data, buffer)
 {
+  
   console.info("Data enable chat", data)
   if(data.channel == channel_selected)
   {
+    console.info("uno");
     if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "buddies") runEffect(data.message['sender']);
     
     var who =  (data.message['sender'] == data_session.buddy_id)? 'left': 'right';
@@ -192,7 +195,7 @@ function enableChat(data, buffer)
   }
   else
   {
-    
+    console.info("dos");
     if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "chat")
       {
         show_notification_message(data);
