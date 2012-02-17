@@ -116,10 +116,10 @@ function enableOrgChat(data)
               data: { buddy: $(this).attr("id")},
               success: function(buddy){
                 if(buddy.signed == "false") window.location.replace("/index.html");
-                jQuery('#status_circle').removeClass('Online Offline Busy Away');
-                jQuery('#status_circle').addClass(buddy.status);
-                jQuery('#name').text(buddy.name);
-                jQuery('.picContainer > img')[0].src = buddy.pic;
+                jQuery('#header #status_circle').removeClass('Online Offline Busy Away');
+                jQuery('#header #status_circle').addClass(buddy.status);
+                jQuery('#header #name').text(buddy.name);
+                jQuery('#header .picContainer > img')[0].src = buddy.pic;
               }
           });
         });
@@ -446,7 +446,7 @@ function show_notification_message(data)
     {
       hidden_messages_size = 0;
     }
-    
+    console.info(hidden_messages_size)
     hidden_messages_size ++;
     $(".newMsjSender").attr( "last-id", data.message.sender_id );
     $(".newMsjSender").html(data.message.senderName);

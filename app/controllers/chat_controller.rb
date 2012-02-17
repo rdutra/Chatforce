@@ -32,7 +32,8 @@ class ChatController < ApplicationController
     receiver = params[:receiver]
        
     new_channel = Channel.create_channel "chat"
-    Connection.connect_buddy sender, new_channel[:id]  
+    Connection.connect_buddy sender, new_channel[:id]
+    Connection.connect_buddy receiver, new_channel[:id]
     message = {:code => "invite", :message => new_channel[:key]}
     
     Communicator.send_message channel, sender, receiver, message
@@ -71,9 +72,9 @@ class ChatController < ApplicationController
     sender  = params[:sender]
     receiver = params[:receiver]
     channel_conn = params[:channel_conn]
-    real_channel = Channel.get_channel_by_key channel_conn
+    #real_channel = Channel.get_channel_by_key channel_conn
     
-    Connection.connect_buddy sender, real_channel.id
+    #Connection.connect_buddy sender, real_channel.id
     
     message = {:code => "accept", :message => "accept", :channel_conn => channel_conn}
     Communicator.send_message channel, sender, receiver, message
