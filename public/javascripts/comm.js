@@ -223,10 +223,10 @@ function inviteChat()
           data: { buddy: $(this).attr("id")},
           success: function(buddy){
             if(buddy.signed == "false") window.location.replace("/index.html");
-            jQuery('#status_circle').removeClass('Online Offline Busy Away');
-            jQuery('#status_circle').addClass(buddy.status);
-            jQuery('#name').text(buddy.name);
-            jQuery('.picContainer > img')[0].src = buddy.pic;
+            jQuery('#header #status_circle').removeClass('Online Offline Busy Away');
+            jQuery('#header #status_circle').addClass(buddy.status);
+            jQuery('#header #name').text(buddy.name);
+            jQuery('#header .picContainer > img')[0].src = buddy.pic;
           }
       });
 
@@ -418,8 +418,11 @@ function setStatus(sender, message)
 {
     $("#"+sender+" img").attr("src", "/images/"+message+".png")
     if (sender == jQuery('#header').attr('name')){
-      jQuery('#status_circle').removeClass('Online Offline Busy Away');
-      jQuery('#status_circle').addClass(message);
+      jQuery('#header #status_circle').removeClass('Online Offline Busy Away');
+      jQuery('#header #status_circle').addClass(message);
+    } else if(sender == data_session.buddy_id){
+      jQuery('#header-main #status_circle').removeClass('Online Offline Busy Away');
+      jQuery('#header-main #status_circle').addClass(message);
     }
 }
 
@@ -482,4 +485,60 @@ function setChatPrediction ( data ){
   }
 }
 
+function searchInContactsFilter(element){
+  var filter = element.value.toLowerCase();
+  jQuery('.buddyListItem .buddyName[data-filter-text*=' + filter + ']').each(function (index,element){
+    jQuery(element).parent().css('display','');
+  });
+  jQuery('.buddyListItem .buddyName:not([data-filter-text*=' + filter + '])').each(function (index,element){
+    jQuery(element).parent().css('display','none');
+  });
+  if (jQuery('.buddiesHidden').length == 0){
+    buddiesInit();
+  }
+}
 
+function toggleSerch(){
+  element = jQuery('.searchContainer');
+  if (parseInt(element.height()) == 0 ){
+    element.height(element.children().outerHeight());
+  } else {
+    element.height(0);
+  }
+}
+function toggleBuddies(){
+  element = jQuery('.buddiesContainer');
+  if (jQuery('.buddiesHidden').length != 0){
+    var tHeight= 0;
+    element.children().each(function (index, element){
+      tHeight += jQuery(element).outerHeight();
+    });
+    element.height(tHeight);
+    element.find('.buddyListHeaderBtn').removeClass('buddiesHidden');
+  } else {
+    element.height(parseInt(element.children().outerHeight()) -1);
+    element.find('.buddyListHeaderBtn').addClass('buddiesHidden');
+  }
+}
+function buddiesInit(){
+  element = jQuery('.buddiesContainer');
+  var tHeight= 0;
+  element.children().each(function (index, element){
+    tHeight += jQuery(element).outerHeight();
+  });
+  tHeight -= (tHeight == element.children().outerHeight())? 1 : 0;
+  element.css({ 
+    'height': tHeight,
+    '-webkit-transition': 'height 0s linear',
+    '-ms-transition': 'height 0s linear',
+    '-moz-transition': 'height 0s linear',
+    'transition': 'height 0s linear'
+  });
+  setTimeout(function(){element.css({ 
+    '-webkit-transition': '',
+    '-ms-transition': '',
+    '-moz-transition': '',
+    'transition': ''
+  });},0);
+}
+jQuery(document).ready(function(){buddiesInit()});
