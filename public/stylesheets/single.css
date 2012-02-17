@@ -702,7 +702,7 @@ div.scroll {
 }
 #buudyListFooter > div > a > div > img {
   width: 26px;
-  position: absolute;
+  position: relative;
   top: 9px;
 }
 a.buddyLink {
