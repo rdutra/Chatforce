@@ -13,7 +13,6 @@ class BuddiesController < ApplicationController
     @org_channel = Channel.get_ring_communication @session["buddy_id"], org_id
     Connection.connect_buddy @session["buddy_id"], @org_channel[:id]
     
-    # seguir aca
     mychannels = Channel.joins(:connection).where(:connections => {:buddy_id => 2}, :mod =>  'chat')
     @myBuddiesMap = {}
     myBuddiesConnection = Connection.where 'channel_id IN (:mychannels) AND buddy_id <> :myBuddy', {:mychannels => mychannels, :myBuddy => 2}
