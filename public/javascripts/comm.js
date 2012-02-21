@@ -8,11 +8,13 @@ var invite = false;
 
 
 $("#buddies").live('pageinit', function(event){
-    init()
+    init();
+    acordeonInit();
 });
 
 $(document).bind( "pagechange", function( e, data ) {
   hide_notification_div();
+  acordeonInit();
 });
 
 $(".newMessaje").live('click', function(){
@@ -488,14 +490,14 @@ function setChatPrediction ( data ){
 
 function searchInContactsFilter(element){
   var filter = element.value.toLowerCase();
-  jQuery('.buddyListItem .buddyName[data-filter-text*=' + filter + ']').each(function (index,element){
+  jQuery('.buddy.acordeonListItem .buddyName[data-filter-text*=' + filter + ']').each(function (index,element){
     jQuery(element).parent().css('display','');
   });
-  jQuery('.buddyListItem .buddyName:not([data-filter-text*=' + filter + '])').each(function (index,element){
+  jQuery('.buddy.acordeonListItem .buddyName:not([data-filter-text*=' + filter + '])').each(function (index,element){
     jQuery(element).parent().css('display','none');
   });
-  if (jQuery('.buddiesHidden').length == 0){
-    buddiesInit();
+  if (jQuery('.buddyTogleBtn.Hidden').length == 0){
+    acordeonInit();
   }
 }
 
@@ -507,39 +509,50 @@ function toggleSerch(){
     element.height(0);
   }
 }
-function toggleBuddies(){
-  element = jQuery('.buddiesContainer');
-  if (jQuery('.buddiesHidden').length != 0){
+function toggleAcordeon(btn){
+  element = jQuery(btn);
+  while (! element.hasClass('acordeon')){
+    element = element.parent();
+  }
+  if (element.find('.AcordeonListHeaderBtn.Hidden').length != 0){
     var tHeight= 0;
     element.children().each(function (index, element){
       tHeight += jQuery(element).outerHeight();
     });
     element.height(tHeight);
-    element.find('.buddyListHeaderBtn').removeClass('buddiesHidden');
+    element.find('.AcordeonListHeaderBtn').removeClass('Hidden');
   } else {
     element.height(parseInt(element.children().outerHeight()) -1);
-    element.find('.buddyListHeaderBtn').addClass('buddiesHidden');
+    element.find('.AcordeonListHeaderBtn').addClass('Hidden');
   }
 }
-function buddiesInit(){
-  element = jQuery('.buddiesContainer');
-  var tHeight= 0;
-  element.children().each(function (index, element){
-    tHeight += jQuery(element).outerHeight();
+function acordeonInit(){
+  acordeons = jQuery('.acordeon');
+  acordeons.each(function(index, element){
+    element = jQuery(element);
+    var tHeight= 0;
+    element.children().each(function (index, child){
+      if (element.find('.AcordeonListHeaderBtn.Hidden').length == 0 || index == 0){
+        tHeight += jQuery(child).outerHeight();
+      }
+    });
+    tHeight -= (tHeight == element.children().outerHeight())? 1 : 0;
+    element.css({ 
+      'height': tHeight,
+      '-webkit-transition': 'height 0s linear',
+      '-ms-transition': 'height 0s linear',
+      '-moz-transition': 'height 0s linear',
+      'transition': 'height 0s linear'
+    });
+    setTimeout(function(){element.css({ 
+      '-webkit-transition': '',
+      '-ms-transition': '',
+      '-moz-transition': '',
+      'transition': ''
+    });},0);
   });
-  tHeight -= (tHeight == element.children().outerHeight())? 1 : 0;
-  element.css({ 
-    'height': tHeight,
-    '-webkit-transition': 'height 0s linear',
-    '-ms-transition': 'height 0s linear',
-    '-moz-transition': 'height 0s linear',
-    'transition': 'height 0s linear'
-  });
-  setTimeout(function(){element.css({ 
-    '-webkit-transition': '',
-    '-ms-transition': '',
-    '-moz-transition': '',
-    'transition': ''
-  });},0);
 }
-jQuery(document).ready(function(){buddiesInit()});
+function toggleSwitch(element){
+  var input = element.querySelector('input');
+  input.checked = !(input.checked);
+}

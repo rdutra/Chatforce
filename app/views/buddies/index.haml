@@ -2,15 +2,15 @@
   .searchBar
     %input#searchInContacts{:onkeyup => "searchInContactsFilter(this)", :placeholder => "Search Contacts...", :type => "text"}
       .searchContainerIcon
-.buddiesContainer
-  .buddyListHeader
+.buddiesContainer.acordeon
+  .buddyListHeader.acordeonHeader
     = "Contacts (" + (@buddies.count - 1).to_s + ")"
-    .buddyListHeaderBtn{:onclick => "toggleBuddies();"}
-  .buddyList
+    .buddyTogleBtn.AcordeonListHeaderBtn{:onclick => "toggleAcordeon(this);"}
+  .acordeonList
     - @buddies.each do |buddy|
       -unless buddy["id"] == @session["buddy_id"]
         %a.buddyLink{ :href => "#chat"}
-          .buddyListItem{ :class => "buddy_content change_channel", :id => buddy["id"]}
+          .buddy.acordeonListItem{ :class => "buddy_content change_channel", :id => buddy["id"]}
             %img.buddyPic{:src => buddy["small_photo_url"], :title => buddy["name"]}
               .buddyStatus{ :class => buddy["status"]}
               .buddyName.elipsis{"data-filter-text" => buddy["name"].downcase}

@@ -506,7 +506,7 @@ div.scroll {
   top: 2px;
 }
 
-.buddyListItem {
+.acordeonListItem {
   height: 45px;
   widht: 100%;
   cursor: pointer;
@@ -579,7 +579,7 @@ div.scroll {
   white-space: nowrap;
   overflow: hidden;
 }
-.buddyListHeader {
+.acordeonHeader {
   position:relative;
   height: 30px;
   width: 100%;
@@ -601,8 +601,7 @@ div.scroll {
   font-family: helvetica;
   border-bottom: 1px solid #D7D7D7;
 }
-
-.buddyListHeaderBtn {
+.AcordeonListHeaderBtn {
   cursor: pointer;
   background: url(/images/triangle_contacts_bar.png) 0 0 no-repeat;
   width: 11px;
@@ -670,14 +669,14 @@ div.scroll {
   -moz-transition: height .5s linear;
   transition: height .5s linear;
 }
-.buddiesContainer {
+.acordeon {
   overflow:hidden;
   -webkit-transition: height 0.5s linear;
   -ms-transition: height 0.5s linear;
   -moz-transition: height 0s linear;
   transition: height 0s linear;
 }
-.buddiesHidden {
+.AcordeonListHeaderBtn.Hidden {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
@@ -708,3 +707,127 @@ div.scroll {
 a.buddyLink {
   text-decoration:none;
 }
+
+input[type=text].settings {
+  background: rgb(218,218,218);
+  background: -moz-linear-gradient(top,  rgba(218,218,218,1) 0%, rgba(255,255,255,1) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(218,218,218,1)), color-stop(100%,rgba(255,255,255,1)));
+  background: -webkit-linear-gradient(top,  rgba(218,218,218,1) 0%,rgba(255,255,255,1) 100%);
+  background: -o-linear-gradient(top,  rgba(218,218,218,1) 0%,rgba(255,255,255,1) 100%);
+  background: -ms-linear-gradient(top,  rgba(218,218,218,1) 0%,rgba(255,255,255,1) 100%);
+  background: linear-gradient(top,  rgba(218,218,218,1) 0%,rgba(255,255,255,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dadada', endColorstr='#ffffff',GradientType=0 );
+  display: inline;
+  height: 23px;
+  border-radius: 4px;
+  border: 1px solid #CBCBCB;
+  box-sizing: border-box;
+  text-align: center;
+  color: #8D8D8D;
+  font-size: 9px;
+}
+.settings.acordeonListItem {
+  font-size: 9px;
+  font-family: helvetica;
+  color: #000;
+  min-height: 32px;
+  height: auto;
+  padding: 4px 10px;
+  cursor: default;
+}
+
+.settingsLeft {
+  width: 40%;
+  display: inline-block;
+  float: left;
+  padding-top: 7px;
+}
+
+.settingsRight {
+  width: 60%;
+  display: inline-block;
+  text-align:right;
+}
+
+/*/////////////////////////////////////////// SWITCH ///////////////////////////////////////////*/
+
+input.CheckboxSwitch{
+  display:none;
+}
+.green {
+  background: #AFC181;
+  background: -moz-linear-gradient(top, #AFC181 1%, #A1C151 49%, #85B705 50%, #667F0B 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#AFC181), color-stop(49%,#A1C151), color-stop(50%,#85B705), color-stop(100%,#667F0B));
+  background: -webkit-linear-gradient(top, #AFC181 1%,#A1C151 49%,#85B705 50%,#667F0B 100%);
+  background: -o-linear-gradient(top, #AFC181 1%,#A1C151 49%,#85B705 50%,#667F0B 100%);
+  background: -ms-linear-gradient(top, #AFC181 1%,#A1C151 49%,#85B705 50%,#667F0B 100%);
+  background: linear-gradient(top, #AFC181 1%,#A1C151 49%,#85B705 50%,#667F0B 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#afc181', endColorstr='#667f0b',GradientType=0 );
+}
+
+.CheckboxSwitch {
+  position:relative;
+  overflow: hidden;
+  border-radius: 4px;
+  height: 25px;
+  padding: 0px;
+  width: 80px;
+  display: inline-block;
+  cursor: pointer;
+}
+.checkboxSwitchContainer > div {
+  position: absolute;
+  width: 44px;
+  height: 100%;
+  text-align: center;
+  color: white;
+  padding: 3px 0px;
+  box-sizing: border-box;
+  font-family: helvetica;
+  margin:0px;
+  font-size: 16px;
+}
+.checkboxSwitchContainer {
+  position:absolute;
+  left:0%;
+  width: 150%;
+  height: 100%;
+  border-radius: 4px;
+  -webkit-transition: left .5s linear;
+}
+
+input:not(:checked) ~ .checkboxSwitchContainer{
+  left: -44px;
+}
+
+.switchOn {
+  left: 0px;
+}
+.switchOff {
+  left: 80px;
+}
+.switch {
+  left: 44px;
+  border-radius: 4px;
+  border: 1px solid #9c9e97;
+  width: 36px !important;
+  background: rgb(218,218,218);
+  background: -moz-linear-gradient(top,  rgba(218,218,218,1) 0%, rgba(255,255,255,1) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(218,218,218,1)), color-stop(100%,rgba(255,255,255,1)));
+  background: -webkit-linear-gradient(top,  rgba(218,218,218,1) 0%,rgba(255,255,255,1) 100%);
+  background: -o-linear-gradient(top,  rgba(218,218,218,1) 0%,rgba(255,255,255,1) 100%);
+  background: -ms-linear-gradient(top,  rgba(218,218,218,1) 0%,rgba(255,255,255,1) 100%);
+  background: linear-gradient(top,  rgba(218,218,218,1) 0%,rgba(255,255,255,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dadada', endColorstr='#ffffff',GradientType=0 );
+}
+
+.settingsSubmitBtn {
+  width: 100%;
+  height: 32px;
+  border: 1px solid dimGray;
+  border-radius: 9px;
+  color: white;
+  font-size: 11px;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+}
+/*///////////////////////////////////////// END SWITCH ///////////////////////////////////////////*/
