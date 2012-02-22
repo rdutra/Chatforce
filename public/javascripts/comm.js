@@ -33,6 +33,11 @@ function init()
       data_session = data
       inviteChat()
       channel_subscribe(data_session.org_channel)
+      elements = $('.buddy_content[name]');
+      elements.each(function(index, element){
+        element = $(element);
+        channel_subscribe(element.attr('name'));
+      });
       $("#buddy-status").change(function(){
           $.ajax({
             url: '/chat/set_status',
@@ -551,8 +556,4 @@ function acordeonInit(){
       'transition': ''
     });},0);
   });
-}
-function toggleSwitch(element){
-  var input = element.querySelector('input');
-  input.checked = !(input.checked);
 }
