@@ -11,7 +11,6 @@ class Connection < ActiveRecord::Base
       chan = Channel.get_channel_by_id channel_id
       puts chan.inspect
       unless bud.nil? || chan.nil?
-        puts "entra ok"
         conn = Connection.new({
           :buddy_id => buddy_id,
           :channel_id => channel_id
