@@ -1,12 +1,33 @@
 =form_tag('save_settings', :id => 'Settings_form') do
-  %div{:style => "margin: 15px 5px 0px 5px"}
-    %ul{ "data-role" => "listview", "data-insert" => "true", "data-filter" => "false", :style => "margin-top: 15px"}
-      %li{ :class => "buddy_content", :id => "history"}
-        %p Save History
-        %input{:type => "checkbox", :id =>"check_id", :style => "float:left", :title =>'Save History', :name =>"check_id", :checked => @checkvalue == 'on'}
-      %li{ :class => "buddy_content", :id => "skins"}
-        %p Select Skin
-        %select{:name => 'select_skin'}
-          =@skins.each do |item|
-            %option{:value => item['id'], :selected => @skin == item['id']}= item['name']
-    = submit_tag 'Done',  :class => "submitBtn"
+  .settingsContainer.acordeon
+    .settingsListHeader.acordeonHeader
+      Settings
+      .AcordeonListHeaderBtn{:onclick => "toggleAcordeon(this);"}
+    .acordeonList
+      .settings.acordeonListItem
+        .settingsLeft
+          Set your status mesage
+        .settingsRight
+          %input.settings{:type => 'text', :style => "width: 100%;", "data-role" => "none"}
+          
+      .settings.acordeonListItem
+        .settingsLeft
+          Lets others know im idle after
+        .settingsRight
+          %input.settings{:type => 'text', :style => "width: 34px;", "data-role" => "none"}
+          mins of inactivity
+          
+      .settings.acordeonListItem
+        .settingsLeft
+          Show Offline contacts :
+        .settingsRight
+          .CheckboxSwitch.green{:onclick => "toggleSwitch(this);"}
+            %input.CheckboxSwitch{:type => "checkbox", "data-role" => "none"}
+              .checkboxSwitchContainer
+                .switchOn ON
+                .switch
+                .switchOff OFF
+  %div{:style => "padding: 12px 42px;background: #e1ecee;"}
+    %button{:class => "settingsSubmitBtn green", "data-role" => "none", :style => "margin-bottom: 20px"}
+      Use default
+    = submit_tag 'Done',  {:class => "submitBtn settingsSubmitBtn green", "data-role" => "none" }

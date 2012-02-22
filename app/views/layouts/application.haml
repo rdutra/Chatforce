@@ -73,15 +73,31 @@
             = hidden_field_tag 'channel', @channel
             #Go{:onclick => '$("#chat_window").submit()'} Go!
     %div{:id => "settings", "data-role" => "page"}
-      %div{ :id => "header-main", "data-role" => "header", :style => "top:0px"}
-        %h1
-          Settings
-      %div{ :id => "content-main", "data-role" => "content", :role => "main", "data-scroll" => "y", :style => "overflow-x: hidden; overflow-y:hidden; height: auto;"}
-        =render( :partial => "settings/settings" )
-      %div{ "data-role" => "footer", :role => "contentinfo", :style => "top:0px"}
-        %h4
+      #header-main
+        .picContainer
+          %img{ :src => @buddy.small_photo_url}
+        #status_circle{:class => @buddy.status}
+        #name
           =@buddy.name
-          %span
-            %a{:href => "#buddies", :style => "float:right"} User List
-      
-               
+        %select{ :name => "buddy-status", :id => "buddy-status",  "data-role" => "none"}
+          %option{ :value => "Online"}
+            Online
+          %option{ :value => "Away"}
+            Away
+          %option{ :value => "Busy"}
+            Busy
+          %option{ :value => "Offline"}
+            Offline
+        %a{:href => "#buddies", :onclick => 'hide_notification()', :class => "buddiesLogoLink"}
+          %img#Go_logo{:src => "images/go_logo.png"}/
+      %div{ :id => "content-main", "data-role" => "content", :role => "main", "data-scroll" => "y", :style => "overflow-x: hidden; overflow-y:hidden; height: auto;padding:0px;"}
+        =render( :partial => "settings/settings" )
+      #buudyListFooter{ "data-role" => "footer", :role => "contentinfo", :style => "top:0px", :class => "buddiesList"}        
+        .ui-grid-a
+          %a{:href => "#buddies", :onclick => "toggleSerch()"}
+            .ui-block-a
+              %img{:src => "/images/search.png"}
+          %a{:href => "#settings"}
+            .ui-block-b
+              %img{:src => "/images/settings.png"}
+        / /grid-b
