@@ -225,7 +225,7 @@ class ChatController < ApplicationController
      
     message = {:code => "notify",
 				:message => message,
-				:sender_id => sender,
+				:sender => sender,
 				:receiver_id => receiver, 
 				:senderName => buddy[:name],
 				:pic => pic,
