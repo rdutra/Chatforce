@@ -22,6 +22,10 @@ $(".newMessaje").live('click', function(){
       $.mobile.changePage('buddies');
 });
 
+$(".buddyLink").live('click', function(){ 
+     $("#mesg").html("");
+});
+
 
 function init()
 {
@@ -30,9 +34,9 @@ function init()
     type: 'POST',
     data: "",
     success: function(data){
-      data_session = data
-      inviteChat()
-      channel_subscribe(data_session.org_channel)
+      data_session = data;
+      inviteChat();
+      channel_subscribe(data_session.org_channel);
       elements = $('.buddy_content[name]');
       elements.each(function(index, element){
         element = $(element);
@@ -72,7 +76,6 @@ function channel_subscribe(channel)
     
     jugger_comm.subscribe(channel, function(data)
     {
-      console.info("Data channel_suscribe", data)
       if((data.message["code"] == "invite") || (data.message["code"] == "accept")) {
         enableOrgChat(data);
         
@@ -96,7 +99,7 @@ function channel_subscribe(channel)
 
 function enableOrgChat(data)
 {
-  console.info("Data de enableOrgChat", data);
+
   if(data.receiver == data_session.buddy_id)
   {
       
@@ -134,7 +137,7 @@ function enableOrgChat(data)
 
       }
       
-      if(data.message["code"] == "accept")
+      if(data.message["code"] == "accept" && data.message["channel_conn"] == channel_selected)
       {
         data_channel = data.message["message"];
         init_chat(data.message["channel_conn"], false, undefined);
@@ -173,11 +176,9 @@ function enableOrgChat(data)
 function enableChat(data, buffer)
 {
   
-  console.info("Data enable chat", data)
   if(data.channel == channel_selected)
   {
-    console.info("uno");
-    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "buddies") runEffect(data.message['sender']);
+    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "buddies" && data.sender != undefined) runEffect(data.message['sender']);
     
     var who =  (data.message['sender'] == data_session.buddy_id)? 'left': 'right';
     var ul = '<div class="conversationContainer">';
@@ -203,11 +204,15 @@ function enableChat(data, buffer)
   }
   else
   {
-    console.info("dos");
-    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "chat")
+    if(data.sender != data_session.buddy_id)
+    {
+      if( $('.ui-page-active').attr('id') == "chat" )
       {
+         $(".newMsjSender").attr( "last-id", data.sender );
         show_notification_message(data);
       }
+      runEffect(data.message['sender']);
+    }
   }
   
   
@@ -221,6 +226,13 @@ function inviteChat()
   $(".buddy_content" ).unbind('click');
   $(".buddy_content" ).click(function(event){
       
+      $(this).css("background", "-moz-linear-gradient(top,  #fcfcfc 0%, #d2e2e6 100%)");
+      $(this).css("background", "-webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfcfc), color-stop(100%,#d2e2e6))");
+      $(this).css("background", "-webkit-linear-gradient(top,  #fcfcfc 0%,#d2e2e6 100%)");
+      $(this).css("background", "-o-linear-gradient(top,  #fcfcfc 0%,#d2e2e6 100%)");
+      $(this).css("background", "-ms-linear-gradient(top,  #fcfcfc 0%,#d2e2e6 100%)");
+      $(this).css("background", "linear-gradient(top,  #fcfcfc 0%,#d2e2e6 100%)");
+      $(this).css("background-image", "none");
       $("#newMessajeCont").css("height", "0px")
       
       var objLi = $(this);
@@ -451,13 +463,12 @@ function hide_notification_div()
 function show_notification_message(data)
 {  
   
-    if( $(".newMsjSender").attr("last-id") != undefined && $(".newMsjSender").attr("last-id") != data.message.sender_id ) 
+    if( $(".newMsjSender").attr("last-id") != undefined && $(".newMsjSender").attr("last-id") != data.message.sender ) 
     {
       hidden_messages_size = 0;
     }
-    console.info(hidden_messages_size)
     hidden_messages_size ++;
-    $(".newMsjSender").attr( "last-id", data.message.sender_id );
+    $(".newMsjSender").attr( "last-id", data.message.sender );
     $(".newMsjSender").html(data.message.senderName);
     var sendMsj = $(".newMsjSender")[0];
 
