@@ -81,8 +81,7 @@ function channel_subscribe(channel)
         
       } else if(data.message["code"] == "write") {
         enableChat(data, false);
-        //runEffect(data.sender);
-        
+                
       } else if(data.message["code"] == "status") {
         setStatus(data.sender, data.message["message"]);
         
@@ -90,6 +89,7 @@ function channel_subscribe(channel)
         setChatPrediction(data);
 
       } else if(data.message["code"] == "notify" && data.message.receiver_id == data_session.buddy_id ) {
+        console.info("run effect 1", data);
         if($('.ui-page-active').attr('id') == "chat") show_notification_message(data);
         runEffect(data.sender);
       }
@@ -178,7 +178,7 @@ function enableChat(data, buffer)
   
   if(data.channel == channel_selected)
   {
-    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "buddies" && data.sender != undefined) runEffect(data.message['sender']);
+    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "buddies" && data.sender != undefined) console.info("run effect 2"); runEffect(data.message['sender']);
     
     var who =  (data.message['sender'] == data_session.buddy_id)? 'left': 'right';
     var ul = '<div class="conversationContainer">';
@@ -208,9 +208,10 @@ function enableChat(data, buffer)
     {
       if( $('.ui-page-active').attr('id') == "chat" )
       {
-         $(".newMsjSender").attr( "last-id", data.sender );
+        
         show_notification_message(data);
       }
+      $(".newMsjSender").attr( "last-id", data.sender );
       runEffect(data.message['sender']);
     }
   }
@@ -226,13 +227,7 @@ function inviteChat()
   $(".buddy_content" ).unbind('click');
   $(".buddy_content" ).click(function(event){
       
-      $(this).css("background", "-moz-linear-gradient(top,  #fcfcfc 0%, #d2e2e6 100%)");
-      $(this).css("background", "-webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfcfc), color-stop(100%,#d2e2e6))");
-      $(this).css("background", "-webkit-linear-gradient(top,  #fcfcfc 0%,#d2e2e6 100%)");
-      $(this).css("background", "-o-linear-gradient(top,  #fcfcfc 0%,#d2e2e6 100%)");
-      $(this).css("background", "-ms-linear-gradient(top,  #fcfcfc 0%,#d2e2e6 100%)");
-      $(this).css("background", "linear-gradient(top,  #fcfcfc 0%,#d2e2e6 100%)");
-      $(this).css("background-image", "none");
+      $(this).removeAttr('style');
       $("#newMessajeCont").css("height", "0px")
       
       var objLi = $(this);
@@ -319,17 +314,6 @@ function init_chat(channel, buffer, id_sender)
     
     if (message != '')
     {
-
-      /*if(id_sender != undefined)
-      {
-        $.ajax({
-          url: "/chat/write",
-          type: 'POST',
-          data: "channel="+channel_selected+"&message="+message+"&sender="+real_sender,
-          success: function(data){}
-        });
-      }*/
-      
       $.ajax({
         url: "/chat/buffer",
         type: 'POST',
@@ -462,7 +446,8 @@ function hide_notification_div()
 
 function show_notification_message(data)
 {  
-  
+    console.info("Ultimo id: " + $(".newMsjSender").attr("last-id"));
+    console.info("show_notification_message", data);
     if( $(".newMsjSender").attr("last-id") != undefined && $(".newMsjSender").attr("last-id") != data.message.sender ) 
     {
       hidden_messages_size = 0;
