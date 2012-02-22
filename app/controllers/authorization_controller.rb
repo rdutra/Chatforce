@@ -38,7 +38,7 @@ class AuthorizationController < ApplicationController
             :nickname         => '',
             :status           => "Online",
             :salesforce_id    => buddy_data["id"],
-            :small_photo_url  => buddy_data["smallPhotoUrl"],
+            :small_photo_url  => buddy_data['photo']['smallPhotoUrl'],
             :org_id           => current_org["id"]
           }
           buddy = Buddy.add_buddy options

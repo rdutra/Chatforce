@@ -7,9 +7,7 @@ class Connection < ActiveRecord::Base
     puts conn.inspect
     if conn.nil?
       bud = Buddy.get_buddy_by_id buddy_id
-      puts bud.inspect
       chan = Channel.get_channel_by_id channel_id
-      puts chan.inspect
       unless bud.nil? || chan.nil?
         conn = Connection.new({
           :buddy_id => buddy_id,
