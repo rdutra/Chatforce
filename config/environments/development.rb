@@ -29,8 +29,8 @@ Chat::Application.configure do
   config.assets.debug = true
   
   # Authentication info
-  config.secret = '5593024710920577712'
-  config.key = '3MVG9rFJvQRVOvk4B2Tv6Ul7WcCH81Qi5v1kJOL8XLQtkL1YMP.M0HIYGvLbOdPmSf3YnCoX.ksLfKy1DO4Gk'
+  config.secret = '597816672889397373'
+  config.key = '3MVG9rFJvQRVOvk5QXMZiC4qX6.1qiSz397preZNvpFCR9AF5ngG17gPQ2.HVdX8vkldxEa1wmyswe7JYFDoS'
   
   #endpoints
   config.localserver = 'http://localhost:3000'
