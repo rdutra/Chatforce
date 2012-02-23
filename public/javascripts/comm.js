@@ -5,11 +5,12 @@ var channel_selected = undefined;
 var hidden_messages_size = 0;
 var timer = 0;
 var invite = false;
-
+var idleTimeOut = null;
 
 $("#buddies").live('pageinit', function(event){
     init();
     acordeonInit();
+    resetIdle();
 });
 
 $(document).bind( "pagechange", function( e, data ) {
@@ -43,7 +44,7 @@ function init()
         channel_subscribe(element.attr('name'));
         init_chat(element.attr('name'),false,undefined);
       });
-      $("#buddy-status").change(function(){
+      $("#buddy-status").live('change',function(){
           $.ajax({
             url: '/chat/set_status',
             type: 'POST',
@@ -444,6 +445,7 @@ function setStatus(sender, message)
     } else if(sender == data_session.buddy_id){
       jQuery('#header-main #status_circle').removeClass('Online Offline Busy Away');
       jQuery('#header-main #status_circle').addClass(message);
+      $('#buddy-status [value=' + message + ']').attr('selected',true);
     }
 }
 
@@ -568,4 +570,24 @@ function acordeonInit(){
       'transition': ''
     });},0);
   });
+}
+function toggleSwitch(element){
+  var input = jQuery(element).find('input')[0];
+  input.checked = !(input.checked);
+}
+
+$(document).live({
+  click: resetIdle,
+  keypress: resetIdle 
+});
+
+function resetIdle(){
+  if (idleTimeOut){
+    clearTimeout(idleTimeOut);
+  }
+  idleTimeOut = setTimeout(setIdle, (settings.idle_time  * 60 * 1000));
+}
+
+function setIdle(){
+  $('#buddy-status [value=Away]').attr('selected',true).parent().change();
 }

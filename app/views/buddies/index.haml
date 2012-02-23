@@ -15,6 +15,7 @@
               .buddyStatus{ :class => buddy["status"]}
               .buddyName.elipsis{"data-filter-text" => buddy["name"].downcase}
                 =buddy["name"]
-              .buddyStatusMessage.elipsis Working very hard...
+              .buddyStatusMessage.elipsis 
+                =buddy["nickname"]
               .buddyListItemArrow
     

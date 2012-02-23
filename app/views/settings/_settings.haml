@@ -1,4 +1,4 @@
-=form_tag('save_settings', :id => 'Settings_form') do
+=form_tag('/save_settings', :id => 'Settings_form') do
   .settingsContainer.acordeon
     .settingsListHeader.acordeonHeader
       Settings
@@ -8,13 +8,13 @@
         .settingsLeft
           Set your status mesage
         .settingsRight
-          %input.settings{:type => 'text', :style => "width: 100%;", "data-role" => "none"}
+          %input.settings{:type => 'text', :style => "width: 100%;text-align: left;", "data-role" => "none", :name => "status", :value => @buddy["nickname"]}
           
       .settings.acordeonListItem
         .settingsLeft
           Lets others know im idle after
         .settingsRight
-          %input.settings{:type => 'text', :style => "width: 34px;", "data-role" => "none"}
+          %input.settings{:type => 'text', :style => "width: 34px;", "data-role" => "none", :name => "idle_time", :value => @settings["idle_time"]}
           mins of inactivity
           
       .settings.acordeonListItem
@@ -22,7 +22,7 @@
           Show Offline contacts :
         .settingsRight
           .CheckboxSwitch.green{:onclick => "toggleSwitch(this);"}
-            %input.CheckboxSwitch{:type => "checkbox", "data-role" => "none"}
+            %input.CheckboxSwitch{:type => "checkbox", "data-role" => "none", :name => "show_offline", ((!@settings["show_offline"].nil? &&@settings["show_offline"])? 'checked': 'unchecked' ) => ""  }
               .checkboxSwitchContainer
                 .switchOn ON
                 .switch
