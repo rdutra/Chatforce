@@ -1,4 +1,3 @@
-require 'ruby-debug' ; Debugger.start
 class Org < ActiveRecord::Base
   has_many :buddy, :dependent => :destroy
 
@@ -86,7 +85,7 @@ class Org < ActiveRecord::Base
         :nickname         => '',
         :status           => "Available",
         :salesforce_id    => buddy_data["id"],
-        :small_photo_url  => buddy_data["smallPhotoUrl"],
+        :small_photo_url  => buddy_data['photo']['smallPhotoUrl'],
         :org_id           => current_org["id"]
       }
       buddy = Buddy.add_buddy options
@@ -94,7 +93,7 @@ class Org < ActiveRecord::Base
         name = buddy_data["name"]
         bud = Buddy.get_buddy_by_Sfid buddy_data['id']
         bud.name = name
-        bud.small_photo_url = buddy_data['SmallPhotoUrl']
+        bud.small_photo_url = buddy_data['photo']['smallPhotoUrl']
         bud.save
      end
   end

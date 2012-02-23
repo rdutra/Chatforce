@@ -1,6 +1,9 @@
-require 'ruby-debug' ; Debugger.start
 class Buffer < ActiveRecord::Base
   belongs_to :buddy
+  
+  def self.skip_time_zone_conversion_for_attributes
+    [:created_at]
+  end
   
   def self.add_to_buffer data
     new_buffer = Buffer.new data

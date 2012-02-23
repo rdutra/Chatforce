@@ -1,9 +1,20 @@
-%div{:style => "margin: 15px 5px 0px 5px"}
-  %ul{ "data-role" => "listview", "data-inset" => "true", "data-filter" => "true", :style => "margin-top: 15px"}
+.searchContainer{:style => "height: 32px;"}
+  .searchBar
+    %input#searchInContacts{:onkeyup => "searchInContactsFilter(this)", :placeholder => "Search Contacts...", :type => "text"}
+      .searchContainerIcon
+.buddiesContainer.acordeon
+  .buddyListHeader.acordeonHeader
+    = "Contacts (" + (@buddies.count - 1).to_s + ")"
+    .buddyTogleBtn.AcordeonListHeaderBtn{:onclick => "toggleAcordeon(this);"}
+  .acordeonList
     - @buddies.each do |buddy|
       -unless buddy["id"] == @session["buddy_id"]
-        %li{ :class => "buddy_content change_channel", :id => buddy["id"]}
-          %a{ :href => "#chat"}
-            = image_tag buddy["status"]+".png" , :class => "ui-li-icon", :id => "status", :style => "width : 30px;"
-            = buddy["name"]
+        %a.buddyLink{ :href => "#chat"}
+          .buddy.acordeonListItem{ :class => "buddy_content change_channel", :id => buddy["id"], :name => (defined?(@myBuddiesMap[buddy["id"]]))? @myBuddiesMap[buddy["id"]]:nil }
+            %img.buddyPic{:src => buddy["small_photo_url"], :title => buddy["name"]}
+              .buddyStatus{ :class => buddy["status"]}
+              .buddyName.elipsis{"data-filter-text" => buddy["name"].downcase}
+                =buddy["name"]
+              .buddyStatusMessage.elipsis Working very hard...
+              .buddyListItemArrow
     

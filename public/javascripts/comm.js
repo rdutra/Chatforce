@@ -8,16 +8,22 @@ var invite = false;
 
 
 $("#buddies").live('pageinit', function(event){
-    init()
+    init();
+    acordeonInit();
 });
 
 $(document).bind( "pagechange", function( e, data ) {
   hide_notification_div();
+  acordeonInit();
 });
 
 $(".newMessaje").live('click', function(){
       hide_notification();
       $.mobile.changePage('buddies');
+});
+
+$(".buddyLink").live('click', function(){ 
+     $("#mesg").html("");
 });
 
 
@@ -28,9 +34,15 @@ function init()
     type: 'POST',
     data: "",
     success: function(data){
-      data_session = data
-      inviteChat()
-      channel_subscribe(data_session.org_channel)
+      data_session = data;
+      inviteChat();
+      channel_subscribe(data_session.org_channel);
+      elements = $('.buddy_content[name]');
+      elements.each(function(index, element){
+        element = $(element);
+        channel_subscribe(element.attr('name'));
+        init_chat(element.attr('name'),false,undefined);
+      });
       $("#buddy-status").change(function(){
           $.ajax({
             url: '/chat/set_status',
@@ -64,14 +76,12 @@ function channel_subscribe(channel)
     
     jugger_comm.subscribe(channel, function(data)
     {
-      console.info("Data channel_suscribe", data)
       if((data.message["code"] == "invite") || (data.message["code"] == "accept")) {
         enableOrgChat(data);
         
       } else if(data.message["code"] == "write") {
         enableChat(data, false);
-        //runEffect(data.sender);
-        
+                
       } else if(data.message["code"] == "status") {
         setStatus(data.sender, data.message["message"]);
         
@@ -79,6 +89,7 @@ function channel_subscribe(channel)
         setChatPrediction(data);
 
       } else if(data.message["code"] == "notify" && data.message.receiver_id == data_session.buddy_id ) {
+        console.info("run effect 1", data);
         if($('.ui-page-active').attr('id') == "chat") show_notification_message(data);
         runEffect(data.sender);
       }
@@ -91,6 +102,7 @@ function enableOrgChat(data)
 
   if(data.receiver == data_session.buddy_id)
   {
+      
       if(data.message["code"] == "invite")
       {
         $( "#"+data.sender).unbind("click");
@@ -115,17 +127,17 @@ function enableOrgChat(data)
               data: { buddy: $(this).attr("id")},
               success: function(buddy){
                 if(buddy.signed == "false") window.location.replace("/index.html");
-                jQuery('#status_circle').removeClass('Online Offline Busy Away');
-                jQuery('#status_circle').addClass(buddy.status);
-                jQuery('#name').text(buddy.name);
-                jQuery('.picContainer > img')[0].src = buddy.pic;
+                jQuery('#header #status_circle').removeClass('Online Offline Busy Away');
+                jQuery('#header #status_circle').addClass(buddy.status);
+                jQuery('#header #name').text(buddy.name);
+                jQuery('#header .picContainer > img')[0].src = buddy.pic;
               }
           });
         });
 
       }
       
-      if(data.message["code"] == "accept")
+      if(data.message["code"] == "accept" && data.message["channel_conn"] == channel_selected)
       {
         data_channel = data.message["message"];
         init_chat(data.message["channel_conn"], false, undefined);
@@ -138,7 +150,7 @@ function enableOrgChat(data)
   
   if(data.sender == data_session.buddy_id)
   {
-
+      
       if(data.message["code"] == "invite")
       {
           init_buffer(data.message["message"], data.receiver)
@@ -163,10 +175,10 @@ function enableOrgChat(data)
 
 function enableChat(data, buffer)
 {
-  console.info("Data enable chat", data)
+  
   if(data.channel == channel_selected)
   {
-    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "buddies") runEffect(data.message['sender']);
+    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "buddies" && data.sender != undefined) console.info("run effect 2"); runEffect(data.message['sender']);
     
     var who =  (data.message['sender'] == data_session.buddy_id)? 'left': 'right';
     var ul = '<div class="conversationContainer">';
@@ -192,11 +204,16 @@ function enableChat(data, buffer)
   }
   else
   {
-    
-    if(data.sender != data_session.buddy_id && $('.ui-page-active').attr('id') == "chat")
+    if(data.sender != data_session.buddy_id)
+    {
+      if( $('.ui-page-active').attr('id') == "chat" )
       {
+        
         show_notification_message(data);
       }
+      $(".newMsjSender").attr( "last-id", data.sender );
+      runEffect(data.message['sender']);
+    }
   }
   
   
@@ -210,6 +227,7 @@ function inviteChat()
   $(".buddy_content" ).unbind('click');
   $(".buddy_content" ).click(function(event){
       
+      $(this).removeAttr('style');
       $("#newMessajeCont").css("height", "0px")
       
       var objLi = $(this);
@@ -220,10 +238,10 @@ function inviteChat()
           data: { buddy: $(this).attr("id")},
           success: function(buddy){
             if(buddy.signed == "false") window.location.replace("/index.html");
-            jQuery('#status_circle').removeClass('Online Offline Busy Away');
-            jQuery('#status_circle').addClass(buddy.status);
-            jQuery('#name').text(buddy.name);
-            jQuery('.picContainer > img')[0].src = buddy.pic;
+            jQuery('#header #status_circle').removeClass('Online Offline Busy Away');
+            jQuery('#header #status_circle').addClass(buddy.status);
+            jQuery('#header #name').text(buddy.name);
+            jQuery('#header .picContainer > img')[0].src = buddy.pic;
           }
       });
 
@@ -296,17 +314,6 @@ function init_chat(channel, buffer, id_sender)
     
     if (message != '')
     {
-
-      /*if(id_sender != undefined)
-      {
-        $.ajax({
-          url: "/chat/write",
-          type: 'POST',
-          data: "channel="+channel_selected+"&message="+message+"&sender="+real_sender,
-          success: function(data){}
-        });
-      }*/
-      
       $.ajax({
         url: "/chat/buffer",
         type: 'POST',
@@ -413,10 +420,14 @@ function init_buffer(channel, receiver)
 
 function setStatus(sender, message)
 {
-    $("#"+sender+" img").attr("src", "/images/"+message+".png")
+    $("#"+sender+" .buddyStatus").removeClass('Online Offline Busy Away');
+    $("#"+sender+" .buddyStatus").addClass(message);
     if (sender == jQuery('#header').attr('name')){
-      jQuery('#status_circle').removeClass('Online Offline Busy Away');
-      jQuery('#status_circle').addClass(message);
+      jQuery('#header #status_circle').removeClass('Online Offline Busy Away');
+      jQuery('#header #status_circle').addClass(message);
+    } else if(sender == data_session.buddy_id){
+      jQuery('#header-main #status_circle').removeClass('Online Offline Busy Away');
+      jQuery('#header-main #status_circle').addClass(message);
     }
 }
 
@@ -435,14 +446,14 @@ function hide_notification_div()
 
 function show_notification_message(data)
 {  
-  
-    if( $(".newMsjSender").attr("last-id") != undefined && $(".newMsjSender").attr("last-id") != data.message.sender_id ) 
+    console.info("Ultimo id: " + $(".newMsjSender").attr("last-id"));
+    console.info("show_notification_message", data);
+    if( $(".newMsjSender").attr("last-id") != undefined && $(".newMsjSender").attr("last-id") != data.message.sender ) 
     {
       hidden_messages_size = 0;
     }
-    
     hidden_messages_size ++;
-    $(".newMsjSender").attr( "last-id", data.message.sender_id );
+    $(".newMsjSender").attr( "last-id", data.message.sender );
     $(".newMsjSender").html(data.message.senderName);
     var sendMsj = $(".newMsjSender")[0];
 
@@ -479,4 +490,67 @@ function setChatPrediction ( data ){
   }
 }
 
+function searchInContactsFilter(element){
+  var filter = element.value.toLowerCase();
+  jQuery('.buddy.acordeonListItem .buddyName[data-filter-text*=' + filter + ']').each(function (index,element){
+    jQuery(element).parent().css('display','');
+  });
+  jQuery('.buddy.acordeonListItem .buddyName:not([data-filter-text*=' + filter + '])').each(function (index,element){
+    jQuery(element).parent().css('display','none');
+  });
+  if (jQuery('.buddyTogleBtn.Hidden').length == 0){
+    acordeonInit();
+  }
+}
 
+function toggleSerch(){
+  element = jQuery('.searchContainer');
+  if (parseInt(element.height()) == 0 ){
+    element.height(element.children().outerHeight());
+  } else {
+    element.height(0);
+  }
+}
+function toggleAcordeon(btn){
+  element = jQuery(btn);
+  while (! element.hasClass('acordeon')){
+    element = element.parent();
+  }
+  if (element.find('.AcordeonListHeaderBtn.Hidden').length != 0){
+    var tHeight= 0;
+    element.children().each(function (index, element){
+      tHeight += jQuery(element).outerHeight();
+    });
+    element.height(tHeight);
+    element.find('.AcordeonListHeaderBtn').removeClass('Hidden');
+  } else {
+    element.height(parseInt(element.children().outerHeight()) -1);
+    element.find('.AcordeonListHeaderBtn').addClass('Hidden');
+  }
+}
+function acordeonInit(){
+  acordeons = jQuery('.acordeon');
+  acordeons.each(function(index, element){
+    element = jQuery(element);
+    var tHeight= 0;
+    element.children().each(function (index, child){
+      if (element.find('.AcordeonListHeaderBtn.Hidden').length == 0 || index == 0){
+        tHeight += jQuery(child).outerHeight();
+      }
+    });
+    tHeight -= (tHeight == element.children().outerHeight())? 1 : 0;
+    element.css({ 
+      'height': tHeight,
+      '-webkit-transition': 'height 0s linear',
+      '-ms-transition': 'height 0s linear',
+      '-moz-transition': 'height 0s linear',
+      'transition': 'height 0s linear'
+    });
+    setTimeout(function(){element.css({ 
+      '-webkit-transition': '',
+      '-ms-transition': '',
+      '-moz-transition': '',
+      'transition': ''
+    });},0);
+  });
+}

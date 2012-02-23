@@ -1,6 +1,5 @@
 require 'users'
 require 'security'
-#require 'ruby-debug' ; Debugger.start
 class AuthorizationController < ApplicationController
 
   skip_before_filter :require_auth, :only => [:connect, :create]
@@ -39,7 +38,7 @@ class AuthorizationController < ApplicationController
             :nickname         => '',
             :status           => "Online",
             :salesforce_id    => buddy_data["id"],
-            :small_photo_url  => buddy_data["smallPhotoUrl"],
+            :small_photo_url  => buddy_data['photo']['smallPhotoUrl'],
             :org_id           => current_org["id"]
           }
           buddy = Buddy.add_buddy options
@@ -91,6 +90,7 @@ class AuthorizationController < ApplicationController
     end
     
     unless buddy.nil?
+      
       Buddy.set_status buddy[:id], "Online"
       redirect_to :controller => 'buddies', :action => 'index'
     else

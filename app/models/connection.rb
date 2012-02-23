@@ -4,6 +4,7 @@ class Connection < ActiveRecord::Base
   
   def self.connect_buddy buddy_id, channel_id
     conn = Connection.where(:buddy_id => buddy_id, :channel_id => channel_id)[0]
+    puts conn.inspect
     if conn.nil?
       bud = Buddy.get_buddy_by_id buddy_id
       chan = Channel.get_channel_by_id channel_id
@@ -25,4 +26,5 @@ class Connection < ActiveRecord::Base
     end
     return conn
   end
+
 end
