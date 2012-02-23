@@ -1,0 +1,30 @@
+LOG:  database system was shut down at 2012-02-16 10:45:02 MST
+LOG:  autovacuum launcher started
+LOG:  database system is ready to accept connections
+FATAL:  database "cg_test" does not exist
+ERROR:  new encoding (UTF8) is incompatible with the encoding of the template database (SQL_ASCII)
+HINT:  Use the same encoding as in the template database, or use template0 as template.
+STATEMENT:  CREATE DATABASE "cg_test" ENCODING = 'unicode'
+FATAL:  database "cg_development" does not exist
+ERROR:  new encoding (UTF8) is incompatible with the encoding of the template database (SQL_ASCII)
+HINT:  Use the same encoding as in the template database, or use template0 as template.
+STATEMENT:  CREATE DATABASE "cg_development" ENCODING = 'unicode'
+FATAL:  database "wifigoadm" does not exist
+FATAL:  database "wifigoadm" does not exist
+FATAL:  role "root" does not exist
+FATAL:  role "root" does not exist
+FATAL:  role "root" does not exist
+ERROR:  role "postgres" already exists
+STATEMENT:  CREATE ROLE postgres SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;
+	
+ERROR:  role "postgres" already exists
+STATEMENT:  CREATE ROLE postgres NOSUPERUSER CREATEDB NOCREATEROLE INHERIT LOGIN;
+	
+ERROR:  role "postgres" already exists
+STATEMENT:  CREATE ROLE postgres SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;
+	
+ERROR:  role "postgres" already exists
+STATEMENT:  CREATE ROLE postgres NOSUPERUSER CREATEDB NOCREATEROLE INHERIT LOGIN;
+	
+FATAL:  database "wifigoadm" does not exist
+FATAL:  role "postgers" does not exist
