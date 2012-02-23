@@ -27,9 +27,11 @@ class SettingsController < ApplicationController
     options = {
       :history      => ahistory,
       :skin         => params["select_skin"],
-      :buddy_id     => @session["buddy_id"]
+      :buddy_id     => @session["buddy_id"],
+      :show_offline => params["show_offline"],
+      :idle_time => params["idle_time"]
     }
-    Setting.save_settings(options)
+    Setting.save_settings(options, params["status"])
     redirect_to :controller => 'buddies', :action => 'index'
   end
   

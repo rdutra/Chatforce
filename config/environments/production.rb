@@ -60,8 +60,10 @@ Chat::Application.configure do
   
     # Authentication info
   config.secret = '5593024710920577712'
-  config.key = '3MVG9rFJvQRVOvk4B2Tv6Ul7WcCH81Qi5v1kJOL8XLQtkL1YMP.M0HIYGvLbOdPmSf3YnCoX.ksLfKy1DO4Gk'
-  
+  config.key = '3MVG9rFJvQRVOvk5QXMZiC4qX64hmQ8PHOTbUfcramwVFJzoM7umutOFB16qO8LGFy9FAKvnps06IJmXWtVD'
+
   #endpoints
-  config.localserver = 'http://localhost:3000'
+  config.localserver = 'https://50.63.129.22:3001/'
+  
+  config.force_ssl = true
 end

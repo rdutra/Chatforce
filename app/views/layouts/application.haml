@@ -2,8 +2,9 @@
 
 %html
   %head
-    %title Chat
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    %title Chat
     = stylesheet_link_tag    "custom"
     = stylesheet_link_tag    "single"
     = stylesheet_link_tag    "http://code.jquery.com/mobile/1.0/jquery.mobile.structure-1.0.min.css"
@@ -14,9 +15,12 @@
     = javascript_include_tag "jquery-ui-1.8.16.custom.min.js"
     = javascript_include_tag "comm"
     = javascript_include_tag "chat"
-    
-    
+
     = csrf_meta_tags
+    
+    %script
+      = "settings_idle = " + @settings["idle_time"].to_s() + ";"
+      != "settings = " + @settings.to_json({:except => [:buddy_id, :created_at, :use_picture, :id, :updated_at]}) + ";"
     
   %body
     %div{:id => "buddies", "data-role" => "page"}
@@ -26,14 +30,14 @@
         #status_circle{:class => @buddy.status}
         #name
           =@buddy.name
-        %select{ :name => "buddy-status", :id => "buddy-status",  "data-role" => "none"}
-          %option{ :value => "Online"}
+        %select{ :name => "buddy-status", :id => "buddy-status",  "data-role" => "none" }
+          %option{ :value => "Online", ((@buddy.status == "Online")? 'selected': 'notselected') => 'true'}
             Online
-          %option{ :value => "Away"}
+          %option{ :value => "Away", ((@buddy.status == "Away")? 'selected':'notselected') => 'true'}
             Away
-          %option{ :value => "Busy"}
+          %option{ :value => "Busy", ((@buddy.status == "Busy")? 'selected':'notselected') => 'true'}
             Busy
-          %option{ :value => "Offline"}
+          %option{ :value => "Offline", ((@buddy.status == "Offline")? 'selected':'notselected') => 'true'}
             Offline
         %a{:href => "#buddies", :onclick => 'hide_notification()', :class => "buddiesLogoLink"}
           %img#Go_logo{:src => "images/go_logo.png"}/
@@ -80,13 +84,13 @@
         #name
           =@buddy.name
         %select{ :name => "buddy-status", :id => "buddy-status",  "data-role" => "none"}
-          %option{ :value => "Online"}
+          %option{ :value => "Online", ((@buddy.status == "Online")? 'selected': 'notselected') => 'true'}
             Online
-          %option{ :value => "Away"}
+          %option{ :value => "Away", ((@buddy.status == "Away")? 'selected':'notselected') => 'true'}
             Away
-          %option{ :value => "Busy"}
+          %option{ :value => "Busy", ((@buddy.status == "Busy")? 'selected':'notselected') => 'true'}
             Busy
-          %option{ :value => "Offline"}
+          %option{ :value => "Offline", ((@buddy.status == "Offline")? 'selected':'notselected') => 'true'}
             Offline
         %a{:href => "#buddies", :onclick => 'hide_notification()', :class => "buddiesLogoLink"}
           %img#Go_logo{:src => "images/go_logo.png"}/

@@ -8,6 +8,15 @@
 #  timeout: 5000
   
   
+ production:
+  adapter: postgresql
+  encoding: unicode
+  database: cg_production
+  pool: 5
+  username: postgres
+  password: salesforce1
+  host: localhost
+  
  development:
   adapter: postgresql
   encoding: unicode
