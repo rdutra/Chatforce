@@ -63,5 +63,7 @@ Chat::Application.configure do
   config.key = '3MVG9rFJvQRVOvk5QXMZiC4qX64hmQ8PHOTbUfcramwVFJzoM7umutOFB16qO8LGFy9FAKvnps06IJmXWtVD'
 
   #endpoints
-  config.localserver = 'http://localhost:3000'
+  config.localserver = 'https://50.63.129.22:3001/'
+  
+  config.force_ssl = true
 end
