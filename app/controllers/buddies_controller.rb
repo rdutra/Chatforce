@@ -29,6 +29,10 @@ class BuddiesController < ApplicationController
     message = {:code => "status", :message => "Online"}
     Communicator.send_message org_id, @session["buddy_id"], 0, message
     
+    # change legend
+    message2 = {:code => "reload_nickname", :message => @buddy[:nickname]}
+    Communicator.send_message org_id, @session["buddy_id"], 0, message2
+    
     #settings
     @skins = Skin.get_skins
     @settings = Setting.get_settings @session["buddy_id"]
