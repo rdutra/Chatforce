@@ -9,7 +9,7 @@ class Setting < ActiveRecord::Base
         setting.skin = options[:skin]
         #these have not yet been implemented
         setting.buddy.nickname = nickname
-        setting.show_offline = (options[:show_offline] == "on")
+        setting.show_offline = options[:show_offline]
         setting.idle_time = options[:idle_time]
         setting.msg_style = "Bubble"
         setting.use_picture = 1
