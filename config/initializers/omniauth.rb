@@ -16,5 +16,5 @@ end
 # created a new remote access for heroku
 Rails.application.config.middleware.use OmniAuth::Builder do
   # Telesales App - Heroku - need to substitute the values with those in the remote access
-  provider :forcedotcom, Chat::Application.config.key, Chat::Application.config.secret
+  provider :forcedotcom, Chat::Application.config.key, Chat::Application.config.secret, {:client_options => {:ssl => {:ca_path => "/etc/pki/tls/certs"}}}
 end
