@@ -39,6 +39,10 @@ $("#submit_setting_ajax").live('click', function(){
         success: function(data){
           if(data.signed == "false") window.location.replace("/index.html");
           window.location.replace("buddies");
+          $('[data-show-offline]').each(function(index, element){
+            $(element).attr('data-show-offline',new_show_offline);
+          });
+          acordeonInit();
         }
       });  
   
@@ -335,9 +339,6 @@ function init_chat(channel, buffer, id_sender)
   
   $("#chat_window").unbind("submit");
   $("#chat_window").submit(function(event) {
-    console.info("aca2");
-    console.info(buffer);
-  console.info(id_sender);
     event.preventDefault();
     $("#header-main").css("top", "0px")
     var message = $.trim(this.msg_body.value)
