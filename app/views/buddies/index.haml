@@ -10,7 +10,7 @@
     - @buddies.each do |buddy|
       -unless buddy["id"] == @session["buddy_id"]
         %a.buddyLink{ :href => "#chat"}
-          .buddy.acordeonListItem.buddy_content.change_channel{ :id => buddy["id"], :name => (defined?(@myBuddiesMap[buddy["id"]]))? @myBuddiesMap[buddy["id"]]:nil, :message_status => (defined?(buddy["nickname"])) ? buddy["nickname"]:nil }
+          .buddy.acordeonListItem.buddy_content.change_channel{ :id => buddy["id"], :class => buddy["status"],"data-show-offline" => @settings.show_offline.to_s() ,:name => (defined?(@myBuddiesMap[buddy["id"]]))? @myBuddiesMap[buddy["id"]]:nil, :message_status => (defined?(buddy["nickname"])) ? buddy["nickname"]:nil}
             %img.buddyPic{:src => buddy["small_photo_url"], :title => buddy["name"]}
               .buddyStatus{ :class => buddy["status"]}
               .buddyName.elipsis{"data-filter-text" => buddy["name"].downcase}

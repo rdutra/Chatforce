@@ -19,7 +19,6 @@
     = csrf_meta_tags
     
     %script
-      = "settings_idle = " + @settings["idle_time"].to_s() + ";"
       != "settings = " + @settings.to_json({:except => [:buddy_id, :created_at, :use_picture, :id, :updated_at]}) + ";"
     
   %body
