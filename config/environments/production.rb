@@ -59,8 +59,8 @@ Chat::Application.configure do
   config.active_support.deprecation = :notify
   
     # Authentication info
-  config.secret = '5593024710920577712'
-  config.key = '3MVG9rFJvQRVOvk5QXMZiC4qX64hmQ8PHOTbUfcramwVFJzoM7umutOFB16qO8LGFy9FAKvnps06IJmXWtVD'
+  config.secret = '4027439916396350553'
+  config.key = '3MVG9rFJvQRVOvk5QXMZiC4qX64hmQ8PHOTbUfcramwVFJzoM7umutOFB16qO8LGFy9FAKvnps06IJmXWtVDm'
 
   #endpoints
   config.localserver = 'https://50.63.129.22:3001/'
