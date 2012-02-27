@@ -16,12 +16,21 @@ class Org < ActiveRecord::Base
   
   
   def self.exists_org sfid
+
       org = Org.where(:org_id => sfid)[0]
       unless org.nil?
+        puts "true"
         return true
       else
+        puts "false"
         return false
       end
+  end
+  
+  def self.insert_org org_id_p
+    new_org = Org.new({:org_id => org_id_p})
+    new_org.save
+    return new_org
   end
   
   def self.get_org_by_id orgid

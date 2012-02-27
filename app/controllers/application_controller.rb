@@ -12,6 +12,17 @@ class ApplicationController < ActionController::Base
     return "#{user} says: #{msg}"
   end
   
+  def handle_org
+  
+    id_short = params[:id] #[0, 15]
+    puts id_short
+    exists =  Org.exists_org id_short
+    if !exists
+      Org.insert_org id_short
+    end
+    render :nothing => true
+  end
+  
   def save_setting
     @session = Session.get_session_by_id cookies.signed[:chgo_user_session][0]
     if params["check_id"] == 'on'
