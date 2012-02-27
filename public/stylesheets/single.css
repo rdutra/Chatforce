@@ -758,8 +758,8 @@ div.scroll {
   overflow:hidden;
   -webkit-transition: height 0.5s linear;
   -ms-transition: height 0.5s linear;
-  -moz-transition: height 0s linear;
-  transition: height 0s linear;
+  -moz-transition: height 0.5s linear;
+  transition: height 0.5s linear;
 }
 .AcordeonListHeaderBtn.Hidden {
   -webkit-transform: rotate(90deg);
