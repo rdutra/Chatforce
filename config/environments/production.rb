@@ -9,7 +9,7 @@ Chat::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
@@ -28,7 +28,7 @@ Chat::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # See everything in the log (default is :info)
   # config.log_level = :debug
@@ -63,7 +63,7 @@ Chat::Application.configure do
   config.key = '3MVG9rFJvQRVOvk5QXMZiC4qX64hmQ8PHOTbUfcramwVFJzoM7umutOFB16qO8LGFy9FAKvnps06IJmXWtVD'
 
   #endpoints
-  config.localserver = 'https://50.63.129.22:3001/'
+  #config.localserver = 'https://50.63.129.22:3001/'
+  config.localserver = 'https://localhost:3000/'
   
-  config.force_ssl = true
 end
