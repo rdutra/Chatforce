@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120207193823) do
+ActiveRecord::Schema.define(:version => 20120223175141) do
 
   create_table "buddies", :force => true do |t|
     t.string   "name"
@@ -76,9 +76,10 @@ ActiveRecord::Schema.define(:version => 20120207193823) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "buddy_id"
-    t.integer  "idle_time",   :default => 10
+    t.integer  "idle_time",    :default => 10
     t.string   "msg_style"
     t.integer  "use_picture"
+    t.boolean  "show_offline", :default => false
   end
 
   create_table "skins", :force => true do |t|
