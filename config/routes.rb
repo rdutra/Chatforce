@@ -11,5 +11,7 @@ Chat::Application.routes.draw do
   match ':controller(/:action(/:id(.:format)))'
   match '/settings', :controller => "settings", :action => "index"
   match '/save_settings', :controller => "settings", :action => "save_setting"
+  match '/confirm', :controller => "application", :action => "handle_org"
+  
   
 end

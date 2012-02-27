@@ -26,5 +26,14 @@ class Connection < ActiveRecord::Base
     end
     return conn
   end
+  
+  def self.verify_org org_id
+    exists_org = true
+    org_by_id =  Org.where(:org_id => org_id)
+    if org_by_id[0].nil?
+      exists_org = false
+    end
+    return exists_org
+  end
 
 end

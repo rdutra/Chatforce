@@ -96,7 +96,6 @@ function init()
 
 function channel_subscribe(channel)
 {
-    console.info("Channel de channel suscribe: " + channel)
     if (!(typeof jugger_comm !== undefined && jugger_comm))
     {
         jugger_comm = new Juggernaut(data_session);
@@ -112,7 +111,6 @@ function channel_subscribe(channel)
     
     jugger_comm.subscribe(channel, function(data)
     {
-      console.info("channel_subscribe" , data);
       if((data.message["code"] == "invite") || (data.message["code"] == "accept")) {
         enableOrgChat(data);
         
@@ -126,7 +124,6 @@ function channel_subscribe(channel)
         setChatPrediction(data);
 
       } else if(data.message["code"] == "notify" && data.message.receiver_id == data_session.buddy_id ) {
-        console.info("run effect 1", data);
         if($('.ui-page-active').attr('id') == "chat") show_notification_message(data);
         runEffect(data.sender);
       }      
@@ -144,7 +141,6 @@ function channel_subscribe(channel)
 
 function enableOrgChat(data)
 {
-  console.info("enableOrgChat" , data);
   if(data.receiver == data_session.buddy_id)
   {
       
@@ -193,7 +189,6 @@ function enableOrgChat(data)
         //$("#"+data.sender).attr("name", data.message.channel_conn);
       }
       if(data.message["code"] == "reload_nickname" ) {
-        console.info("reload_nickname 1");
       }
       
   }
@@ -221,14 +216,12 @@ function enableOrgChat(data)
         }
       }
       if(data.message["code"] == "reload_nickname" ) {
-        console.info("reload_nickname 1");
       }
   }
 }
 
 function enableChat(data, buffer)
 {
-  console.info("enableChat", data)
   if(data.channel == channel_selected)
   {
     if(data.sender != data_session.buddy_id && ( $('.ui-page-active').attr('id') == "buddies" || $('.ui-page-active').attr('id') == "settings" ) && data.sender != undefined) runEffect(data.message['sender']);
@@ -353,7 +346,6 @@ function init_chat(channel, buffer, id_sender)
         type: 'POST',
         data: "channel="+channel_selected+"&message="+message+"&sender="+real_sender,
         success: function(data_buffer){
-          console.info('ffff')
           if(data_buffer.signed == "false") window.location.replace("/index.html");
           jQuery('#msg_body').keyup();
         }
@@ -410,7 +402,6 @@ function init_chat(channel, buffer, id_sender)
           if(data.signed == "false") window.location.replace("/index.html");
           for (i=data.length-1;i>=0;i--)
           {
-              console.info(i)
               enableChat(data[i], true)
           }          
         }
@@ -423,7 +414,6 @@ function init_buffer(channel, receiver)
   
   $("#chat_window").unbind("submit");
   $("#chat_window").submit(function(event) {
-    console.info("aca1");
     event.preventDefault();
     $("#header-main").css("top", "0px")
     var message = $.trim(this.msg_body.value)
@@ -466,6 +456,7 @@ function setStatus(sender, message)
       jQuery('#header-main #status_circle').addClass(message);
       $('#buddy-status [value=' + message + ']').attr('selected',true);
     }
+    acordeonInit();
 }
 
 function hide_notification()
