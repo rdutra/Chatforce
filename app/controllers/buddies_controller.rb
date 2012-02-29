@@ -52,5 +52,13 @@ class BuddiesController < ApplicationController
     buddy = Buddy.get_buddy_by_id id_buddy
     render :json => buddy.to_json
   end
-
+  
+  def get_buddies_by_org 
+    org_chann = params[:org_id]
+    org_obj = Org.get_org_by_sfid org_chann
+    buddies = Buddy.get_buddies_by_org org_obj[:id]
+    render :json => buddies.to_json()
+  end
+  
+  
 end

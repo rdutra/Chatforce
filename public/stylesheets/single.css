@@ -437,7 +437,7 @@ div.scroll {
   background: white;
 }
 
-#Go {
+#Go , #invite_buddy_group, #invite_name{
   position: absolute;
   right: 19px;
   top: 10px;
@@ -464,6 +464,33 @@ div.scroll {
   text-align: center;
   cursor: pointer;
 }
+
+#invite_container{
+  position:relative;
+  height: 53px;
+  width: 34px;
+}
+
+#invite_cont_absolute{
+  position:absolute;
+  height: 60px;
+  width: 58px;
+  overflow:hidden;
+  top: -24px;
+  right: 58px;
+}
+
+#invite_buddy_group{
+  height: 42px;
+  width: 34px;
+  padding-top: 20px;
+  -webkit-border-radius: 0 0 6px 6px ;
+  -moz-border-radius: 0 0 6px 6px ;
+  border-radius: 0 0 6px 6px ;
+  
+  
+}
+
 
 #mesg {
   padding: 20px 0px 1px 0px;

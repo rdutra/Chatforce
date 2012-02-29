@@ -226,6 +226,8 @@ function enableChat(data, buffer)
   {
     if(data.sender != data_session.buddy_id && ( $('.ui-page-active').attr('id') == "buddies" || $('.ui-page-active').attr('id') == "settings" ) && data.sender != undefined) runEffect(data.message['sender']);
     
+    message = decode_tags(data.message["message"]);
+
     var who =  (data.message['sender'] == data_session.buddy_id)? 'left': 'right';
     var ul = '<div class="conversationContainer">';
     ul += '  <div class="triangle ' + who + '"></div>';
@@ -237,7 +239,7 @@ function enableChat(data, buffer)
     ul +=        data.message["date"];
     ul += '     </div>';
     ul += '     <div class="message">';
-    ul +=         data.message["message"];
+    ul +=         message;
     ul += '     </div>';
     ul += '   </div>';
     ul += '</div>';
@@ -341,6 +343,8 @@ function init_chat(channel, buffer, id_sender)
     
     if (message != '')
     {
+      message = safe_tags(message);
+
       $.ajax({
         url: "/chat/buffer",
         type: 'POST',
@@ -420,6 +424,9 @@ function init_buffer(channel, receiver)
     
     if (message != '')
     {
+      
+      message = safe_tags(message);
+
       $.ajax({
         url: "/chat/buffer",
         type: 'POST',
@@ -601,3 +608,72 @@ function resetIdle(){
 function setIdle(){
   $('#buddy-status [value=Away]').attr('selected',true).parent().change();
 }
+
+function safe_tags(str) 
+{
+    str =  $('<div/>').text(str).html();
+    return encodeURIComponent(str);
+}
+
+function decode_tags(str)
+{
+    str = $('<div/>').html(str).html();
+    return decodeURIComponent(str);
+}
+
+
+
+//----------- START GROUP CHAT---------------
+
+    function create_group_chat(){
+      
+      
+    }
+    
+    $("#invite_buddy_group").live('click', function(){
+      
+        var org_wide_channel = data_session.org_channel;
+        $.ajax({
+          url: "/buddies/get_buddies_by_org",
+          type: 'POST',
+          data: "org_id="+org_wide_channel,
+          success: function(data){
+            
+             var buddie_chatter_id = $("#header").attr("name");
+             if(data.signed == "false") window.location.replace("/index.html");
+             
+             var container_group = document.createElement('div');
+             $(container_group).attr("style", "position:absolute; width:200px; height:auto; right:30px; top:50px;");
+             $(container_group).attr("id", "buddy_group_container");
+               
+             for(var i = 0; i < data.length; i++)
+             {
+               if(data[i].status != "Offline" && data[i].id != data_session.buddy_id && data[i].id != buddie_chatter_id)
+               {
+                  var bud_container = document.createElement('div');
+                  $(bud_container).attr("style", "width:100%; height:40px;");
+                  $(bud_container).attr("id", "group" + data[i].id);
+                  
+                  var image_cont_group = document.createElement('div');
+                  $(image_cont_group).attr("style", "width:30px; height:30px; padding:4px; float:left;");
+                  $(image_cont_group).attr("src", data[i].small_photo_url);
+                  $(image_cont_group).attr("id", "buddy_img_cont");
+                  
+                  var name_cont_group = document.createElement('div');
+                  $(name_cont_group).attr("style", "width:125px; height:30px; padding:4px; float:left;");
+                  $(name_cont_group).attr("value", data[i].name);
+                  $(image_cont_group).attr("id", "buddy_name_cont");
+                  
+                  bud_container.appendChild(image_cont_group);
+                  bud_container.appendChild(name_cont_group);
+                  container_group.appendChild(bud_container);
+                  document.querySelector("body").appendChild(container_group);
+               }
+             }
+          }
+        });
+        
+    });
+
+
+//----------- END GROUP CHAT ----------------

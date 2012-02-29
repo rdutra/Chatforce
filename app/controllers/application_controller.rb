@@ -14,8 +14,7 @@ class ApplicationController < ActionController::Base
   
   def handle_org
   
-    id_short = params[:id] #[0, 15]
-    puts id_short
+    id_short = params[:id] [0, 15]
     exists =  Org.exists_org id_short
     if !exists
       Org.insert_org id_short
