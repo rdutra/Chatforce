@@ -98,7 +98,10 @@ function channel_subscribe(channel)
 {
     if (!(typeof jugger_comm !== undefined && jugger_comm))
     {
-        jugger_comm = new Juggernaut(data_session);
+        data_session.secure = true;
+	data_session.protocol = 'http';
+	jugger_comm = new Juggernaut({host: window.location.hostname, protocol: 'http', secure: false});
+	//jugger_comm = new Juggernaut(data_session);
         jugger_comm.meta = {buddy_id: data_session.buddy_id};
     }
     
