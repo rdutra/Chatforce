@@ -251,6 +251,11 @@ function enableChat(data, buffer)
     if(data.message["sender"] == data_session.buddy_id){
       $("#msg_body").val("");
     }
+    
+    var mess_cont_height = $("#mesg").height();
+    var rel_cont = $("#chat_container_rel").height();    
+    
+    $("#chat_container_abs").scrollTop(mess_cont_height - rel_cont + 10) 
 
   }
   else
@@ -642,15 +647,17 @@ function decode_tags(str)
           data: "org_id="+org_wide_channel,
           success: function(data){
             
-             var buddie_chatter_id = $("#header").attr("name");
              if(data.signed == "false") window.location.replace("/index.html");
              
+             var buddie_chatter_id = $("#header").attr("name");
              var container_group = document.createElement('div');
-             $(container_group).attr("style", "position:absolute; width:200px; height:auto; right:30px; top:50px;");
+             $(container_group).attr("style", "position:absolute; width:83%; height:auto; left:30px; top:50px;");
+             $(container_group).attr("class", "buddy_list_group");
              $(container_group).attr("id", "buddy_group_container");
                
              for(var i = 0; i < data.length; i++)
              {
+               console.info(data[i]);
                if(data[i].status != "Offline" && data[i].id != data_session.buddy_id && data[i].id != buddie_chatter_id)
                {
                   var bud_container = document.createElement('div');
@@ -659,16 +666,33 @@ function decode_tags(str)
                   
                   var image_cont_group = document.createElement('div');
                   $(image_cont_group).attr("style", "width:30px; height:30px; padding:4px; float:left;");
-                  $(image_cont_group).attr("src", data[i].small_photo_url);
                   $(image_cont_group).attr("id", "buddy_img_cont");
                   
+                  var image_buddy = document.createElement('img');
+                  $(image_buddy).attr('src', data[i].small_photo_url);
+                  $(image_buddy).attr("style", "width:30px; height:30px;");
+                  $(image_buddy).attr('id', 'image_buddy');
+                  image_cont_group.appendChild(image_buddy);
+                  
                   var name_cont_group = document.createElement('div');
-                  $(name_cont_group).attr("style", "width:125px; height:30px; padding:4px; float:left;");
-                  $(name_cont_group).attr("value", data[i].name);
-                  $(image_cont_group).attr("id", "buddy_name_cont");
+                  $(name_cont_group).attr("id", "buddy_name_cont");
+                  
+                  var name_p = document.createElement('div');
+                  $(name_p).attr("id", "name_inside");
+                  $(name_p).html(data[i].name) ;
+                  name_cont_group.appendChild(name_p);
+                  
+                  var status_cont_group = document.createElement('div');
+                  $(status_cont_group).attr("id", "buddy_status_cont");
+                  
+                  var status_p = document.createElement('div');
+                  $(status_p).attr("id", "status_inside");
+                  $(status_p).html(data[i].nickname) ;
+                  status_cont_group.appendChild(status_p);
                   
                   bud_container.appendChild(image_cont_group);
                   bud_container.appendChild(name_cont_group);
+                  bud_container.appendChild(status_cont_group);
                   container_group.appendChild(bud_container);
                   document.querySelector("body").appendChild(container_group);
                }

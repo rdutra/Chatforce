@@ -68,7 +68,9 @@
         .newMessaje
           Lorem ipsum dolor sit amet, consectetur.
         %span.newMsjSender
-      %div{:id => "mesg", :style => "min-height: 190px"}
+      %div{:id => "chat_container_rel"} 
+        %div{:id => "chat_container_abs"} 
+          %div{:id => "mesg", :style => "min-height: 360px"}
       %div{:id => "control"}
         =form_tag('tanga', :id => 'chat_window') do
           #input_wrapper
